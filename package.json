@@ -1,0 +1,17 @@
+{
+  "name": "markdown-to-html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.11",
+    "markdown-toc": "^1.2.0",
+    "shelljs": "^0.8.2",
+    "showdown": "^1.8.6"
+  }
+}
