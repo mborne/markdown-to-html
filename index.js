@@ -1,20 +1,20 @@
 const shell = require('shelljs');
 const fs = require('fs');
 const path = require('path');
-const renderMarkdown = require('./src/renderMarkdown');
+const MarkdownRenderer = require('./src/MarkdownRenderer');
 
-const layoutPath = path.resolve(__dirname+'/layout');
-
-const inputPath = process.argv[2];
-if ( ! fs.existsSync(inputPath) ){
+/* root directory */
+const rootDir = process.argv[2];
+if ( ! fs.existsSync(rootDir) ){
     console.log("Input file not found");
     process.exit(1);
 }
-if ( ! fs.lstatSync(inputPath).isDirectory() ){
+if ( ! fs.lstatSync(rootDir).isDirectory() ){
     console.log("Input file is not a directory");
     process.exit(1);
 }
 
+/* output directory */
 const outputPath = path.resolve('output');
 console.log(outputPath);
 if ( fs.existsSync(outputPath) ){
@@ -22,6 +22,8 @@ if ( fs.existsSync(outputPath) ){
 }
 shell.mkdir('-p',outputPath);
 
+/* template path */
+const layoutPath = path.resolve(__dirname+'/layout');
 
 function isIgnored(path){
     /* skip git */
@@ -31,14 +33,13 @@ function isIgnored(path){
     return false;
 }
 
-
 /* Computes operations to perform */
 
 var operations = [];
 
-var inputFiles = shell.find(inputPath);
+var inputFiles = shell.find(rootDir);
 inputFiles.forEach(function(inputFile){
-    var relativePath = path.relative(inputPath,inputFile);
+    var relativePath = path.relative(rootDir,inputFile);
     if ( isIgnored(relativePath) ){
         return;
     }
@@ -75,11 +76,6 @@ inputFiles.forEach(function(inputFile){
 const assertsDir = outputPath+'/assets';
 shell.cp('-r',layoutPath+'/assets',assertsDir);
 
-var context = {
-    title: 'none',
-    assertsDir: assertsDir
-}
-
 /* Create directories */
 operations.filter(function(operation){return operation.type === 'mkdir'}).forEach(function(operation){
     console.log("mkdir "+operation.outputFile);
@@ -93,22 +89,13 @@ operations.filter(function(operation){return operation.type === 'copy'}).forEach
 });
 
 /* Render markdown files */
-const handlebars = require('handlebars');
-
-handlebars.registerHelper('asset',require('./src/helpers/asset'));
-
+var markdownRenderer = new MarkdownRenderer(
+    rootDir,
+    layoutPath
+);
 operations.filter(function(operation){return operation.type === 'md2html'}).forEach(function(operation){
     console.log("render "+operation.inputFile+" to "+operation.outputFile);
-    var content = renderMarkdown(operation.inputFile);
-
-    handlebars.registerPartial('content', content);
-
-    var templateSource = fs.readFileSync(layoutPath+'/page.html', "utf8");
-    var template = handlebars.compile(templateSource);
-    context.content = content;
-    context.outputFile = operation.outputFile;
-    var html = template(context);
-    console.log(html);
+    var html = markdownRenderer.renderFile(operation.inputFile);
     fs.writeFileSync(operation.outputFile,html);
 });
 
