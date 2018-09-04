@@ -4,7 +4,9 @@ const toc = require('markdown-toc');
 const marked = require('marked');
 
 const handlebars = require('handlebars');
-handlebars.registerHelper('asset', require('./helpers/asset'));
+handlebars.registerHelper('asset', require('./handlebars/asset'));
+
+const slugify = require('./helpers/slugify');
 
 /**
  * Helper class to render markdown files in a directory
@@ -29,16 +31,11 @@ class MarkdownRenderer {
         /* read source and render toc based on markdown content */
         var text = fs.readFileSync(path, 'utf8'),
             text = text.replace('[[toc]]', this.renderToc(text))
-            ;
+        ;
 
         var renderer = new marked.Renderer();
         renderer.heading = function (text, level) {
-            var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
-//          toc.push({
-//              level: level,
-//              slug: slug,
-//              title: text
-//          });
+            var slug = slugify(text);
             return "<h" + level + " id=\"" + slug + "\"><a href=\"#" + slug + "\" class=\"anchor\"></a>" + text + "</h" + level + ">";
         };
 
@@ -68,15 +65,13 @@ class MarkdownRenderer {
      */
     renderToc(text) {
         return toc(text, {
+            /* ignore h1 titles */
             firsth1: false,
-            slugify: function (text) {
-                return text
-                    .replace(/[^\w]+/g, '-')
-                    .toLowerCase();
-                ;
-            }
+            /* ensure consistency with title */
+            slugify: slugify
         }).content;
     }
+
 }
 
 

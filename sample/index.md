@@ -24,6 +24,14 @@ function doSomething(){
 
 Rendering an inline `doSomething()` code.
 
+## Mermaid graph
+
+```mermaid
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+```
+
 ## Links
 
 ### External markdown with relative path
