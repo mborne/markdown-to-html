@@ -1,14 +1,14 @@
 {
-  "name": "markdown-to-html",
-  "version": "1.0.0",
+  "name": "@mborne/markdown-to-html",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "bin": {
     "markdown-to-html": "bin/markdown-to-html.js"
   },
   "scripts": {},
-  "author": "",
-  "license": "ISC",
+  "author": "Mickael Borne <mborne@users.noreply.github.com>",
+  "license": "MIT",
   "dependencies": {
     "commander": "^2.17.1",
     "handlebars": "^4.0.11",

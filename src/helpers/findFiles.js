@@ -3,6 +3,8 @@ const shell = require('shelljs');
 const fs = require('fs');
 const path = require('path');
 
+const renameMdToHtml = require('./renameMdToHtml');
+
 /**
  * Find files in root directory
  */
@@ -22,7 +24,7 @@ function findFiles(rootDir){
                 outputRelativePath: relativePath
             });
         } else if (relativePath.match(/\.md$/)) {
-            var outputRelativePath = relativePath.substr(relativePath, relativePath.length - 3) + '.html';
+            var outputRelativePath = renameMdToHtml(relativePath);
             result.push({
                 type: 'md',
                 path: inputFile,
