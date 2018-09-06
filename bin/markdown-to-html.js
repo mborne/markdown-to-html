@@ -12,6 +12,7 @@ program
   .option('-o, --output <output>', 'Path to output dir', path.resolve('output'))
   .action(function(source){
     var options = {
+        mode: 'convert',
         rootDir: path.resolve(source),
         layoutPath: path.resolve(program.layout),
         outputDir: path.resolve(program.output)

@@ -4,6 +4,8 @@ const MarkdownRenderer = require('../MarkdownRenderer');
 const checkRootDir = require('./checks/checkRootDir');
 const checkLayoutPath = require('./checks/checkLayoutPath');
 
+const url = require('url');
+const path = require('path');
 const locateFile = require('../helpers/locateFile');
 
 /**
@@ -24,8 +26,7 @@ function serve(options) {
 
     /* Create renderer */
     var markdownRenderer = new MarkdownRenderer(
-        rootDir,
-        layoutPath
+        options
     );
     
     const app = express();
@@ -36,8 +37,13 @@ function serve(options) {
         var href = req.params[0];
         var file = locateFile(rootDir,href);
         if ( file != null ){
-            // TODO handle file types
-            res.send(markdownRenderer.renderFile(file));
+            var parsed = url.parse(file);
+            var ext = path.extname(parsed.pathname || '');
+            if ( ext === '.md' ){
+                res.send(markdownRenderer.renderFile(file));
+            }else{
+                res.sendFile(file);
+            }
         }else{
             res.status(404).send("Not found");
         }

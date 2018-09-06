@@ -26,13 +26,11 @@ function convert(options) {
     shell.mkdir('-p', outputDir);
 
     /* template path */
-    const layoutPath = options.layoutPath;
-    checkLayoutPath(layoutPath);
+    checkLayoutPath(options.layoutPath);
 
     /* Create renderer */
     var markdownRenderer = new MarkdownRenderer(
-        rootDir,
-        layoutPath
+        options
     );
 
     /* Computes files to perform (before copying assets) */
@@ -40,7 +38,7 @@ function convert(options) {
 
     /* Copy assets */
     const assertsDir = outputDir + '/assets';
-    shell.cp('-r', layoutPath + '/assets', assertsDir);
+    shell.cp('-r', options.layoutPath + '/assets', assertsDir);
 
     /* Create directories */
     files.filter(function (file) { return file.type === 'directory' }).forEach(function (file) {

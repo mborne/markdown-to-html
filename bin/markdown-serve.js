@@ -11,6 +11,7 @@ program
   .option('-l, --layout <layout>', 'Path to the layout', path.resolve(__dirname+'/../layout'))
   .action(function(source){
     var options = {
+        mode: 'serve',
         rootDir: path.resolve(source),
         layoutPath: path.resolve(program.layout)
     };
