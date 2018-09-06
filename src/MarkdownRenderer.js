@@ -54,9 +54,7 @@ class MarkdownRenderer {
             if (!parsed.protocol) {
                 var ext = path.extname(parsed.pathname || '');
                 if (ext === '.md') {
-                    if ( parsed.pathname.endsWith('.md') ){
-                        parsed.pathname = renameMdToHtml(parsed.pathname);
-                    }
+                    parsed.pathname = renameMdToHtml(parsed.pathname);
                     href = url.format(parsed);
                 }
             }else{
