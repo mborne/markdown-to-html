@@ -6,6 +6,10 @@
 
 This file provides a sample markdown for markdown2html
 
+## Images
+
+![Geometry types](img/geometry-types.png)
+
 ## Code without language
 
 ```
@@ -43,7 +47,7 @@ sequenceDiagram
 ### External markdown with relative path
 
 * [Other file](other-file.md)
-* [Part in other file](other-file.md#part)
+* [Part in other file](other-file.md#nacta-contribuere)
 
 ### External markdown with absolute path
 

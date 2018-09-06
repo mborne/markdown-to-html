@@ -25,10 +25,10 @@ sudo npm install -g
 markdown-to-html -o output sample
 ```
 
-### Generate static side (TODO)
+### Serve directory
 
 ```bash
-markdown-to-html --serve sample
+markdown-serve sample
 ```
 
 ## Credits

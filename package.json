@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "markdown-to-html": "bin/markdown-to-html.js"
+    "markdown-to-html": "bin/markdown-to-html.js",
+    "markdown-serve": "bin/markdown-serve.js"    
   },
   "scripts": {},
   "author": "Mickael Borne <mborne@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
     "commander": "^2.17.1",
+    "express": "^4.16.3",
     "handlebars": "^4.0.11",
     "markdown-toc": "^1.2.0",
     "marked": "^0.5.0",

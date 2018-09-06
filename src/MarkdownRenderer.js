@@ -18,12 +18,16 @@ const renameMdToHtml = require('./helpers/renameMdToHtml');
 class MarkdownRenderer {
 
     /**
-     * @param {string} rootDir 
-     * @param {string} layoutPath path to the template layout 
+     * 
+     * @param {Object} options
+     * @param {string} options.mode convert or serve
+     * @param {string} options.rootDir 
+     * @param {string} options.layoutPath path to the template layout
      */
-    constructor(rootDir, layoutPath) {
-        this.rootDir = rootDir;
-        this.layoutPath = layoutPath;
+    constructor(options) {
+        this.mode       = options.mode;        
+        this.rootDir    = options.rootDir;
+        this.layoutPath = options.layoutPath;
     }
 
     /**
@@ -53,10 +57,8 @@ class MarkdownRenderer {
             var target = null;
             if (!parsed.protocol) {
                 var ext = path.extname(parsed.pathname || '');
-                if (ext === '.md') {
-                    if ( parsed.pathname.endsWith('.md') ){
-                        parsed.pathname = renameMdToHtml(parsed.pathname);
-                    }
+                if (this.mode == 'convert' && ext === '.md') {
+                    parsed.pathname = renameMdToHtml(parsed.pathname);
                     href = url.format(parsed);
                 }
             }else{

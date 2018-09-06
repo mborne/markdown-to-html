@@ -1,40 +1,36 @@
 
 const shell = require('shelljs');
 const fs = require('fs');
-const path = require('path');
 const MarkdownRenderer = require('../MarkdownRenderer');
 const findFiles = require('../helpers/findFiles');
+
+const checkRootDir = require('./checks/checkRootDir');
+const checkOutputDir = require('./checks/checkOutputDir');
+const checkLayoutPath = require('./checks/checkLayoutPath');
 
 /**
  * Convert MD files in rootDir to outputDir
  * @param {Object} options
- * @param {String} options.rootDir
- * @param {String} options.outputDir
+ * @param {String} options.rootDir path to source directory
+ * @param {String} options.outputDir path to output directory
+ * @param {String} options.layoutPath path to layout directory
  */
 function convert(options) {
     /* root directory */
     const rootDir = options.rootDir;
-    if (!fs.existsSync(rootDir)) {
-        throw new Error("Input file not found");
-    }
-    if (!fs.lstatSync(rootDir).isDirectory()) {
-        throw new Error("Input file is not a directory");
-    }
+    checkRootDir(rootDir);
 
     /* output directory */
     const outputDir = options.outputDir;
-    if (fs.existsSync(outputDir)) {
-        throw new Error(outputDir + "already exists!");
-    }
+    checkOutputDir(outputDir);
     shell.mkdir('-p', outputDir);
 
     /* template path */
-    const layoutPath = options.layoutPath;
+    checkLayoutPath(options.layoutPath);
 
     /* Create renderer */
     var markdownRenderer = new MarkdownRenderer(
-        rootDir,
-        layoutPath
+        options
     );
 
     /* Computes files to perform (before copying assets) */
@@ -42,7 +38,7 @@ function convert(options) {
 
     /* Copy assets */
     const assertsDir = outputDir + '/assets';
-    shell.cp('-r', layoutPath + '/assets', assertsDir);
+    shell.cp('-r', options.layoutPath + '/assets', assertsDir);
 
     /* Create directories */
     files.filter(function (file) { return file.type === 'directory' }).forEach(function (file) {
