@@ -6,10 +6,10 @@ const fs = require('fs');
  */
 function checkRootDir(rootDir){
     if (!fs.existsSync(rootDir)) {
-        throw new Error("Input file not found");
+        throw new Error("Input file "+rootDir+" not found");
     }
     if (!fs.lstatSync(rootDir).isDirectory()) {
-        throw new Error("Input file is not a directory");
+        throw new Error("Input file "+rootDir+" is not a directory");
     }
 }
 

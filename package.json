@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "markdown-to-html": "bin/markdown-to-html.js",
-    "markdown-serve": "bin/markdown-serve.js"    
+    "markdown-to-html": "bin/markdown-to-html.js"
   },
   "scripts": {},
   "author": "Mickael Borne <mborne@users.noreply.github.com>",

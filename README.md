@@ -17,27 +17,36 @@ cd markdown-to-html
 sudo npm install -g
 ```
 
-## Usage
+## Usage
 
-### Generate static side
-
-```bash
-markdown-to-html -o output sample
-```
-
-### Serve directory
+### Convert mode (`--mode=convert`)
 
 ```bash
-markdown-serve sample
+markdown-to-html -O output sample
 ```
 
-## Credits
+### Serve markdown file (`--mode=serve`)
 
-* marked: Markdown parser
-* handlebars : template engine
-* markdown-toc : TOC generator
-* commander : CLI options handling
-* shelljs : list files, copy directory, etc.
+```bash
+markdown-serve --mode serve sample
+```
+
+## Options
+
+See `bin/markdown-to-html.js --help` to configure :
+
+* layout
+* output directory
+
+
+## Credits
+
+* [marked](https://www.npmjs.com/package/marked): Markdown parser
+* [handlebars](https://www.npmjs.com/package/handlebars) : template engine
+* [markdown-toc](https://www.npmjs.com/package/markdown-toc) : TOC generator
+* [commander](https://www.npmjs.com/package/commander) : CLI options handling
+* [shelljs](https://www.npmjs.com/package/shelljs) : list files, copy directory, etc.
+* [express](https://www.npmjs.com/package/express) : Server mode
 
 It is inspired from :
 

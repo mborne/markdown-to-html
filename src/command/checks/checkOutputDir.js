@@ -6,7 +6,7 @@ const fs = require('fs');
  */
 function checkOutputDir(outputDir){
     if (fs.existsSync(outputDir)) {
-        throw new Error(outputDir + "already exists!");
+        throw new Error(outputDir + " already exists!");
     }
 }
 

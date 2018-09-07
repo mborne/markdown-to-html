@@ -6,7 +6,7 @@ const fs = require('fs');
  */
 function checkLayoutPath(layoutPath){
     if (!fs.existsSync(layoutPath)) {
-        throw new Error(layoutPath + "doesn't exists!");
+        throw new Error(layoutPath + " doesn't exists!");
     }
     if (!fs.existsSync(layoutPath+'/page.html')) {
         throw new Error(layoutPath+"/page.html doesn't exists!");
