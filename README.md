@@ -19,7 +19,7 @@ sudo npm install -g
 
 ## Usage
 
-### Convert mode (`--mode=convert`)
+### Generate static website (`--mode=convert`)
 
 ```bash
 markdown-to-html -O output sample
