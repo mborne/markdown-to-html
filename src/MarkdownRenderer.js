@@ -74,7 +74,7 @@ class MarkdownRenderer {
             }
             out += '>' + text + '</a>';
             return out;
-        }
+        }.bind(this);
 
         /* render markdown */
         var content = marked(text, {
