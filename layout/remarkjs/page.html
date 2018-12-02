@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-        <title>{{title}}</title>
-        <link rel="stylesheet" href="{{asset 'style.css'}}">
-	</head>
-	<body>
-		<textarea id="source">
-{{~> markdownContent}}
-        </textarea>
+<head>
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{asset 'style.css'}}">
+</head>
+<body>
+    <textarea id="source">
+    {{{markdownContent}}}
+    </textarea>
 
-		<script src="{{asset 'remarkjs/remark-latest.min.js'}}"></script>
-		<script>
-			var slideshow = remark.create();
-        </script>
-	</body>
+    <script src="{{asset 'remarkjs/remark-latest.min.js'}}"></script>
+    <script>
+        var slideshow = remark.create();
+    </script>
+</body>
 </html>

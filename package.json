@@ -1,14 +1,33 @@
 {
-  "name": "@mborne/markdown-to-html",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "_from": "git+https://github.com/mborne/markdown-to-html.git#master",
+  "_id": "@mborne/markdown-to-html@0.1.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/@mborne/markdown-to-html",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "git+https://github.com/mborne/markdown-to-html#master",
+    "rawSpec": "git+https://github.com/mborne/markdown-to-html#master",
+    "saveSpec": "git+https://github.com/mborne/markdown-to-html.git#master",
+    "fetchSpec": "https://github.com/mborne/markdown-to-html.git",
+    "gitCommittish": "master"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/mborne/markdown-to-html.git#e0b2d3983ac33827a8b51295fd339ef4ea2d2f62",
+  "_spec": "git+https://github.com/mborne/markdown-to-html#master",
+  "_where": "/home/mickael/workspace_formation/cours-patron-conception",
+  "author": {
+    "name": "Mickael Borne",
+    "email": "mborne@users.noreply.github.com"
+  },
   "bin": {
     "markdown-to-html": "bin/markdown-to-html.js"
   },
-  "scripts": {},
-  "author": "Mickael Borne <mborne@users.noreply.github.com>",
-  "license": "MIT",
+  "bundleDependencies": false,
   "dependencies": {
     "commander": "^2.17.1",
     "express": "^4.16.3",
@@ -16,5 +35,12 @@
     "markdown-toc": "^1.2.0",
     "marked": "^0.5.0",
     "shelljs": "^0.8.2"
-  }
+  },
+  "deprecated": false,
+  "description": "## Description",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@mborne/markdown-to-html",
+  "scripts": {},
+  "version": "0.1.0"
 }
