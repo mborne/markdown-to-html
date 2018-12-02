@@ -12,7 +12,7 @@ program
   .version('0.1.0')
   .arguments('<source>')
   .option('-m, --mode <mode>', 'Program mode', /^(convert|serve)$/i, 'convert')
-  .option('-l, --layout <layout>', 'Path to the layout', path.resolve(__dirname+'/../layout'))
+  .option('-l, --layout <layout>', 'Path to the layout', path.resolve(__dirname+'/../layout/github'))
   .option('-O, --output <output>', 'Path to output dir', path.resolve('output'))
   .action(function(source){
     const mode = program.mode;

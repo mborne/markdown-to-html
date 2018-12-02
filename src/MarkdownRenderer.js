@@ -81,7 +81,9 @@ class MarkdownRenderer {
             renderer: renderer
         });
 
-        /* inject result in a template */
+        /* inject markdown in a template */
+        handlebars.registerPartial('markdownContent', text);        
+        /* inject html content in a template */
         handlebars.registerPartial('content', content);
         var templateSource = fs.readFileSync(this.layoutPath + '/page.html', "utf8");
         var template = handlebars.compile(templateSource);
