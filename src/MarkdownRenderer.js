@@ -81,16 +81,15 @@ class MarkdownRenderer {
             renderer: renderer
         });
 
-        /* inject markdown in a template */
-        handlebars.registerPartial('markdownContent', text);        
         /* inject html content in a template */
-        handlebars.registerPartial('content', content);
+        //handlebars.registerPartial('content', content);
         var templateSource = fs.readFileSync(this.layoutPath + '/page.html', "utf8");
         var template = handlebars.compile(templateSource);
 
         var context = {
             title: relative(this.rootDir, inputPath),
             content: content,
+            markdownContent: text,
             rootDir: this.rootDir,
             path: inputPath
         }
