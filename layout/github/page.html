@@ -5,14 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
   <title>{{title}}</title>
-  <link type="text/css" rel="stylesheet" href="{{asset 'css/github-markdown.css'}}">
-  <link type="text/css" rel="stylesheet" href="{{asset 'css/pilcrow.css'}}">
-  <link type="text/css" rel="stylesheet" href="{{asset 'css/hljs-github.min.css'}}" />
-
-  <link rel="stylesheet" href="{{asset 'highlight/styles/github.css'}}">
+  <link type="text/css" rel="stylesheet" href="{{asset 'css/github.css'}}">
   <style>
     html, body {
-      width: 90%;
+      width: 95%;
       margin: auto;
       padding: 0;
     }
@@ -24,16 +20,8 @@
     {{{content}}}
   </article>
 
-  <script src="{{asset 'highlight/highlight.pack.js'}}"></script>
+  <script src="{{asset 'js/highlight.pack.js'}}"></script>
   <script>hljs.initHighlightingOnLoad();</script>
-
-  <script src="{{asset 'mermaid/mermaid.min.js'}}"></script>
-  <script>mermaid.init({
-      startOnLoad: true,
-      flowchart: {
-        useMaxWidth: true
-      }
-    }, ".language-mermaid");</script>
 </body>
 
 </html>
