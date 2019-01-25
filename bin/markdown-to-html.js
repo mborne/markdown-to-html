@@ -9,7 +9,7 @@ const modes = {
 }
 
 program
-  .version('0.1.0')
+  .version('0.3.0')
   .arguments('<source>')
   .option('-m, --mode <mode>', 'Program mode', /^(convert|serve)$/i, 'convert')
   .option('-l, --layout <layout>', 'Path to the layout', path.resolve(__dirname+'/../layout/github'))
