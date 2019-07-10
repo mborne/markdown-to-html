@@ -28,7 +28,7 @@ function serve(options) {
     var markdownRenderer = new MarkdownRenderer(
         options
     );
-    
+
     const app = express();
 
     app.use('/assets',express.static(layoutPath+'/assets'));
@@ -50,7 +50,7 @@ function serve(options) {
     });
 
     app.listen(3000, function () {
-        console.log('Example app listening on port 3000!');
+        console.log('Application started on http://localhost:3000');
     });
 }
 

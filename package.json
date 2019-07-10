@@ -14,7 +14,7 @@
     "express": "^4.16.3",
     "handlebars": "^4.0.11",
     "markdown-toc": "^1.2.0",
-    "marked": "^0.5.0",
+    "marked": "^0.7.0",
     "shelljs": "^0.8.2"
   }
 }
