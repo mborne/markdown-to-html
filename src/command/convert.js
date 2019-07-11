@@ -1,4 +1,3 @@
-
 const shell = require('shelljs');
 const fs = require('fs');
 const MarkdownRenderer = require('../MarkdownRenderer');
@@ -29,38 +28,50 @@ function convert(options) {
     checkLayoutPath(options.layoutPath);
 
     /* Create renderer */
-    var markdownRenderer = new MarkdownRenderer(
-        options
-    );
+    var markdownRenderer = new MarkdownRenderer(options);
 
     /* Computes files to perform (before copying assets) */
     var files = findFiles(markdownRenderer.rootDir);
 
     /* Copy assets */
-    const assertsDir = outputDir + '/assets';
-    shell.cp('-r', options.layoutPath + '/assets', assertsDir);
+    if (fs.existsSync(options.layoutPath + '/assets')) {
+        const assertsDir = outputDir + '/assets';
+        shell.cp('-r', options.layoutPath + '/assets', assertsDir);
+    }
 
     /* Create directories */
-    files.filter(function (file) { return file.type === 'directory' }).forEach(function (file) {
-        const outputPath = outputDir+'/'+file.outputRelativePath;
-        console.log("mkdir " + outputPath);
-        shell.mkdir("-p", outputPath);
-    });
+    files
+        .filter(function(file) {
+            return file.type === 'directory';
+        })
+        .forEach(function(file) {
+            const outputPath = outputDir + '/' + file.outputRelativePath;
+            console.log('mkdir ' + outputPath);
+            shell.mkdir('-p', outputPath);
+        });
 
     /* Copy static files */
-    files.filter(function (file) { return file.type === 'static' }).forEach(function (file) {
-        const outputPath = outputDir+'/'+file.outputRelativePath;
-        console.log("copy " + file.path + " to " + outputPath);
-        shell.cp(file.path, outputPath);
-    });
+    files
+        .filter(function(file) {
+            return file.type === 'static';
+        })
+        .forEach(function(file) {
+            const outputPath = outputDir + '/' + file.outputRelativePath;
+            console.log('copy ' + file.path + ' to ' + outputPath);
+            shell.cp(file.path, outputPath);
+        });
 
-    /* Render markdown files */
-    files.filter(function (file) { return file.type === 'md' }).forEach(function (file) {
-        const outputPath = outputDir+'/'+file.outputRelativePath;
-        console.log("render " + file.path + " to " + outputPath);
-        var html = markdownRenderer.renderFile(file.path);
-        fs.writeFileSync(outputPath, html);
-    });
+    /* Render markdown files and html views */
+    files
+        .filter(function(file) {
+            return file.type === 'md' || file.type === 'html';
+        })
+        .forEach(function(file) {
+            const outputPath = outputDir + '/' + file.outputRelativePath;
+            console.log('render ' + file.path + ' to ' + outputPath);
+            var html = markdownRenderer.renderFile(file.path);
+            fs.writeFileSync(outputPath, html);
+        });
 }
 
 module.exports = convert;

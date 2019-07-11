@@ -1,8 +1,8 @@
 /**
  * Replace whitespaces by '-'
- * @param {string} text 
+ * @param {string} text
  */
-function slugify(text){
+function slugify(text) {
     var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
     return slug;
 }

@@ -3,13 +3,13 @@ var path = require('path');
 
 /**
  * handlebars helper providing {{asset 'highlight/styles/github.css'}}
- * @param {string} context 
- * @param {Object} options 
+ * @param {string} context
+ * @param {Object} options
  */
 module.exports = function(context, options) {
     const relativePath = path.relative(
-        path.resolve(options.data.root.path,'..'),
-        options.data.root.rootDir+'/assets'
+        path.resolve(options.data.root.path, '..'),
+        options.data.root.rootDir + '/assets'
     );
 
     var output = '';

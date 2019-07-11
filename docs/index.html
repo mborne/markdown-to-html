@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>index.md</title>
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
+  <style>
+    html, body {
+      width: 95%;
+      margin: auto;
+      padding-bottom: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="markdown-body">
+    <h1 id="sample-markdown-file"><a href="#sample-markdown-file" class="anchor"></a>Sample markdown file</h1><ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#images">Images</a></li>
+<li><a href="#code-without-language">Code without language</a></li>
+<li><a href="#js-code">JS code</a></li>
+<li><a href="#mathjax-formula">Mathjax formula</a></li>
+<li><a href="#inline-code">Inline code</a></li>
+<li><a href="#mermaid-graph">Mermaid graph</a></li>
+<li><a href="#html-views">HTML views</a></li>
+<li><a href="#links">Links</a><ul>
+<li><a href="#external-markdown-with-relative-path">External markdown with relative path</a></li>
+<li><a href="#external-markdown-with-absolute-path">External markdown with absolute path</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="description"><a href="#description" class="anchor"></a>Description</h2><p>This file provides a sample markdown for markdown2html</p>
+<h2 id="images"><a href="#images" class="anchor"></a>Images</h2><p><img src="img/geometry-types.png" alt="Geometry types"></p>
+<h2 id="code-without-language"><a href="#code-without-language" class="anchor"></a>Code without language</h2><pre><code>A code</code></pre><h2 id="js-code"><a href="#js-code" class="anchor"></a>JS code</h2><pre><code class="language-javascript">function doSomething(){
+    return &quot;something&quot;;
+}</code></pre>
+<h2 id="mathjax-formula"><a href="#mathjax-formula" class="anchor"></a>Mathjax formula</h2><p>$$
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+$$</p>
+<h2 id="inline-code"><a href="#inline-code" class="anchor"></a>Inline code</h2><p>Rendering an inline <code>doSomething()</code> code.</p>
+<h2 id="mermaid-graph"><a href="#mermaid-graph" class="anchor"></a>Mermaid graph</h2><pre><code class="language-mermaid">sequenceDiagram
+    Alice -&gt;&gt; Bob: Hello Bob, how are you?
+    Bob--&gt;&gt;John: How about you John?
+    Bob--x Alice: I am good thanks!
+    Bob-x John: I am good thanks!
+    Note right of John: Bob thinks a long&lt;br/&gt;long time, so long&lt;br/&gt;that the text does&lt;br/&gt;not fit on a row.
+
+    Bob--&gt;Alice: Checking with John...
+    Alice-&gt;John: Yes... John, how are you?</code></pre>
+<h2 id="html-views"><a href="#html-views" class="anchor"></a>HTML views</h2><ul>
+<li><a href="demo/index.html">demo</a></li>
+</ul>
+<h2 id="links"><a href="#links" class="anchor"></a>Links</h2><h3 id="external-markdown-with-relative-path"><a href="#external-markdown-with-relative-path" class="anchor"></a>External markdown with relative path</h3><ul>
+<li><a href="other-file.html">Other file</a></li>
+<li><a href="other-file.html#nacta-contribuere">Part in other file</a></li>
+</ul>
+<h3 id="external-markdown-with-absolute-path"><a href="#external-markdown-with-absolute-path" class="anchor"></a>External markdown with absolute path</h3><ul>
+<li><a href="https://github.com/jquery/jquery/blob/master/README.md" target="_blank">GitHub link</a></li>
+</ul>
+
+  </article>
+
+  <!-- hightlight.pack.js -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX","output/HTML-CSS"],
+        tex2jax: {
+            inlineMath: [["$","$"],["\\(","\\)"]],
+            displayMath: [["$$","$$"],["\\[","\\]"]],
+            processEscapes: true,
+            processClass: "language-mathjax"
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_CHTML.js"></script>
+</body>
+
+</html>

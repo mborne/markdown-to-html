@@ -4,34 +4,53 @@ const program = require('commander');
 const path = require('path');
 
 const modes = {
-  'convert': require('../src/command/convert'),
-  'serve' : require('../src/command/serve')
-}
+    convert: require('../src/command/convert'),
+    serve: require('../src/command/serve'),
+};
 
 program
-  .version('0.3.0')
-  .arguments('<source>')
-  .option('-m, --mode <mode>', 'Program mode', /^(convert|serve)$/i, 'convert')
-  .option('-l, --layout <layout>', 'Path to the layout', path.resolve(__dirname+'/../layout/github'))
-  .option('-O, --output <output>', 'Path to output dir', path.resolve('output'))
-  .action(function(source){
-    const mode = program.mode;
-    var options = {
-        mode: mode,
-        rootDir: path.resolve(source),
-        layoutPath: path.resolve(program.layout),
-        outputDir: path.resolve(program.output)
-    };
-    try {
-      modes[mode](options);
-    }catch(e){
-      console.error(e.message);
-      process.exit(1);
-    }
-  })
-  .parse(process.argv)
-;
+    .version('0.4.0')
+    .arguments('<source>')
+    .option(
+        '-m, --mode <mode>',
+        'Program mode',
+        /^(convert|serve)$/i,
+        'convert'
+    )
+    .option(
+        '-l, --layout <layout>',
+        'Name or path to the layout',
+        path.resolve(__dirname + '/../layout/github')
+    )
+    .option(
+        '-O, --output <output>',
+        'Path to output dir',
+        path.resolve('output')
+    )
+    .action(function(source) {
+        const mode = program.mode;
 
-if (program.args.length === 0){
-  program.help();
+        // TODO require('../layout')
+        let layoutNames = ['github', 'github-mermaid', 'mathjax', 'remarkjs'];
+        let layoutPath =
+            layoutNames.indexOf(program.layout) < 0
+                ? path.resolve(program.layout)
+                : path.resolve(__dirname, `../layout/${program.layout}`);
+        var options = {
+            mode: mode,
+            rootDir: path.resolve(source),
+            layoutPath: layoutPath,
+            outputDir: path.resolve(program.output),
+        };
+        try {
+            modes[mode](options);
+        } catch (e) {
+            console.error(e.message);
+            process.exit(1);
+        }
+    })
+    .parse(process.argv);
+
+if (program.args.length === 0) {
+    program.help();
 }
