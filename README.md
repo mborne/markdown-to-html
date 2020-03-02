@@ -1,13 +1,9 @@
 # markdown-to-html
 
-## Description
-
 Experimental markdown renderer aiming at providing :
 
 * a static side generator (converting .md to .html)
 * a live server (serving rendered .md files)
-
-**DON'T USE IT FOR NOW!**
 
 ## Setup
 

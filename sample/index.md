@@ -24,11 +24,17 @@ function doSomething(){
 }
 ```
 
-## Inline code
+## Mathjax formula
+
+$$
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+$$
+
+## Inline code
 
 Rendering an inline `doSomething()` code.
 
-## Mermaid graph
+## Mermaid graph
 
 ```mermaid
 sequenceDiagram
@@ -42,7 +48,11 @@ sequenceDiagram
     Alice->John: Yes... John, how are you?
 ```
 
-## Links
+## HTML views
+
+* [demo](demo/index.html)
+
+## Links
 
 ### External markdown with relative path
 

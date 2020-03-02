@@ -1,12 +1,17 @@
 {
   "name": "@mborne/markdown-to-html",
-  "version": "0.3.1",
-  "description": "",
+  "version": "0.4.0-pre",
+  "description": "Experiment static site renderer/server supporting markdown and HTML/JS views",
   "main": "index.js",
   "bin": {
     "markdown-to-html": "bin/markdown-to-html.js"
   },
-  "scripts": {},
+  "scripts": {
+    "build-docs": "rm -rf docs && markdown-to-html -m convert -l mathjax -O docs sample",
+    "test": "npm run check-style",
+    "check-style": "prettier --check \"src/**/*.js\" \"bin/*.js\"",
+    "fix-style": "prettier --write \"src/**/*.js\"  \"bin/*.js\""
+  },
   "author": "Mickael Borne <mborne@users.noreply.github.com>",
   "repository": {
     "type": "git",
@@ -14,11 +19,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "commander": "^2.17.1",
-    "express": "^4.16.3",
-    "handlebars": "^4.0.11",
+    "commander": "^4.1.1",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.3",
     "markdown-toc": "^1.2.0",
-    "marked": "^0.7.0",
-    "shelljs": "^0.8.2"
+    "marked": "^0.8.0",
+    "shelljs": "^0.8.3"
+  },
+  "devDependencies": {
+    "prettier": "1.19.1"
   }
 }
