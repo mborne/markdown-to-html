@@ -13,9 +13,9 @@ Experimental markdown renderer aiming at providing :
 
 ## Samples
 
-* Default layout with mathjax & mermaid : [sample/index.md](sample/index.md) -> https://mborne.github.io/markdown-to-html/
+* Default layout with mathjax & mermaid : [layout/default/page.html](layout/default/page.html) + [sample/index.md](sample/index.md) -> https://mborne.github.io/markdown-to-html/
 
-* HTML view : [sample/index.md](sample/demo/index.html) -> https://mborne.github.io/markdown-to-html/demo/index.html
+* HTML view : [layout/default/page.html](layout/default/page.html) + [sample/index.md](sample/demo/index.html) -> https://mborne.github.io/markdown-to-html/demo/index.html
 
 * Custom [remarkjs layout](https://github.com/mborne/cours-patron-conception/blob/master/layout/slides/page.html) : https://github.com/mborne/cours-patron-conception -> http://mborne.github.io/cours-patron-conception/#1
 
