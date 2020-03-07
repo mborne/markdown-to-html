@@ -1,22 +1,33 @@
 # Sample markdown file
 
+This file provides a sample content for the default layout.
+
+## Table of content
+
 [[toc]]
 
-## Description
 
-This file provides a sample markdown for markdown2html
+## Basic features
 
-## Images
+### HTML views
 
-![Geometry types](img/geometry-types.png)
+The content of [demo/index.html](demo/index.html) is included in the layout so that it is possible to mix markdown and lightweight HTML/JS samples.
 
-## Code without language
+### Links
 
-```
-A code
-```
+* Internal markdown links with relative path
 
-## JS code
+  * [Another file](other-file.md)
+  * [A specific part in another file](other-file.md#nacta-contribuere)
+
+* External markdown with absolute path
+
+  * [GitHub link](https://github.com/jquery/jquery/blob/master/README.md)
+
+
+## Features for the default template
+
+### Code formatting with highlight JS
 
 ```javascript
 function doSomething(){
@@ -24,17 +35,13 @@ function doSomething(){
 }
 ```
 
-## Mathjax formula
+### Math formula with mathjax
 
 $$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
 $$
 
-## Inline code
-
-Rendering an inline `doSomething()` code.
-
-## Mermaid graph
+### Graphs with mermaid
 
 ```mermaid
 sequenceDiagram
@@ -47,18 +54,3 @@ sequenceDiagram
     Bob-->Alice: Checking with John...
     Alice->John: Yes... John, how are you?
 ```
-
-## HTML views
-
-* [demo](demo/index.html)
-
-## Links
-
-### External markdown with relative path
-
-* [Other file](other-file.md)
-* [Part in other file](other-file.md#nacta-contribuere)
-
-### External markdown with absolute path
-
-* [GitHub link](https://github.com/jquery/jquery/blob/master/README.md)

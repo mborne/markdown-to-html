@@ -9,7 +9,7 @@ const modes = {
 };
 
 program
-    .version('0.4.0')
+    .version('0.5.0')
     .arguments('<source>')
     .option(
         '-m, --mode <mode>',
@@ -20,7 +20,7 @@ program
     .option(
         '-l, --layout <layout>',
         'Name or path to the layout',
-        path.resolve(__dirname + '/../layout/github')
+        path.resolve(__dirname + '/../layout/default')
     )
     .option(
         '-O, --output <output>',
@@ -31,7 +31,7 @@ program
         const mode = program.mode;
 
         // TODO require('../layout')
-        let layoutNames = ['github', 'github-mermaid', 'mathjax', 'remarkjs'];
+        let layoutNames = ['default', 'github', 'github-mermaid', 'remarkjs'];
         let layoutPath =
             layoutNames.indexOf(program.layout) < 0
                 ? path.resolve(program.layout)
