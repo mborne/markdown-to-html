@@ -5,6 +5,20 @@ Experimental markdown renderer aiming at providing :
 * a static side generator (converting .md to .html)
 * a live server (serving rendered .md files)
 
+## Features
+
+* Custom layout with asset management
+* Table of content using `[[toc]]`
+* HTML/JS views to bypass markdown limitation for some pages
+
+## Samples
+
+* Default layout with mathjax & mermaid : [sample/index.md](sample/index.md) -> https://mborne.github.io/markdown-to-html/
+
+* HTML view : [sample/index.md](sample/demo/index.html) -> https://mborne.github.io/markdown-to-html/demo/index.html
+
+* Custom [remarkjs layout](https://github.com/mborne/cours-patron-conception/blob/master/layout/slides/page.html) : https://github.com/mborne/cours-patron-conception -> http://mborne.github.io/cours-patron-conception/#1
+
 ## Setup
 
 ```bash
