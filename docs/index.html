@@ -19,31 +19,42 @@
 
 <body>
   <article class="markdown-body">
-    <h1 id="sample-markdown-file"><a href="#sample-markdown-file" class="anchor"></a>Sample markdown file</h1><ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#images">Images</a></li>
-<li><a href="#code-without-language">Code without language</a></li>
-<li><a href="#js-code">JS code</a></li>
-<li><a href="#mathjax-formula">Mathjax formula</a></li>
-<li><a href="#inline-code">Inline code</a></li>
-<li><a href="#mermaid-graph">Mermaid graph</a></li>
+    <h1 id="sample-markdown-file"><a href="#sample-markdown-file" class="anchor"></a>Sample markdown file</h1><p>This file provides a sample content for the default layout.</p>
+<h2 id="table-of-content"><a href="#table-of-content" class="anchor"></a>Table of content</h2><ul>
+<li><a href="#table-of-content">Table of content</a></li>
+<li><a href="#basic-features">Basic features</a><ul>
 <li><a href="#html-views">HTML views</a></li>
-<li><a href="#links">Links</a><ul>
-<li><a href="#external-markdown-with-relative-path">External markdown with relative path</a></li>
-<li><a href="#external-markdown-with-absolute-path">External markdown with absolute path</a></li>
+<li><a href="#links">Links</a></li>
+</ul>
+</li>
+<li><a href="#features-for-the-default-template">Features for the default template</a><ul>
+<li><a href="#code-formatting-with-highlight-js">Code formatting with highlight JS</a></li>
+<li><a href="#math-formula-with-mathjax">Math formula with mathjax</a></li>
+<li><a href="#graphs-with-mermaid">Graphs with mermaid</a></li>
 </ul>
 </li>
 </ul>
-<h2 id="description"><a href="#description" class="anchor"></a>Description</h2><p>This file provides a sample markdown for markdown2html</p>
-<h2 id="images"><a href="#images" class="anchor"></a>Images</h2><p><img src="img/geometry-types.png" alt="Geometry types"></p>
-<h2 id="code-without-language"><a href="#code-without-language" class="anchor"></a>Code without language</h2><pre><code>A code</code></pre><h2 id="js-code"><a href="#js-code" class="anchor"></a>JS code</h2><pre><code class="language-javascript">function doSomething(){
+<h2 id="basic-features"><a href="#basic-features" class="anchor"></a>Basic features</h2><h3 id="html-views"><a href="#html-views" class="anchor"></a>HTML views</h3><p>The content of <a href="demo/index.html">demo/index.html</a> is included in the layout so that it is possible to mix markdown and lightweight HTML/JS samples.</p>
+<h3 id="links"><a href="#links" class="anchor"></a>Links</h3><ul>
+<li><p>Internal markdown links with relative path</p>
+<ul>
+<li><a href="other-file.html">Another file</a></li>
+<li><a href="other-file.html#nacta-contribuere">A specific part in another file</a></li>
+</ul>
+</li>
+<li><p>External markdown with absolute path</p>
+<ul>
+<li><a href="https://github.com/jquery/jquery/blob/master/README.md" target="_blank">GitHub link</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="features-for-the-default-template"><a href="#features-for-the-default-template" class="anchor"></a>Features for the default template</h2><h3 id="code-formatting-with-highlight-js"><a href="#code-formatting-with-highlight-js" class="anchor"></a>Code formatting with highlight JS</h3><pre><code class="language-javascript">function doSomething(){
     return &quot;something&quot;;
 }</code></pre>
-<h2 id="mathjax-formula"><a href="#mathjax-formula" class="anchor"></a>Mathjax formula</h2><p>$$
+<h3 id="math-formula-with-mathjax"><a href="#math-formula-with-mathjax" class="anchor"></a>Math formula with mathjax</h3><p>$$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
 $$</p>
-<h2 id="inline-code"><a href="#inline-code" class="anchor"></a>Inline code</h2><p>Rendering an inline <code>doSomething()</code> code.</p>
-<h2 id="mermaid-graph"><a href="#mermaid-graph" class="anchor"></a>Mermaid graph</h2><pre><code class="language-mermaid">sequenceDiagram
+<h3 id="graphs-with-mermaid"><a href="#graphs-with-mermaid" class="anchor"></a>Graphs with mermaid</h3><pre><code class="language-mermaid">sequenceDiagram
     Alice -&gt;&gt; Bob: Hello Bob, how are you?
     Bob--&gt;&gt;John: How about you John?
     Bob--x Alice: I am good thanks!
@@ -52,16 +63,6 @@ $$</p>
 
     Bob--&gt;Alice: Checking with John...
     Alice-&gt;John: Yes... John, how are you?</code></pre>
-<h2 id="html-views"><a href="#html-views" class="anchor"></a>HTML views</h2><ul>
-<li><a href="demo/index.html">demo</a></li>
-</ul>
-<h2 id="links"><a href="#links" class="anchor"></a>Links</h2><h3 id="external-markdown-with-relative-path"><a href="#external-markdown-with-relative-path" class="anchor"></a>External markdown with relative path</h3><ul>
-<li><a href="other-file.html">Other file</a></li>
-<li><a href="other-file.html#nacta-contribuere">Part in other file</a></li>
-</ul>
-<h3 id="external-markdown-with-absolute-path"><a href="#external-markdown-with-absolute-path" class="anchor"></a>External markdown with absolute path</h3><ul>
-<li><a href="https://github.com/jquery/jquery/blob/master/README.md" target="_blank">GitHub link</a></li>
-</ul>
 
   </article>
 
@@ -83,6 +84,15 @@ $$</p>
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_CHTML.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js"></script>
+    <script>mermaid.init({
+        startOnLoad: true,
+        flowchart: {
+          useMaxWidth: true
+        }
+      }, ".language-mermaid");</script>
 </body>
 
 </html>
