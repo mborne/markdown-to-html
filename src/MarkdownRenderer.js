@@ -1,3 +1,5 @@
+const debug = require('debug')('markdown-to-html');
+
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
@@ -35,6 +37,7 @@ class MarkdownRenderer {
      * @param {string} inputPath
      */
     renderFile(inputPath) {
+        debug(`renderFile('${inputPath}')...`);
         let content = inputPath.endsWith('.md')
             ? this.readMarkdown(inputPath)
             : this.readHtmlView(inputPath);
@@ -64,6 +67,7 @@ class MarkdownRenderer {
      * @returns {string}
      */
     readMarkdown(inputPath) {
+        debug(`readMarkdown('${inputPath}')...`);
         /* read source and render toc based on markdown content */
         var text = fs.readFileSync(inputPath, 'utf8'),
             text = text.replace('[[toc]]', this.renderToc(text));
@@ -89,6 +93,7 @@ class MarkdownRenderer {
 
         /* Customize link renderer */
         renderer.link = function(href, title, text) {
+            debug(`link('${href}', '${title}', '${text}')...`);
             var parsed = url.parse(href);
 
             /* convert .md links to .html for non external links */
@@ -111,6 +116,7 @@ class MarkdownRenderer {
                 out += ' target="' + target + '"';
             }
             out += '>' + text + '</a>';
+            debug(`${out}`);
             return out;
         }.bind(this);
 
