@@ -1,9 +1,11 @@
+const debug = require('debug')('markdown-to-html');
+
 const shell = require('shelljs');
 const fs = require('fs');
 const MarkdownRenderer = require('../MarkdownRenderer');
-const findFiles = require('../helpers/findFiles');
+const SourceDir = require('../SourceDir');
 
-const checkRootDir = require('./checks/checkRootDir');
+const findFiles = require('../helpers/findFiles');
 const checkOutputDir = require('./checks/checkOutputDir');
 const checkLayoutPath = require('./checks/checkLayoutPath');
 
@@ -16,8 +18,7 @@ const checkLayoutPath = require('./checks/checkLayoutPath');
  */
 function convert(options) {
     /* root directory */
-    const rootDir = options.rootDir;
-    checkRootDir(rootDir);
+    const sourceDir = new SourceDir(options.rootDir);
 
     /* output directory */
     const outputDir = options.outputDir;
@@ -31,7 +32,7 @@ function convert(options) {
     var markdownRenderer = new MarkdownRenderer(options);
 
     /* Computes files to perform (before copying assets) */
-    var files = findFiles(markdownRenderer.rootDir);
+    var files = sourceDir.findFiles();
 
     /* Copy assets */
     if (fs.existsSync(options.layoutPath + '/assets')) {
@@ -39,36 +40,36 @@ function convert(options) {
         shell.cp('-r', options.layoutPath + '/assets', assertsDir);
     }
 
-    /* Create directories */
+    debug(`Create directories ...`);
     files
-        .filter(function(file) {
+        .filter(function (file) {
             return file.type === 'directory';
         })
-        .forEach(function(file) {
+        .forEach(function (file) {
             const outputPath = outputDir + '/' + file.outputRelativePath;
-            console.log('mkdir ' + outputPath);
+            debug(`create directory ${outputPath} ...`);
             shell.mkdir('-p', outputPath);
         });
 
-    /* Copy static files */
+    debug(`Copy static files ...`);
     files
-        .filter(function(file) {
+        .filter(function (file) {
             return file.type === 'static';
         })
-        .forEach(function(file) {
+        .forEach(function (file) {
             const outputPath = outputDir + '/' + file.outputRelativePath;
-            console.log('copy ' + file.path + ' to ' + outputPath);
+            debug(`Copy ${file.path} to ${outputPath} ...`);
             shell.cp(file.path, outputPath);
         });
 
-    /* Render markdown files and html views */
+    debug(`Render markdown files and html views ...`);
     files
-        .filter(function(file) {
+        .filter(function (file) {
             return file.type === 'md' || file.type === 'html';
         })
-        .forEach(function(file) {
+        .forEach(function (file) {
             const outputPath = outputDir + '/' + file.outputRelativePath;
-            console.log('render ' + file.path + ' to ' + outputPath);
+            debug(`Render ${file.path} to ${outputPath} ...`);
             var html = markdownRenderer.renderFile(file.path);
             fs.writeFileSync(outputPath, html);
         });

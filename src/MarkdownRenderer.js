@@ -74,7 +74,7 @@ class MarkdownRenderer {
         var renderer = new marked.Renderer();
 
         /* Customize heading renderer */
-        renderer.heading = function(text, level) {
+        renderer.heading = function (text, level) {
             var slug = slugify(text);
             return (
                 '<h' +
@@ -92,7 +92,7 @@ class MarkdownRenderer {
         };
 
         /* Customize link renderer */
-        renderer.link = function(href, title, text) {
+        renderer.link = function (href, title, text) {
             debug(`link('${href}', '${title}', '${text}')...`);
             var parsed = url.parse(href);
 

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const MarkdownRenderer = require('../MarkdownRenderer');
-const checkRootDir = require('./checks/checkRootDir');
+const SourceDir = require('../SourceDir');
 const checkLayoutPath = require('./checks/checkLayoutPath');
 
 const url = require('url');
@@ -17,8 +17,8 @@ const locateFile = require('../helpers/locateFile');
  */
 function serve(options) {
     /* root directory */
-    const rootDir = options.rootDir;
-    checkRootDir(rootDir);
+    const sourceDir = new SourceDir(options.rootDir);
+    const rootDir = sourceDir.rootDir;
 
     /* template path */
     const layoutPath = options.layoutPath;
@@ -31,7 +31,7 @@ function serve(options) {
 
     app.use('/assets', express.static(layoutPath + '/assets'));
 
-    app.get(/^\/(.*)/, function(req, res) {
+    app.get(/^\/(.*)/, function (req, res) {
         var href = req.params[0];
         var file = locateFile(rootDir, href);
         if (file != null) {
@@ -47,7 +47,7 @@ function serve(options) {
         }
     });
 
-    app.listen(3000, function() {
+    app.listen(3000, function () {
         console.log('Application started on http://localhost:3000');
     });
 }

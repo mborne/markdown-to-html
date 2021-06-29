@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const packageMetadata = require('../package.json');
+
 const program = require('commander');
 const path = require('path');
 
@@ -9,7 +11,7 @@ const modes = {
 };
 
 program
-    .version('0.5.0')
+    .version(packageMetadata.version)
     .arguments('<source>')
     .option(
         '-m, --mode <mode>',
@@ -27,20 +29,22 @@ program
         'Path to output dir',
         path.resolve('output')
     )
-    .action(function(source) {
-        const mode = program.mode;
+    .action(function (source, cmd) {
+        const mode = cmd.mode;
 
-        // TODO require('../layout')
-        let layoutNames = ['default', 'github', 'github-mermaid', 'remarkjs'];
+        /* resolve layout name or path */
+        let layoutNames = require('../layout');
         let layoutPath =
-            layoutNames.indexOf(program.layout) < 0
-                ? path.resolve(program.layout)
-                : path.resolve(__dirname, `../layout/${program.layout}`);
+            layoutNames.indexOf(cmd.layout) < 0
+                ? path.resolve(cmd.layout)
+                : path.resolve(__dirname, `../layout/${cmd.layout}`);
+
+        /* build sub-command options */
         var options = {
             mode: mode,
             rootDir: path.resolve(source),
             layoutPath: layoutPath,
-            outputDir: path.resolve(program.output),
+            outputDir: path.resolve(cmd.output),
         };
         try {
             modes[mode](options);
@@ -48,9 +52,11 @@ program
             console.error(e.message);
             process.exit(1);
         }
-    })
-    .parse(process.argv);
+    });
 
-if (program.args.length === 0) {
-    program.help();
+if (process.argv.length <= 2) {
+    program.outputHelp();
+    return;
 }
+
+program.parse(process.argv);
