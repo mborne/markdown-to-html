@@ -5,8 +5,6 @@ const fs = require('fs');
 const MarkdownRenderer = require('../MarkdownRenderer');
 const SourceDir = require('../SourceDir');
 
-const findFiles = require('../helpers/findFiles');
-const checkOutputDir = require('./checks/checkOutputDir');
 const checkLayoutPath = require('./checks/checkLayoutPath');
 
 /**
@@ -22,7 +20,9 @@ function convert(options) {
 
     /* output directory */
     const outputDir = options.outputDir;
-    checkOutputDir(outputDir);
+    if (fs.existsSync(outputDir)) {
+        throw new Error(outputDir + ' already exists!');
+    }
     shell.mkdir('-p', outputDir);
 
     /* template path */

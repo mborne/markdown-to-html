@@ -6,7 +6,6 @@ const checkLayoutPath = require('./checks/checkLayoutPath');
 
 const url = require('url');
 const path = require('path');
-const locateFile = require('../helpers/locateFile');
 
 /**
  * Serve MD files from rootDir
@@ -18,7 +17,6 @@ const locateFile = require('../helpers/locateFile');
 function serve(options) {
     /* root directory */
     const sourceDir = new SourceDir(options.rootDir);
-    const rootDir = sourceDir.rootDir;
 
     /* template path */
     const layoutPath = options.layoutPath;
@@ -32,15 +30,15 @@ function serve(options) {
     app.use('/assets', express.static(layoutPath + '/assets'));
 
     app.get(/^\/(.*)/, function (req, res) {
-        var href = req.params[0];
-        var file = locateFile(rootDir, href);
-        if (file != null) {
-            var parsed = url.parse(file);
+        var relativePath = req.params[0];
+        var absolutePath = sourceDir.locateFile(relativePath);
+        if (absolutePath != null) {
+            var parsed = url.parse(absolutePath);
             var ext = path.extname(parsed.pathname || '');
             if (ext === '.md' || ext === '.html') {
-                res.send(markdownRenderer.renderFile(file));
+                res.send(markdownRenderer.renderFile(absolutePath));
             } else {
-                res.sendFile(file);
+                res.sendFile(absolutePath);
             }
         } else {
             res.status(404).send('Not found');

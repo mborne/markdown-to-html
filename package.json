@@ -9,8 +9,8 @@
   "scripts": {
     "build-docs": "rm -rf docs && markdown-to-html -m convert -l default -O docs sample",
     "test": "npm run check-style && nyc --reporter=html --reporter=text mocha",
-    "check-style": "prettier --check \"src/**/*.js\" \"bin/*.js\"",
-    "fix-style": "prettier --write \"src/**/*.js\"  \"bin/*.js\""
+    "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\"",
+    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\""
   },
   "author": "Mickael Borne <mborne@users.noreply.github.com>",
   "repository": {
