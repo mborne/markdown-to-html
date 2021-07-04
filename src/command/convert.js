@@ -6,6 +6,7 @@ const MarkdownRenderer = require('../MarkdownRenderer');
 const SourceDir = require('../SourceDir');
 
 const checkLayoutPath = require('./checks/checkLayoutPath');
+const renameMdToHtml = require('../helpers/renameMdToHtml');
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -29,50 +30,56 @@ function convert(options) {
     checkLayoutPath(options.layoutPath);
 
     /* Create renderer */
+    options.mode = 'convert';
     var markdownRenderer = new MarkdownRenderer(options);
 
     /* Computes files to perform (before copying assets) */
-    var files = sourceDir.findFiles();
+    var sourceFiles = sourceDir.findFiles();
 
-    /* Copy assets */
+    debug(`Copy assets from layout ...`);
     if (fs.existsSync(options.layoutPath + '/assets')) {
         const assertsDir = outputDir + '/assets';
         shell.cp('-r', options.layoutPath + '/assets', assertsDir);
     }
 
     debug(`Create directories ...`);
-    files
+    sourceFiles
         .filter(function (file) {
             return file.type === 'directory';
         })
         .forEach(function (file) {
-            const outputPath = outputDir + '/' + file.outputRelativePath;
-            debug(`create directory ${outputPath} ...`);
+            const outputPath = outputDir + '/' + file.relativePath;
+            debug(`Create directory ${outputPath} ...`);
             shell.mkdir('-p', outputPath);
         });
 
     debug(`Copy static files ...`);
-    files
+    sourceFiles
         .filter(function (file) {
             return file.type === 'static';
         })
         .forEach(function (file) {
-            const outputPath = outputDir + '/' + file.outputRelativePath;
-            debug(`Copy ${file.path} to ${outputPath} ...`);
-            shell.cp(file.path, outputPath);
+            const outputPath = outputDir + '/' + file.relativePath;
+            debug(`Copy ${file.absolutePath} to ${outputPath} ...`);
+            shell.cp(file.absolutePath, outputPath);
         });
 
     debug(`Render markdown files and html views ...`);
-    files
+    sourceFiles
         .filter(function (file) {
             return file.type === 'md' || file.type === 'html';
         })
         .forEach(function (file) {
-            const outputPath = outputDir + '/' + file.outputRelativePath;
-            debug(`Render ${file.path} to ${outputPath} ...`);
-            var html = markdownRenderer.renderFile(file.path);
+            let outputPath = outputDir + '/' + file.relativePath;
+            if (file.type == 'md') {
+                outputPath = renameMdToHtml(outputPath);
+            }
+            debug(`Render ${file.absolutePath} to ${outputPath} ...`);
+            var html = markdownRenderer.renderFile(file.absolutePath);
             fs.writeFileSync(outputPath, html);
         });
+
+    debug(`Render completed`);
 }
 
 module.exports = convert;

@@ -30,18 +30,25 @@ function serve(options) {
     app.use('/assets', express.static(layoutPath + '/assets'));
 
     app.get(/^\/(.*)/, function (req, res) {
-        var relativePath = req.params[0];
-        var absolutePath = sourceDir.locateFile(relativePath);
-        if (absolutePath != null) {
-            var parsed = url.parse(absolutePath);
-            var ext = path.extname(parsed.pathname || '');
-            if (ext === '.md' || ext === '.html') {
-                res.send(markdownRenderer.renderFile(absolutePath));
-            } else {
-                res.sendFile(absolutePath);
-            }
-        } else {
+        let relativePath = req.params[0];
+        let sourceFile = sourceDir.locateFile(relativePath);
+        if (sourceFile == null) {
             res.status(404).send('Not found');
+            return;
+        }
+        if (sourceFile.type == 'directory') {
+            let indexFile = sourceDir.locateIndex(sourceFile);
+            if (indexFile == null) {
+                res.status(404).send('Not found');
+                return;
+            }
+            res.send(markdownRenderer.renderFile(indexFile.absolutePath));
+            return;
+        }
+        if (['md', 'html'].includes(sourceFile.type)) {
+            res.send(markdownRenderer.renderFile(sourceFile.absolutePath));
+        } else {
+            res.sendFile(sourceFile.absolutePath);
         }
     });
 

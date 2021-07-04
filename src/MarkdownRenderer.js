@@ -1,10 +1,11 @@
 const debug = require('debug')('markdown-to-html');
 
+const SourceDir = require('./SourceDir');
+
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-const relative = require('path').relative;
 const toc = require('markdown-toc');
 const marked = require('marked');
 
@@ -26,21 +27,20 @@ class MarkdownRenderer {
      */
     constructor(options) {
         this.mode = options.mode;
-        // TODO this.sourceDir = new SourceDir(options.rootDir);
-        this.rootDir = options.rootDir;
+        this.sourceDir = new SourceDir(options.rootDir);
         // TODO this.layout = new Layout(options.layoutPath);
         this.layoutPath = options.layoutPath;
     }
 
     /**
      * Render a given file
-     * @param {string} inputPath
+     * @param {string} absolutePath
      */
-    renderFile(inputPath) {
-        debug(`renderFile('${inputPath}')...`);
-        let content = inputPath.endsWith('.md')
-            ? this.readMarkdown(inputPath)
-            : this.readHtmlView(inputPath);
+    renderFile(absolutePath) {
+        debug(`renderFile('${absolutePath}')...`);
+        let content = absolutePath.endsWith('.md')
+            ? this.renderMarkdownContent(absolutePath)
+            : this.renderHtmlViewContent(absolutePath);
         /* inject html content in a template */
         var templateSource = fs.readFileSync(
             this.layoutPath + '/page.html',
@@ -49,10 +49,10 @@ class MarkdownRenderer {
         var template = handlebars.compile(templateSource);
 
         var context = {
-            title: relative(this.rootDir, inputPath),
+            title: path.relative(this.sourceDir.rootDir, absolutePath),
             content: content,
-            rootDir: this.rootDir,
-            path: inputPath,
+            rootDir: this.sourceDir.rootDir,
+            path: absolutePath,
         };
         /* return full html */
         return template(context);
@@ -63,14 +63,19 @@ class MarkdownRenderer {
      *
      * @private
      *
-     * @param {string} inputPath
+     * @param {string} absolutePath
      * @returns {string}
      */
-    readMarkdown(inputPath) {
-        debug(`readMarkdown('${inputPath}')...`);
-        /* read source and render toc based on markdown content */
-        var text = fs.readFileSync(inputPath, 'utf8'),
-            text = text.replace('[[toc]]', this.renderToc(text));
+    renderMarkdownContent(absolutePath) {
+        debug(`readMarkdown('${absolutePath}')...`);
+        /* read markdown source and render table of content */
+        let markdownContent = fs.readFileSync(absolutePath, 'utf8');
+        markdownContent = markdownContent.replace(
+            '[[toc]]',
+            this.renderToc(markdownContent)
+        );
+
+        /* Create marked render */
         var renderer = new marked.Renderer();
 
         /* Customize heading renderer */
@@ -93,7 +98,6 @@ class MarkdownRenderer {
 
         /* Customize link renderer */
         renderer.link = function (href, title, text) {
-            debug(`link('${href}', '${title}', '${text}')...`);
             var parsed = url.parse(href);
 
             /* convert .md links to .html for non external links */
@@ -116,12 +120,11 @@ class MarkdownRenderer {
                 out += ' target="' + target + '"';
             }
             out += '>' + text + '</a>';
-            debug(`${out}`);
             return out;
         }.bind(this);
 
         /* render markdown */
-        var content = marked(text, {
+        var content = marked(markdownContent, {
             renderer: renderer,
         });
         return content;
@@ -129,15 +132,21 @@ class MarkdownRenderer {
 
     /**
      * Load HTML view content
-     * @param {string} inputPath
+     *
+     * @private
+     *
+     * @param {string} absolutePath
      * @returns {string}
      */
-    readHtmlView(inputPath) {
-        return fs.readFileSync(inputPath, 'utf-8');
+    renderHtmlViewContent(absolutePath) {
+        return fs.readFileSync(absolutePath, 'utf-8');
     }
 
     /**
      * Render TOC according to markdown
+     *
+     * @private
+     *
      * @param {string} text markdown source
      */
     renderToc(text) {

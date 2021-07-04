@@ -19,50 +19,73 @@ describe('test SourceDir', function () {
     });
 
     describe('test locateFile', function () {
-        it('should find empty path as README.md', function () {
-            let absolutePath = sampleSourceDir.locateFile('');
+        it('should find empty path as rootDir', function () {
+            let sourceFile = sampleSourceDir.locateFile('');
+            expect(sourceFile).to.not.be.null;
+            // check type
+            expect(sourceFile.type).to.equals('directory');
+            // check absolutePath
+            let absolutePath = sourceFile.absolutePath;
             expect(absolutePath).to.not.be.null;
-            expect(absolutePath.endsWith('/README.md')).to.be.true;
+            expect(absolutePath).to.equals(sampleSourceDir.rootDir);
         });
 
-        it('should find subdir as subdir/index.md', function () {
-            let absolutePath = sampleSourceDir.locateFile('subdir');
+        it('should find subdir as a directory', function () {
+            let sourceFile = sampleSourceDir.locateFile('subdir');
+            expect(sourceFile).to.not.be.null;
+            // check type
+            expect(sourceFile.type).to.equals('directory');
+            // check absolutePath
+            let absolutePath = sourceFile.absolutePath;
             expect(absolutePath).to.not.be.null;
-            expect(absolutePath.endsWith('subdir/index.md')).to.be.true;
+            expect(absolutePath.endsWith('subdir')).to.be.true;
         });
 
         it('should should resolve html-view/data.csv file', function () {
-            let absolutePath = sampleSourceDir.locateFile('html-view/data.csv');
+            let sourceFile = sampleSourceDir.locateFile('html-view/data.csv');
+            expect(sourceFile).to.not.be.null;
+            // check type
+            expect(sourceFile.type).to.equals('static');
+            // check absolutePath
+            let absolutePath = sourceFile.absolutePath;
             expect(absolutePath).to.not.be.null;
             expect(absolutePath.endsWith('html-view/data.csv')).to.be.true;
         });
 
         it('should should resolve no-index/no-index.md file', function () {
-            let absolutePath = sampleSourceDir.locateFile(
-                'no-index/no-index.md'
-            );
+            let sourceFile = sampleSourceDir.locateFile('no-index/no-index.md');
+            expect(sourceFile).to.not.be.null;
+            // check type
+            expect(sourceFile.type).to.equals('md');
+            // check absolutePath
+            let absolutePath = sourceFile.absolutePath;
             expect(absolutePath).to.not.be.null;
             expect(absolutePath.endsWith('no-index/no-index.md')).to.be.true;
         });
 
-        it('should should return null if directory does not contains a readme/index file', function () {
-            let absolutePath = sampleSourceDir.locateFile('no-index');
-            expect(absolutePath).to.be.null;
+        it('should should resolve directory without readme or index file', function () {
+            let sourceFile = sampleSourceDir.locateFile('no-index');
+            // check type
+            expect(sourceFile.type).to.equals('directory');
+            // check absolutePath
+            let absolutePath = sourceFile.absolutePath;
+            expect(absolutePath).to.be.not.null;
+            expect(absolutePath.endsWith('/no-index'));
         });
 
         it('should should return null if file is not found', function () {
-            let absolutePath = sampleSourceDir.locateFile('does-not-exist.md');
-            expect(absolutePath).to.be.null;
+            let sourceFile = sampleSourceDir.locateFile('does-not-exist.md');
+            expect(sourceFile).to.be.null;
         });
 
         it('should protect against path traversal with absolute path', function () {
-            let absolutePath = sampleSourceDir.locateFile('/etc/hosts');
-            expect(absolutePath).to.be.null;
+            let sourceFile = sampleSourceDir.locateFile('/etc/hosts');
+            expect(sourceFile).to.be.null;
         });
 
         it('should protect against path traversal with relative path', function () {
-            let absolutePath = sampleSourceDir.locateFile('../README.md');
-            expect(absolutePath).to.be.null;
+            let sourceFile = sampleSourceDir.locateFile('../README.md');
+            expect(sourceFile).to.be.null;
         });
     });
 

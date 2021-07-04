@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
-const renameMdToHtml = require('./helpers/renameMdToHtml');
+const SourceFile = require('./SourceFile');
 
 /**
  * @typedef SourceFile
@@ -39,42 +39,12 @@ class SourceDir {
         var sourceFiles = [];
 
         shell.find(this.rootDir).forEach(
-            function (inputFile) {
-                var relativePath = path.relative(this.rootDir, inputFile);
+            function (absolutePath) {
+                var relativePath = path.relative(this.rootDir, absolutePath);
                 if (this.isIgnored(relativePath)) {
                     return;
                 }
-
-                if (fs.lstatSync(inputFile).isDirectory()) {
-                    sourceFiles.push({
-                        type: 'directory',
-                        path: inputFile,
-                        relativePath: relativePath,
-                        outputRelativePath: relativePath,
-                    });
-                } else if (relativePath.match(/\.md$/)) {
-                    var outputRelativePath = renameMdToHtml(relativePath);
-                    sourceFiles.push({
-                        type: 'md',
-                        path: inputFile,
-                        relativePath: relativePath,
-                        outputRelativePath: outputRelativePath,
-                    });
-                } else if (relativePath.match(/\.html$/)) {
-                    sourceFiles.push({
-                        type: 'html',
-                        path: inputFile,
-                        relativePath: relativePath,
-                        outputRelativePath: relativePath,
-                    });
-                } else {
-                    sourceFiles.push({
-                        type: 'static',
-                        path: inputFile,
-                        relativePath: relativePath,
-                        outputRelativePath: relativePath,
-                    });
-                }
+                sourceFiles.push(new SourceFile(this, absolutePath));
             }.bind(this)
         );
 
@@ -84,37 +54,40 @@ class SourceDir {
     /**
      * Locate file in rootDir according to relativePath
      *
-     * TODO return SourceFile
-     *
      * @param {string} relativePath
-     * @return {string}
+     * @return {SourceFile}
      */
     locateFile(relativePath) {
-        var filePath = path.resolve(this.rootDir, relativePath);
+        var absolutePath = path.resolve(this.rootDir, relativePath);
 
         /* file must be in rootDir */
-        if (!filePath.startsWith(this.rootDir)) {
+        if (!absolutePath.startsWith(this.rootDir)) {
             return null;
         }
 
         /* file must exists */
-        if (!fs.existsSync(filePath)) {
+        if (!fs.existsSync(absolutePath)) {
             return null;
         }
 
-        /*
-         * Lookup index or README in directory
-         */
-        if (fs.lstatSync(filePath).isDirectory()) {
-            if (fs.existsSync(filePath + '/index.md')) {
-                return filePath + '/index.md';
-            } else if (fs.existsSync(filePath + '/README.md')) {
-                return filePath + '/README.md';
-            } else {
-                return null;
+        return new SourceFile(this, absolutePath);
+    }
+
+    /**
+     * Locate index.md or readme.md in relativePath
+     * @param {SourceFile} sourceFile a directory
+     * @return {SourceFile}
+     */
+    locateIndex(sourceFile) {
+        let candidates = ['index.md', 'README.md', 'readme.md'];
+        for (let candidate of candidates) {
+            const candidatePath = `${sourceFile.absolutePath}/${candidate}`;
+            if (!fs.existsSync(candidatePath)) {
+                continue;
             }
+            return new SourceFile(this, candidatePath);
         }
-        return filePath;
+        return null;
     }
 
     /**
