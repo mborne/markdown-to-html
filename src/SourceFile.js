@@ -4,6 +4,14 @@ const path = require('path');
 const FileType = require('./FileType');
 const SourceDir = require('./SourceDir');
 
+/**
+ * @typedef SourceFile
+ * @type {object}
+ * @property {FileType} type - type of the file
+ * @property {string} path - absolute path to the file
+ * @property {string} relativePath - path relative  to the root dir
+ */
+
 class SourceFile {
     /**
      * @param {SourceDir} sourceDir

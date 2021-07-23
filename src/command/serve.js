@@ -42,11 +42,11 @@ function serve(options) {
                 res.status(404).send('Not found');
                 return;
             }
-            res.send(markdownRenderer.renderFile(indexFile.absolutePath));
+            res.send(markdownRenderer.render(indexFile));
             return;
         }
         if (['md', 'html'].includes(sourceFile.type)) {
-            res.send(markdownRenderer.renderFile(sourceFile.absolutePath));
+            res.send(markdownRenderer.render(sourceFile));
         } else {
             res.sendFile(sourceFile.absolutePath);
         }

@@ -4,15 +4,6 @@ const shell = require('shelljs');
 const SourceFile = require('./SourceFile');
 
 /**
- * @typedef SourceFile
- * @type {object}
- * @property {string} type - type of the file
- * @property {string} path - absolute path to the file
- * @property {number} relativePath - path relative  to the root dir
- * @property {string} outputRelativePath - output path relative to the root dir
- */
-
-/**
  * Represents a source directory containing markdown
  * and static files.
  */

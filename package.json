@@ -7,6 +7,7 @@
     "markdown-to-html": "bin/markdown-to-html.js"
   },
   "scripts": {
+    "start": "markdown-to-html -m serve -l default sample",
     "build-docs": "rm -rf docs && markdown-to-html -m convert -l default -O docs sample",
     "test": "npm run check-style && nyc --reporter=html --reporter=text mocha",
     "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\"",

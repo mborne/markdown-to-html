@@ -14,6 +14,8 @@ handlebars.registerHelper('asset', require('./handlebars/asset'));
 
 const slugify = require('./helpers/slugify');
 const renameMdToHtml = require('./helpers/renameMdToHtml');
+const SourceFile = require('./SourceFile');
+const FileType = require('./FileType');
 
 /**
  * Helper class to render markdown files in a directory
@@ -34,13 +36,17 @@ class MarkdownRenderer {
 
     /**
      * Render a given file
-     * @param {string} absolutePath
+     * @param {SourceFile} sourceFile
      */
-    renderFile(absolutePath) {
-        debug(`renderFile('${absolutePath}')...`);
-        let content = absolutePath.endsWith('.md')
-            ? this.renderMarkdownContent(absolutePath)
-            : this.renderHtmlViewContent(absolutePath);
+    render(sourceFile) {
+        debug(`rende('${JSON.stringify(sourceFile)}')...`);
+
+        /* render source to html */
+        let content =
+            sourceFile.type == FileType.MARKDOWN
+                ? this.renderMarkdownContent(sourceFile.absolutePath)
+                : this.renderHtmlViewContent(sourceFile.absolutePath);
+
         /* inject html content in a template */
         var templateSource = fs.readFileSync(
             this.layoutPath + '/page.html',
@@ -49,10 +55,13 @@ class MarkdownRenderer {
         var template = handlebars.compile(templateSource);
 
         var context = {
-            title: path.relative(this.sourceDir.rootDir, absolutePath),
+            title: path.relative(
+                this.sourceDir.rootDir,
+                sourceFile.absolutePath
+            ),
             content: content,
             rootDir: this.sourceDir.rootDir,
-            path: absolutePath,
+            path: sourceFile.absolutePath,
         };
         /* return full html */
         return template(context);

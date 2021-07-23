@@ -75,7 +75,7 @@ function convert(options) {
                 outputPath = renameMdToHtml(outputPath);
             }
             debug(`Render ${file.absolutePath} to ${outputPath} ...`);
-            var html = markdownRenderer.renderFile(file.absolutePath);
+            var html = markdownRenderer.render(file);
             fs.writeFileSync(outputPath, html);
         });
 
