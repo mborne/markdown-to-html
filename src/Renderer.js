@@ -20,7 +20,7 @@ const FileType = require('./FileType');
 /**
  * Helper class to render markdown files in a directory
  */
-class MarkdownRenderer {
+class Renderer {
     /**
      * @param {Object} options
      * @param {string} options.mode convert or serve
@@ -156,10 +156,10 @@ class MarkdownRenderer {
      *
      * @private
      *
-     * @param {string} text markdown source
+     * @param {string} markdownContent markdown source
      */
-    renderToc(text) {
-        return toc(text, {
+    renderToc(markdownContent) {
+        return toc(markdownContent, {
             /* ignore h1 titles */
             firsth1: false,
             /* ensure consistency with title */
@@ -168,4 +168,4 @@ class MarkdownRenderer {
     }
 }
 
-module.exports = MarkdownRenderer;
+module.exports = Renderer;

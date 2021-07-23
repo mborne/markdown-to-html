@@ -1,6 +1,6 @@
 const express = require('express');
 
-const MarkdownRenderer = require('../MarkdownRenderer');
+const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
 const checkLayoutPath = require('./checks/checkLayoutPath');
 
@@ -23,7 +23,7 @@ function serve(options) {
     checkLayoutPath(layoutPath);
 
     /* Create renderer */
-    var markdownRenderer = new MarkdownRenderer(options);
+    var markdownRenderer = new Renderer(options);
 
     const app = express();
 

@@ -2,7 +2,7 @@ const debug = require('debug')('markdown-to-html');
 
 const shell = require('shelljs');
 const fs = require('fs');
-const MarkdownRenderer = require('../MarkdownRenderer');
+const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
 
 const checkLayoutPath = require('./checks/checkLayoutPath');
@@ -31,7 +31,7 @@ function convert(options) {
 
     /* Create renderer */
     options.mode = 'convert';
-    var markdownRenderer = new MarkdownRenderer(options);
+    var markdownRenderer = new Renderer(options);
 
     /* Computes files to perform (before copying assets) */
     var sourceFiles = sourceDir.findFiles();
