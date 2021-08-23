@@ -14,6 +14,7 @@ const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
 const toc = require('markdown-toc');
+const heading = require('./marked/heading');
 const marked = require('marked');
 const slugify = require('./helpers/slugify');
 const renameMdToHtml = require('./helpers/renameMdToHtml');
@@ -89,22 +90,7 @@ class Renderer {
         var renderer = new marked.Renderer();
 
         /* Customize heading renderer */
-        renderer.heading = function (text, level) {
-            var slug = slugify(text);
-            return (
-                '<h' +
-                level +
-                ' id="' +
-                slug +
-                '"><a href="#' +
-                slug +
-                '" class="anchor"></a>' +
-                text +
-                '</h' +
-                level +
-                '>'
-            );
-        };
+        renderer.heading = heading;
 
         /* Customize link renderer */
         renderer.link = function (href, title, text) {
