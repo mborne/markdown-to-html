@@ -4,7 +4,7 @@ const shell = require('shelljs');
 const fs = require('fs');
 const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
-
+const Layout = require('../Layout');
 const renameMdToHtml = require('../helpers/renameMdToHtml');
 
 /**
@@ -15,25 +15,26 @@ const renameMdToHtml = require('../helpers/renameMdToHtml');
  * @param {String} options.layoutPath path to layout directory
  */
 function convert(options) {
-    /* root directory */
-    const sourceDir = new SourceDir(options.rootDir);
-
     /* output directory */
+    debug("Ensure that outputDir doesn't exists...");
     const outputDir = options.outputDir;
     if (fs.existsSync(outputDir)) {
         throw new Error(outputDir + ' already exists!');
     }
     shell.mkdir('-p', outputDir);
 
-    /* Create renderer */
-    options.mode = 'convert';
-    var markdownRenderer = new Renderer(options);
+    debug(`Create renderer ...`);
+    const sourceDir = new SourceDir(options.rootDir);
+    const layout = new Layout(options.layoutPath);
+    var markdownRenderer = new Renderer(sourceDir, layout, {
+        mode: 'convert',
+    });
 
-    /* Computes files to perform (before copying assets) */
+    debug(`List files from source directory ...`);
     var sourceFiles = sourceDir.findFiles();
 
     debug(`Copy assets from layout ...`);
-    if (fs.existsSync(options.layoutPath + '/assets')) {
+    if (layout.hasAssets()) {
         const assertsDir = outputDir + '/assets';
         shell.cp('-r', options.layoutPath + '/assets', assertsDir);
     }

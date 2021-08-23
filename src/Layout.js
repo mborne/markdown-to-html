@@ -8,13 +8,23 @@ class Layout {
      * @param {string} layoutPath path to the directory containing page.html
      */
     constructor(layoutPath) {
-        if (!fs.existsSync(layoutPath)) {
-            throw new Error(layoutPath + " doesn't exists!");
-        }
-        if (!fs.existsSync(layoutPath + '/page.html')) {
-            throw new Error(layoutPath + "/page.html doesn't exists!");
-        }
         this.path = layoutPath;
+        if (!fs.existsSync(this.path)) {
+            throw new Error(`${this.path} doesn't exists`);
+        }
+        this.templatePath = this.path + '/page.html';
+        if (!fs.existsSync(this.templatePath)) {
+            throw new Error(`${this.templatePath} doesn't exists`);
+        }
+
+        this.assetsPath = this.path + '/assets';
+    }
+
+    /**
+     * @returns boolean
+     */
+    hasAssets() {
+        return fs.existsSync(this.assetsPath);
     }
 }
 

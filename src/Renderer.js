@@ -23,15 +23,16 @@ const renameMdToHtml = require('./helpers/renameMdToHtml');
  */
 class Renderer {
     /**
+     * @param {SourceDir} sourceDir
+     * @param {Layout} layout
+     *
      * @param {Object} options
      * @param {string} options.mode convert or serve
-     * @param {string} options.rootDir
-     * @param {string} options.layoutPath path to the template layout
      */
-    constructor(options) {
+    constructor(sourceDir, layout, options) {
         this.mode = options.mode;
-        this.sourceDir = new SourceDir(options.rootDir);
-        this.layout = new Layout(options.layoutPath);
+        this.sourceDir = sourceDir;
+        this.layout = layout;
     }
 
     /**
@@ -39,7 +40,7 @@ class Renderer {
      * @param {SourceFile} sourceFile
      */
     render(sourceFile) {
-        debug(`rende('${JSON.stringify(sourceFile)}')...`);
+        debug(`render('${JSON.stringify(sourceFile)}')...`);
 
         /* render source to html */
         let content =
@@ -76,7 +77,7 @@ class Renderer {
      * @returns {string}
      */
     renderMarkdownContent(absolutePath) {
-        debug(`readMarkdown('${absolutePath}')...`);
+        debug(`renderMarkdownContent('${absolutePath}')...`);
         /* read markdown source and render table of content */
         let markdownContent = fs.readFileSync(absolutePath, 'utf8');
         markdownContent = markdownContent.replace(
@@ -84,7 +85,7 @@ class Renderer {
             this.renderToc(markdownContent)
         );
 
-        /* Create marked render */
+        /* Create marked renderer */
         var renderer = new marked.Renderer();
 
         /* Customize heading renderer */
@@ -148,6 +149,7 @@ class Renderer {
      * @returns {string}
      */
     renderHtmlViewContent(absolutePath) {
+        debug(`renderMarkdownContent('${absolutePath}')...`);
         return fs.readFileSync(absolutePath, 'utf-8');
     }
 
