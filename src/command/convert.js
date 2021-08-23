@@ -5,7 +5,6 @@ const fs = require('fs');
 const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
 
-const checkLayoutPath = require('./checks/checkLayoutPath');
 const renameMdToHtml = require('../helpers/renameMdToHtml');
 
 /**
@@ -25,9 +24,6 @@ function convert(options) {
         throw new Error(outputDir + ' already exists!');
     }
     shell.mkdir('-p', outputDir);
-
-    /* template path */
-    checkLayoutPath(options.layoutPath);
 
     /* Create renderer */
     options.mode = 'convert';

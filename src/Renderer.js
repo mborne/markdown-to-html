@@ -6,16 +6,17 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-const toc = require('markdown-toc');
-const marked = require('marked');
+const SourceFile = require('./SourceFile');
+const FileType = require('./FileType');
+const Layout = require('./Layout');
 
 const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
+const toc = require('markdown-toc');
+const marked = require('marked');
 const slugify = require('./helpers/slugify');
 const renameMdToHtml = require('./helpers/renameMdToHtml');
-const SourceFile = require('./SourceFile');
-const FileType = require('./FileType');
 
 /**
  * Helper class to render markdown files in a directory
@@ -30,8 +31,7 @@ class Renderer {
     constructor(options) {
         this.mode = options.mode;
         this.sourceDir = new SourceDir(options.rootDir);
-        // TODO this.layout = new Layout(options.layoutPath);
-        this.layoutPath = options.layoutPath;
+        this.layout = new Layout(options.layoutPath);
     }
 
     /**
@@ -49,7 +49,7 @@ class Renderer {
 
         /* inject html content in a template */
         var templateSource = fs.readFileSync(
-            this.layoutPath + '/page.html',
+            this.layout.path + '/page.html',
             'utf8'
         );
         var template = handlebars.compile(templateSource);

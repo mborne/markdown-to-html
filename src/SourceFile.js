@@ -11,7 +11,6 @@ const SourceDir = require('./SourceDir');
  * @property {string} path - absolute path to the file
  * @property {string} relativePath - path relative  to the root dir
  */
-
 class SourceFile {
     /**
      * @param {SourceDir} sourceDir

@@ -2,10 +2,6 @@ const express = require('express');
 
 const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
-const checkLayoutPath = require('./checks/checkLayoutPath');
-
-const url = require('url');
-const path = require('path');
 
 /**
  * Serve MD files from rootDir
@@ -20,7 +16,6 @@ function serve(options) {
 
     /* template path */
     const layoutPath = options.layoutPath;
-    checkLayoutPath(layoutPath);
 
     /* Create renderer */
     var markdownRenderer = new Renderer(options);

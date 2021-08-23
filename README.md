@@ -7,7 +7,7 @@ Experimental markdown renderer aiming at providing :
 
 ## Features
 
-* Custom layout with asset management
+* Custom layout with assets management
 * Table of content using `[[toc]]`
 * HTML/JS views to bypass markdown limitation for some pages
 
