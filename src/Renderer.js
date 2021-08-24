@@ -4,7 +4,6 @@ const SourceDir = require('./SourceDir');
 
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
 
 const SourceFile = require('./SourceFile');
 const FileType = require('./FileType');
@@ -14,10 +13,8 @@ const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
 const toc = require('markdown-toc');
-const heading = require('./marked/heading');
-const marked = require('marked');
 const slugify = require('./helpers/slugify');
-const renameMdToHtml = require('./helpers/renameMdToHtml');
+const MarkdownRenderer = require('./marked/MarkdownRenderer');
 
 /**
  * Helper class to render markdown files in a directory
@@ -87,43 +84,10 @@ class Renderer {
         );
 
         /* Create marked renderer */
-        var renderer = new marked.Renderer();
-
-        /* Customize heading renderer */
-        renderer.heading = heading;
-
-        /* Customize link renderer */
-        renderer.link = function (href, title, text) {
-            var parsed = url.parse(href);
-
-            /* convert .md links to .html for non external links */
-            var target = null;
-            if (!parsed.protocol) {
-                var ext = path.extname(parsed.pathname || '');
-                if (this.mode == 'convert' && ext === '.md') {
-                    parsed.pathname = renameMdToHtml(parsed.pathname);
-                    href = url.format(parsed);
-                }
-            } else {
-                target = '_blank';
-            }
-
-            var out = '<a href="' + href + '"';
-            if (title) {
-                out += ' title="' + title + '"';
-            }
-            if (target) {
-                out += ' target="' + target + '"';
-            }
-            out += '>' + text + '</a>';
-            return out;
-        }.bind(this);
-
-        /* render markdown */
-        var content = marked(markdownContent, {
-            renderer: renderer,
+        var markdownRenderer = new MarkdownRenderer({
+            renameMarkdownLinksToHtml: this.mode != 'serve',
         });
-        return content;
+        return markdownRenderer.render(markdownContent);
     }
 
     /**
