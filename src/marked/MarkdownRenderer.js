@@ -1,8 +1,11 @@
 const marked = require('marked');
+
+const toc = require('markdown-toc');
+const slugify = require('./slugify');
+
 const url = require('url');
 const path = require('path');
 const renameMdToHtml = require('../helpers/renameMdToHtml');
-const slugify = require('../helpers/slugify');
 
 /**
  * marked - customize marking rendering.
@@ -29,6 +32,12 @@ class MarkdownRenderer {
      * @returns {string}
      */
     render(markdownContent) {
+        /* render table of content */
+        markdownContent = markdownContent.replace(
+            '[[toc]]',
+            this.renderToc(markdownContent)
+        );
+        /* render markdown to html */
         return marked(markdownContent, {
             renderer: this.markedRenderer,
         });
@@ -36,6 +45,8 @@ class MarkdownRenderer {
 
     /**
      * marked - custom method to render links.
+     *
+     * @private
      *
      * @param {string} href
      * @param {string} title
@@ -71,6 +82,8 @@ class MarkdownRenderer {
     /**
      * marked - custom method to render titles.
      *
+     * @private
+     *
      * @param {string} text
      * @param {string} level
      * @returns {string}
@@ -90,6 +103,22 @@ class MarkdownRenderer {
             level +
             '>'
         );
+    }
+
+    /**
+     * Render TOC according to markdown.
+     *
+     * @private
+     *
+     * @param {string} markdownContent markdown source
+     */
+    renderToc(markdownContent) {
+        return toc(markdownContent, {
+            /* ignore h1 titles */
+            firsth1: false,
+            /* ensure consistency with title */
+            slugify: slugify,
+        }).content;
     }
 }
 

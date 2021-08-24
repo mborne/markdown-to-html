@@ -12,8 +12,6 @@ const Layout = require('./Layout');
 const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
-const toc = require('markdown-toc');
-const slugify = require('./helpers/slugify');
 const MarkdownRenderer = require('./marked/MarkdownRenderer');
 
 /**
@@ -78,10 +76,6 @@ class Renderer {
         debug(`renderMarkdownContent('${absolutePath}')...`);
         /* read markdown source and render table of content */
         let markdownContent = fs.readFileSync(absolutePath, 'utf8');
-        markdownContent = markdownContent.replace(
-            '[[toc]]',
-            this.renderToc(markdownContent)
-        );
 
         /* Create marked renderer */
         var markdownRenderer = new MarkdownRenderer({
@@ -101,22 +95,6 @@ class Renderer {
     renderHtmlViewContent(absolutePath) {
         debug(`renderMarkdownContent('${absolutePath}')...`);
         return fs.readFileSync(absolutePath, 'utf-8');
-    }
-
-    /**
-     * Render TOC according to markdown
-     *
-     * @private
-     *
-     * @param {string} markdownContent markdown source
-     */
-    renderToc(markdownContent) {
-        return toc(markdownContent, {
-            /* ignore h1 titles */
-            firsth1: false,
-            /* ensure consistency with title */
-            slugify: slugify,
-        }).content;
     }
 }
 

@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const slugify = require('../../src/helpers/slugify');
+const slugify = require('../../src/marked/slugify');
 
 describe('test slugify', function () {
     it('should convert spaces to dash', function () {
