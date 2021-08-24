@@ -5,6 +5,7 @@ const SourceDir = require('./SourceDir');
 const fs = require('fs');
 const path = require('path');
 
+const RendererMode = require('./RendererMode');
 const SourceFile = require('./SourceFile');
 const FileType = require('./FileType');
 const Layout = require('./Layout');
@@ -23,12 +24,15 @@ class Renderer {
      * @param {Layout} layout
      *
      * @param {Object} options
-     * @param {string} options.mode convert or serve
+     * @param {RendererMode} options.mode convert or serve
      */
     constructor(sourceDir, layout, options) {
-        this.mode = options.mode;
         this.sourceDir = sourceDir;
         this.layout = layout;
+
+        this.markdownRenderer = new MarkdownRenderer({
+            renameMarkdownLinksToHtml: options.mode == RendererMode.CONVERT,
+        });
     }
 
     /**
@@ -76,12 +80,7 @@ class Renderer {
         debug(`renderMarkdownContent('${absolutePath}')...`);
         /* read markdown source and render table of content */
         let markdownContent = fs.readFileSync(absolutePath, 'utf8');
-
-        /* Create marked renderer */
-        var markdownRenderer = new MarkdownRenderer({
-            renameMarkdownLinksToHtml: this.mode != 'serve',
-        });
-        return markdownRenderer.render(markdownContent);
+        return this.markdownRenderer.render(markdownContent);
     }
 
     /**

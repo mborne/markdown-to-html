@@ -4,6 +4,7 @@ const packageMetadata = require('../package.json');
 
 const program = require('commander');
 const path = require('path');
+const RendererMode = require('../src/RendererMode');
 
 const modes = {
     convert: require('../src/command/convert'),
@@ -17,7 +18,7 @@ program
         '-m, --mode <mode>',
         'Program mode',
         /^(convert|serve)$/i,
-        'convert'
+        RendererMode.CONVERT
     )
     .option(
         '-l, --layout <layout>',
