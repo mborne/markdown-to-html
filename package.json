@@ -26,6 +26,7 @@
     "handlebars": "^4.7.7",
     "markdown-toc": "^1.2.0",
     "marked": "^3.0.0",
+    "morgan": "^1.10.0",
     "shelljs": "^0.8.4"
   },
   "devDependencies": {

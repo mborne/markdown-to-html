@@ -1,5 +1,7 @@
 const express = require('express');
 
+const morgan = require('morgan');
+
 const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
 const Layout = require('../Layout');
@@ -19,6 +21,12 @@ function serve(options) {
     });
 
     const app = express();
+
+    /*
+     * access logs using apache format
+     * @see https://github.com/expressjs/morgan#predefined-formats
+     */
+    app.use(morgan('combined'));
 
     if (layout.hasAssets()) {
         app.use('/assets', express.static(layout.path + '/assets'));
