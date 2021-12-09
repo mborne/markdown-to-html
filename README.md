@@ -13,10 +13,10 @@ Experimental markdown renderer aiming at providing :
 
 ## Samples
 
-* [01-default-layout](https://mborne.github.io/markdown-to-html/demo/01-default-layout) : [layout/default/page.html](layout/default/page.html) + [samples/01-default-layout/index.md](samples/01-default-layout/index.md)
-
-
-* [02-remarkjs](https://mborne.github.io/markdown-to-html/demo/02-remarkjs) :  : [layout/remarkjs/page.html](layout/default/page.html) + [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)
+| Source                                                                   | Layout                                                | Result                                                                                     |
+|--------------------------------------------------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| [samples/01-default-layout/index.md](samples/01-default-layout/index.md) | [layout/default/page.html](layout/default/page.html)  | [demo/01-default-layout](https://mborne.github.io/markdown-to-html/demo/01-default-layout) |
+| [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)       | [layout/remarkjs/page.html](layout/default/page.html) | [demo/02-remarkjs](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)             |
 
 ## Setup
 
@@ -62,3 +62,9 @@ It is inspired from :
 * [mixu/markdown-styles](https://github.com/mixu/markdown-styles)
 * [hads](https://github.com/sinedied/hads)
 
+## See also
+
+* [dosify](https://docsify.js.org/#/)
+* [MkDocs](https://www.mkdocs.org/)
+* [HADS - Hey it's Another Documentation Server!](https://github.com/sinedied/hads)
+* ...
