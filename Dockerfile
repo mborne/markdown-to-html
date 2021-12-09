@@ -1,4 +1,4 @@
-FROM node:13
+FROM node:16
 
 # name or path to the layout
 ENV LAYOUT default

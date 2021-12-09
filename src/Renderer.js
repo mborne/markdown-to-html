@@ -42,11 +42,14 @@ class Renderer {
     render(sourceFile) {
         debug(`render('${JSON.stringify(sourceFile)}')...`);
 
-        /* render source to html */
-        let content =
-            sourceFile.type == FileType.MARKDOWN
-                ? this.renderMarkdownContent(sourceFile.absolutePath)
-                : this.renderHtmlViewContent(sourceFile.absolutePath);
+        let content = null;
+        let markdownContent = null;
+        if (FileType.MARKDOWN == sourceFile.type) {
+            markdownContent = fs.readFileSync(sourceFile.absolutePath, 'utf8');
+            content = this.markdownRenderer.render(markdownContent);
+        } else {
+            content = fs.readFileSync(sourceFile.absolutePath, 'utf-8');
+        }
 
         /* inject html content in a template */
         var templateSource = fs.readFileSync(
@@ -61,39 +64,12 @@ class Renderer {
                 sourceFile.absolutePath
             ),
             content: content,
+            markdownContent: markdownContent,
             rootDir: this.sourceDir.rootDir,
             path: sourceFile.absolutePath,
         };
         /* return full html */
         return template(context);
-    }
-
-    /**
-     * Convert markdown to HTML
-     *
-     * @private
-     *
-     * @param {string} absolutePath
-     * @returns {string}
-     */
-    renderMarkdownContent(absolutePath) {
-        debug(`renderMarkdownContent('${absolutePath}')...`);
-        /* read markdown source and render table of content */
-        let markdownContent = fs.readFileSync(absolutePath, 'utf8');
-        return this.markdownRenderer.render(markdownContent);
-    }
-
-    /**
-     * Load HTML view content
-     *
-     * @private
-     *
-     * @param {string} absolutePath
-     * @returns {string}
-     */
-    renderHtmlViewContent(absolutePath) {
-        debug(`renderMarkdownContent('${absolutePath}')...`);
-        return fs.readFileSync(absolutePath, 'utf-8');
     }
 }
 
