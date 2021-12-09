@@ -6,7 +6,7 @@ var path = require('path');
  * @param {string} context
  * @param {Object} options
  */
-module.exports = function(context, options) {
+module.exports = function (context, options) {
     const relativePath = path.relative(
         path.resolve(options.data.root.path, '..'),
         options.data.root.rootDir + '/assets'

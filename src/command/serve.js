@@ -1,12 +1,10 @@
 const express = require('express');
 
-const MarkdownRenderer = require('../MarkdownRenderer');
-const checkRootDir = require('./checks/checkRootDir');
-const checkLayoutPath = require('./checks/checkLayoutPath');
+const morgan = require('morgan');
 
-const url = require('url');
-const path = require('path');
-const locateFile = require('../helpers/locateFile');
+const Renderer = require('../Renderer');
+const SourceDir = require('../SourceDir');
+const Layout = require('../Layout');
 
 /**
  * Serve MD files from rootDir
@@ -16,38 +14,48 @@ const locateFile = require('../helpers/locateFile');
  * @param {String} options.layoutPath path to layout directory
  */
 function serve(options) {
-    /* root directory */
-    const rootDir = options.rootDir;
-    checkRootDir(rootDir);
-
-    /* template path */
-    const layoutPath = options.layoutPath;
-    checkLayoutPath(layoutPath);
-
-    /* Create renderer */
-    var markdownRenderer = new MarkdownRenderer(options);
+    const sourceDir = new SourceDir(options.rootDir);
+    const layout = new Layout(options.layoutPath);
+    var renderer = new Renderer(sourceDir, layout, {
+        mode: 'serve',
+    });
 
     const app = express();
 
-    app.use('/assets', express.static(layoutPath + '/assets'));
+    /*
+     * access logs using apache format
+     * @see https://github.com/expressjs/morgan#predefined-formats
+     */
+    app.use(morgan('combined'));
 
-    app.get(/^\/(.*)/, function(req, res) {
-        var href = req.params[0];
-        var file = locateFile(rootDir, href);
-        if (file != null) {
-            var parsed = url.parse(file);
-            var ext = path.extname(parsed.pathname || '');
-            if (ext === '.md' || ext === '.html') {
-                res.send(markdownRenderer.renderFile(file));
-            } else {
-                res.sendFile(file);
-            }
-        } else {
+    if (layout.hasAssets()) {
+        app.use('/assets', express.static(layout.path + '/assets'));
+    }
+
+    app.get(/^\/(.*)/, function (req, res) {
+        let relativePath = req.params[0];
+        let sourceFile = sourceDir.locateFile(relativePath);
+        if (sourceFile == null) {
             res.status(404).send('Not found');
+            return;
+        }
+        if (sourceFile.type == 'directory') {
+            let indexFile = sourceDir.locateIndex(sourceFile);
+            if (indexFile == null) {
+                res.status(404).send('Not found');
+                return;
+            }
+            res.send(renderer.render(indexFile));
+            return;
+        }
+        if (['md', 'html'].includes(sourceFile.type)) {
+            res.send(renderer.render(sourceFile));
+        } else {
+            res.sendFile(sourceFile.absolutePath);
         }
     });
 
-    app.listen(3000, function() {
+    app.listen(3000, function () {
         console.log('Application started on http://localhost:3000');
     });
 }

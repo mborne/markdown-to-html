@@ -1,5 +1,5 @@
 module.exports = {
-    MarkdownRenderer: require('./src/MarkdownRenderer'),
+    Renderer: require('./src/Renderer'),
     convert: require('./src/command/convert'),
     serve: require('./src/command/serve')
 };

@@ -1,11 +1,11 @@
+const debug = require('debug')('markdown-to-html');
+
 const shell = require('shelljs');
 const fs = require('fs');
-const MarkdownRenderer = require('../MarkdownRenderer');
-const findFiles = require('../helpers/findFiles');
-
-const checkRootDir = require('./checks/checkRootDir');
-const checkOutputDir = require('./checks/checkOutputDir');
-const checkLayoutPath = require('./checks/checkLayoutPath');
+const Renderer = require('../Renderer');
+const SourceDir = require('../SourceDir');
+const Layout = require('../Layout');
+const renameMdToHtml = require('../helpers/renameMdToHtml');
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -15,63 +15,68 @@ const checkLayoutPath = require('./checks/checkLayoutPath');
  * @param {String} options.layoutPath path to layout directory
  */
 function convert(options) {
-    /* root directory */
-    const rootDir = options.rootDir;
-    checkRootDir(rootDir);
-
     /* output directory */
+    debug("Ensure that outputDir doesn't exists...");
     const outputDir = options.outputDir;
-    checkOutputDir(outputDir);
+    if (fs.existsSync(outputDir)) {
+        throw new Error(outputDir + ' already exists!');
+    }
     shell.mkdir('-p', outputDir);
 
-    /* template path */
-    checkLayoutPath(options.layoutPath);
+    debug(`Create renderer ...`);
+    const sourceDir = new SourceDir(options.rootDir);
+    const layout = new Layout(options.layoutPath);
+    var markdownRenderer = new Renderer(sourceDir, layout, {
+        mode: 'convert',
+    });
 
-    /* Create renderer */
-    var markdownRenderer = new MarkdownRenderer(options);
+    debug(`List files from source directory ...`);
+    var sourceFiles = sourceDir.findFiles();
 
-    /* Computes files to perform (before copying assets) */
-    var files = findFiles(markdownRenderer.rootDir);
-
-    /* Copy assets */
-    if (fs.existsSync(options.layoutPath + '/assets')) {
+    debug(`Copy assets from layout ...`);
+    if (layout.hasAssets()) {
         const assertsDir = outputDir + '/assets';
         shell.cp('-r', options.layoutPath + '/assets', assertsDir);
     }
 
-    /* Create directories */
-    files
-        .filter(function(file) {
+    debug(`Create directories ...`);
+    sourceFiles
+        .filter(function (file) {
             return file.type === 'directory';
         })
-        .forEach(function(file) {
-            const outputPath = outputDir + '/' + file.outputRelativePath;
-            console.log('mkdir ' + outputPath);
+        .forEach(function (file) {
+            const outputPath = outputDir + '/' + file.relativePath;
+            debug(`Create directory ${outputPath} ...`);
             shell.mkdir('-p', outputPath);
         });
 
-    /* Copy static files */
-    files
-        .filter(function(file) {
+    debug(`Copy static files ...`);
+    sourceFiles
+        .filter(function (file) {
             return file.type === 'static';
         })
-        .forEach(function(file) {
-            const outputPath = outputDir + '/' + file.outputRelativePath;
-            console.log('copy ' + file.path + ' to ' + outputPath);
-            shell.cp(file.path, outputPath);
+        .forEach(function (file) {
+            const outputPath = outputDir + '/' + file.relativePath;
+            debug(`Copy ${file.absolutePath} to ${outputPath} ...`);
+            shell.cp(file.absolutePath, outputPath);
         });
 
-    /* Render markdown files and html views */
-    files
-        .filter(function(file) {
+    debug(`Render markdown files and html views ...`);
+    sourceFiles
+        .filter(function (file) {
             return file.type === 'md' || file.type === 'html';
         })
-        .forEach(function(file) {
-            const outputPath = outputDir + '/' + file.outputRelativePath;
-            console.log('render ' + file.path + ' to ' + outputPath);
-            var html = markdownRenderer.renderFile(file.path);
+        .forEach(function (file) {
+            let outputPath = outputDir + '/' + file.relativePath;
+            if (file.type == 'md') {
+                outputPath = renameMdToHtml(outputPath);
+            }
+            debug(`Render ${file.absolutePath} to ${outputPath} ...`);
+            var html = markdownRenderer.render(file);
             fs.writeFileSync(outputPath, html);
         });
+
+    debug(`Render completed`);
 }
 
 module.exports = convert;
