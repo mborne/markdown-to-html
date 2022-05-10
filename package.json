@@ -7,7 +7,7 @@
     "markdown-to-html": "bin/markdown-to-html.js"
   },
   "scripts": {
-    "start": "markdown-to-html -m serve -l default sample",
+    "start": "markdown-to-html -m serve -l default test/data",
     "build-demo": "npm run build-demo-01 && npm run build-demo-02",
     "build-demo-01": "rm -rf demo/01-default-layout && markdown-to-html -m convert -l default -O demo/01-default-layout samples/01-default-layout",
     "build-demo-02": "rm -rf demo/02-remarkjs && markdown-to-html -m convert -l remarkjs -O demo/02-remarkjs samples/02-remarkjs",
@@ -22,20 +22,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "commander": "^8.3.0",
-    "debug": "^4.3.3",
-    "express": "^4.17.1",
+    "commander": "^9.2.0",
+    "debug": "^4.3.4",
+    "express": "^4.18.1",
     "handlebars": "^4.7.7",
     "markdown-toc": "^1.2.0",
-    "marked": "^3.0.0",
+    "marked": "^4.0.15",
     "morgan": "^1.10.0",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
-    "chai": "^4.3.4",
-    "mocha": "^9.1.3",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
     "nyc": "^15.1.0",
-    "prettier": "2.5.1",
+    "prettier": "2.6.2",
     "uuid": "^8.3.2"
   },
   "nyc": {

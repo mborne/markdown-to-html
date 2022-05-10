@@ -6,9 +6,6 @@ This file provides a sample content for the default layout.
 
 [[toc]]
 
-
-## Basic features
-
 ### HTML views
 
 The content of [demo/index.html](demo/index.html) is included in the layout so that it is possible to mix markdown and lightweight HTML/JS samples.
