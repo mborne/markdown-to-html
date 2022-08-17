@@ -1,4 +1,4 @@
-const marked = require('marked');
+const marked = require('marked').marked;
 
 const toc = require('markdown-toc');
 const slugify = require('./slugify');

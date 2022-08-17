@@ -1,16 +1,15 @@
-FROM node:16
+FROM node:16-alpine
 
 # name or path to the layout
 ENV LAYOUT default
 
 COPY --chown=node:node . /opt/markdown-to-html
 WORKDIR /opt/markdown-to-html
-RUN npm install -g
+RUN npm install
 
 VOLUME /data
 
 EXPOSE 3000
 
-USER node
-CMD [ "/bin/bash", "/opt/markdown-to-html/docker/application.sh" ]
+CMD [ "/bin/sh", "/opt/markdown-to-html/docker/application.sh" ]
 

@@ -57,7 +57,7 @@ program
 
 if (process.argv.length <= 2) {
     program.outputHelp();
-    return;
+    process.exit(1);
 }
 
 program.parse(process.argv);

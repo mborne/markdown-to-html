@@ -8,13 +8,13 @@ describe('test SourceDir', function () {
         it('should find files in sample directory', function () {
             let sourceFiles = sampleSourceDir.findFiles();
             expect(sourceFiles).to.be.an('array');
-            expect(sourceFiles.length).to.equal(9);
+            expect(sourceFiles.length).to.equal(14);
 
             let directories = sourceFiles.filter(function (sourceFile) {
                 return sourceFile.type == 'directory';
             });
             // note that rootDir is included
-            expect(directories.length).to.equal(4);
+            expect(directories.length).to.equal(5);
         });
     });
 

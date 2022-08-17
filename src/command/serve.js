@@ -26,7 +26,7 @@ function serve(options) {
      * access logs using apache format
      * @see https://github.com/expressjs/morgan#predefined-formats
      */
-    app.use(morgan('combined'));
+    app.use(morgan('tiny'));
 
     if (layout.hasAssets()) {
         app.use('/assets', express.static(layout.path + '/assets'));
