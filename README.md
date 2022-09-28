@@ -1,5 +1,7 @@
 # markdown-to-html
 
+[![Node.js CI](https://github.com/mborne/markdown-to-html/actions/workflows/nodejs.yml/badge.svg)](https://github.com/mborne/markdown-to-html/actions/workflows/nodejs.yml) [![Coverage Status](https://coveralls.io/repos/github/mborne/markdown-to-html/badge.svg?branch=master)](https://coveralls.io/github/mborne/markdown-to-html?branch=master)
+
 Experimental markdown renderer aiming at providing :
 
 * a static side generator (converting .md to .html)
