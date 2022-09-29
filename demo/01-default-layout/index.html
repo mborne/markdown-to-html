@@ -17,6 +17,9 @@
       margin: auto;
       padding-bottom: 50px;
     }
+    @media print {
+      .pagebreak { page-break-before: always; }
+    }
   </style>
 </head>
 
@@ -24,8 +27,7 @@
   <article class="markdown-body">
     <h1 id="sample-markdown-file"><a href="#sample-markdown-file" class="anchor"></a>Sample markdown file</h1><p>This file provides a sample content for the default layout.</p>
 <h2 id="table-of-content"><a href="#table-of-content" class="anchor"></a>Table of content</h2><ul>
-<li><a href="#table-of-content">Table of content</a></li>
-<li><a href="#basic-features">Basic features</a><ul>
+<li><a href="#table-of-content">Table of content</a><ul>
 <li><a href="#html-views">HTML views</a></li>
 <li><a href="#links">Links</a></li>
 </ul>
@@ -37,7 +39,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="basic-features"><a href="#basic-features" class="anchor"></a>Basic features</h2><h3 id="html-views"><a href="#html-views" class="anchor"></a>HTML views</h3><p>The content of <a href="demo/index.html">demo/index.html</a> is included in the layout so that it is possible to mix markdown and lightweight HTML/JS samples.</p>
+<h3 id="html-views"><a href="#html-views" class="anchor"></a>HTML views</h3><p>The content of <a href="demo/index.html">demo/index.html</a> is included in the layout so that it is possible to mix markdown and lightweight HTML/JS samples.</p>
 <h3 id="links"><a href="#links" class="anchor"></a>Links</h3><ul>
 <li><p>Internal markdown links with relative path</p>
 <ul>

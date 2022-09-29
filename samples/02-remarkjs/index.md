@@ -11,7 +11,9 @@ This is the first slide
 
 # Slide 2
 
-This is the second slide
+This is the second slide.
+
+Details in [another](another.md) slideshow.
 
 ---
 

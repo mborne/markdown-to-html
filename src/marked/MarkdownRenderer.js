@@ -12,15 +12,12 @@ const heading = require('./heading');
 class MarkdownRenderer {
     /**
      * @param {object} options
-     * @param {boolean} options.renameMarkdownLinksToHtml allows to rename .md to .html for static rendering
      */
     constructor(options) {
         options = options || {};
-        this.renameMarkdownLinksToHtml =
-            options.renameMarkdownLinksToHtml || false;
 
         this.markedRenderer = new marked.Renderer();
-        this.markedRenderer.link = link(this.renameMarkdownLinksToHtml);
+        this.markedRenderer.link = link();
         this.markedRenderer.heading = heading;
     }
 

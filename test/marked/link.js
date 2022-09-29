@@ -9,6 +9,17 @@ describe('test link', function () {
         expect(result).to.equals(expected);
     });
 
+    it('should add _blank target for absolute', function () {
+        const result = link(false)(
+            'https://example.com',
+            null,
+            'Something text'
+        );
+        const expected =
+            '<a href="https://example.com" target="_blank">Something text</a>';
+        expect(result).to.equals(expected);
+    });
+
     it('should works for basic case with title', function () {
         const result = link(false)(
             'something.html',
@@ -20,25 +31,14 @@ describe('test link', function () {
         expect(result).to.equals(expected);
     });
 
-    it('should rename .md links to .html for relative path', function () {
+    it('should no more rename .md links to .html for relative path', function () {
         const result = link(true)(
             'something.md',
             'Something title',
             'Something text'
         );
         const expected =
-            '<a href="something.html" title="Something title">Something text</a>';
-        expect(result).to.equals(expected);
-    });
-
-    it('should rename .md links to .html for relative path keeping fragments', function () {
-        const result = link(true)(
-            'something.md#something-else',
-            null,
-            'Something text'
-        );
-        const expected =
-            '<a href="something.html#something-else">Something text</a>';
+            '<a href="something.md" title="Something title">Something text</a>';
         expect(result).to.equals(expected);
     });
 

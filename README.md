@@ -30,13 +30,13 @@ sudo npm install -g
 
 ## Usage
 
-### Generate static website (`--mode=convert`)
+### Generate static website
 
 ```bash
 markdown-to-html -O output sample
 ```
 
-### Serve markdown file (`--mode=serve`)
+### Serve markdown file
 
 ```bash
 markdown-serve --mode serve sample
