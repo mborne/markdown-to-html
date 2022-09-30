@@ -4,8 +4,8 @@
 
 Markdown renderer aiming at providing :
 
-* a static side generator (converting .md to .html)
-* a live server (serving rendered .md files)
+* A static side generator (converting .md to .html)
+* A live server (serving rendered .md files)
 
 ## Features
 
@@ -67,7 +67,10 @@ It is inspired from :
 
 ## Alternatives
 
+See [jamstack.org - Site Generators](https://jamstack.org/generators/) :
+
 * [Docsify](https://docsify.js.org/#/)
 * [MkDocs](https://www.mkdocs.org/)
+* [Docusaurus](https://docusaurus.io/)
 * [HADS - Hey it's Another Documentation Server!](https://github.com/sinedied/hads)
 * ...
