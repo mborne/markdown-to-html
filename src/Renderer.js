@@ -14,6 +14,7 @@ const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
 const MarkdownRenderer = require('./marked/MarkdownRenderer');
+const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
 
 /**
  * Helper class to render markdown files in a directory
@@ -29,10 +30,9 @@ class Renderer {
     constructor(sourceDir, layout, options) {
         this.sourceDir = sourceDir;
         this.layout = layout;
+        this.renameMarkdownLinksToHtml = options.mode == RendererMode.CONVERT;
 
-        this.markdownRenderer = new MarkdownRenderer({
-            renameMarkdownLinksToHtml: options.mode == RendererMode.CONVERT,
-        });
+        this.markdownRenderer = new MarkdownRenderer();
     }
 
     /**
@@ -46,6 +46,10 @@ class Renderer {
         let markdownContent = null;
         if (FileType.MARKDOWN == sourceFile.type) {
             markdownContent = fs.readFileSync(sourceFile.absolutePath, 'utf8');
+            // replace .md links by .html links
+            if (this.renameMarkdownLinksToHtml) {
+                markdownContent = rewriteLinksToHtml(markdownContent);
+            }
             content = this.markdownRenderer.render(markdownContent);
         } else {
             content = fs.readFileSync(sourceFile.absolutePath, 'utf-8');
