@@ -15,11 +15,11 @@ Markdown renderer aiming at providing :
 
 ## Samples
 
-| Example                                                                                  | Source                                                                              | Layout                                                                                 |
-| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [Classic example](https://mborne.github.io/markdown-to-html/demo/01-default-layout)      | [samples/01-default-layout/index.md](samples/01-default-layout/index.md)            | [layout/default/page.html](layout/default/page.html)                                   |
-| [RemarkJS slideshow](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)         | [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)                  | [layout/remarkjs/page.html](layout/default/page.html)                                  |
-| [GitHub pages generated mixed both](https://mborne.github.io/cours-patron-conception/#1) | [mborne/cours-patron-conception](https://github.com/mborne/cours-patron-conception) | see [build.js](https://github.com/mborne/cours-patron-conception/blob/master/build.js) |
+| Example                                                                                   | Source                                                                              | Layout                                                                                 |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Classic example](https://mborne.github.io/markdown-to-html/demo/01-default-layout)       | [samples/01-default-layout/index.md](samples/01-default-layout/index.md)            | [layout/default/page.html](layout/default/page.html)                                   |
+| [RemarkJS slideshow](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)          | [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)                  | [layout/remarkjs/page.html](layout/default/page.html)                                  |
+| [GitHub pages generated mixing both](https://mborne.github.io/cours-patron-conception/#1) | [mborne/cours-patron-conception](https://github.com/mborne/cours-patron-conception) | see [build.js](https://github.com/mborne/cours-patron-conception/blob/master/build.js) |
 
 ## Setup
 
