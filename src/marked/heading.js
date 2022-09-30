@@ -3,6 +3,9 @@
  *
  * @param {string} text
  * @param {string} level
+ * @param {string} raw
+ * @param {any} slugger
+ *
  * @returns {string}
  */
 function heading(text, level, raw, slugger) {

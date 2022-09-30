@@ -53,13 +53,12 @@ See `bin/markdown-to-html.js --help` to configure :
 
 ## Credits
 
-* [marked](https://www.npmjs.com/package/marked): Markdown parser
-* [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) : Support for custom links.
-* [handlebars](https://www.npmjs.com/package/handlebars) : template engine
-* [markdown-toc](https://www.npmjs.com/package/markdown-toc) : TOC generator
-* [commander](https://www.npmjs.com/package/commander) : CLI options handling
-* [shelljs](https://www.npmjs.com/package/shelljs) : list files, copy directory, etc.
-* [express](https://www.npmjs.com/package/express) : Server mode
+* [marked](https://www.npmjs.com/package/marked) provides the markdown parser.
+* [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) provided the solution to support custom heading id.
+* [handlebars](https://www.npmjs.com/package/handlebars) provides the template engine.
+* [commander](https://www.npmjs.com/package/commander) allows CLI options handling.
+* [shelljs](https://www.npmjs.com/package/shelljs) allows to list files, copy directory, etc.
+* [express](https://www.npmjs.com/package/express) provides the server mode.
 
 It is inspired from :
 

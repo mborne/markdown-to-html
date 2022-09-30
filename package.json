@@ -27,9 +27,7 @@
     "debug": "^4.3.4",
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
-    "markdown-toc": "^1.2.0",
     "marked": "^4.1.0",
-    "marked-custom-heading-id": "^1.0.2",
     "morgan": "^1.10.0",
     "shelljs": "^0.8.5"
   },
