@@ -1,4 +1,7 @@
 const marked = require('marked').marked;
+const customHeadingId = require('marked-custom-heading-id');
+
+marked.use(customHeadingId());
 
 const toc = require('markdown-toc');
 const slugify = require('./slugify');
