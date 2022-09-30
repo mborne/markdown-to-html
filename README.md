@@ -2,7 +2,7 @@
 
 [![Node.js CI](https://github.com/mborne/markdown-to-html/actions/workflows/nodejs.yml/badge.svg)](https://github.com/mborne/markdown-to-html/actions/workflows/nodejs.yml) [![Coverage Status](https://coveralls.io/repos/github/mborne/markdown-to-html/badge.svg?branch=master)](https://coveralls.io/github/mborne/markdown-to-html?branch=master)
 
-Experimental markdown renderer aiming at providing :
+Markdown renderer aiming at providing :
 
 * a static side generator (converting .md to .html)
 * a live server (serving rendered .md files)
@@ -15,10 +15,11 @@ Experimental markdown renderer aiming at providing :
 
 ## Samples
 
-| Source                                                                   | Layout                                                | Result                                                                                     |
-|--------------------------------------------------------------------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| [samples/01-default-layout/index.md](samples/01-default-layout/index.md) | [layout/default/page.html](layout/default/page.html)  | [demo/01-default-layout](https://mborne.github.io/markdown-to-html/demo/01-default-layout) |
-| [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)       | [layout/remarkjs/page.html](layout/default/page.html) | [demo/02-remarkjs](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)             |
+| Example                                                                                  | Source                                                                              | Layout                                                                                 |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Classic example](https://mborne.github.io/markdown-to-html/demo/01-default-layout)      | [samples/01-default-layout/index.md](samples/01-default-layout/index.md)            | [layout/default/page.html](layout/default/page.html)                                   |
+| [RemarkJS slideshow](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)         | [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)                  | [layout/remarkjs/page.html](layout/default/page.html)                                  |
+| [GitHub pages generated mixed both](https://mborne.github.io/cours-patron-conception/#1) | [mborne/cours-patron-conception](https://github.com/mborne/cours-patron-conception) | see [build.js](https://github.com/mborne/cours-patron-conception/blob/master/build.js) |
 
 ## Setup
 
@@ -64,9 +65,9 @@ It is inspired from :
 * [mixu/markdown-styles](https://github.com/mixu/markdown-styles)
 * [hads](https://github.com/sinedied/hads)
 
-## See also
+## Alternatives
 
-* [dosify](https://docsify.js.org/#/)
+* [Docsify](https://docsify.js.org/#/)
 * [MkDocs](https://www.mkdocs.org/)
 * [HADS - Hey it's Another Documentation Server!](https://github.com/sinedied/hads)
 * ...
