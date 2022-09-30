@@ -1,8 +1,5 @@
 const marked = require('marked').marked;
 
-const customHeadingId = require('marked-custom-heading-id');
-marked.use(customHeadingId());
-
 const slugify = require('./slugify');
 
 const link = require('./link');
