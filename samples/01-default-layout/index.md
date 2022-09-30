@@ -38,7 +38,7 @@ $$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
 $$
 
-### Graphs with mermaid
+### Graphs with mermaid {#mermaid}
 
 ```mermaid
 sequenceDiagram
@@ -51,3 +51,8 @@ sequenceDiagram
     Bob-->Alice: Checking with John...
     Alice->John: Yes... John, how are you?
 ```
+
+## That's all!
+
+This part should now be joinable from TOC...
+

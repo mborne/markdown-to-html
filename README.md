@@ -54,6 +54,7 @@ See `bin/markdown-to-html.js --help` to configure :
 ## Credits
 
 * [marked](https://www.npmjs.com/package/marked): Markdown parser
+* [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) : Support for custom links.
 * [handlebars](https://www.npmjs.com/package/handlebars) : template engine
 * [markdown-toc](https://www.npmjs.com/package/markdown-toc) : TOC generator
 * [commander](https://www.npmjs.com/package/commander) : CLI options handling

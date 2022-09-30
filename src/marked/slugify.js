@@ -1,13 +1,12 @@
-const debug = require('debug')('markdown-to-html');
+const marked = require('marked').marked;
+const slugger = new marked.Slugger();
 
 /**
  * Convert to lower case and replace whitespaces by '-'
  * @param {string} text
  */
 function slugify(text) {
-    var slug = text.toLowerCase().replace(/[^\w]+/g, '-');
-    debug(`slugify('${text}') : ${slug}`);
-    return slug;
+    return slugger.slug(text);
 }
 
 module.exports = slugify;
