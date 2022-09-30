@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "commander": "^9.4.0",
+    "commander": "^9.4.1",
     "debug": "^4.3.4",
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
