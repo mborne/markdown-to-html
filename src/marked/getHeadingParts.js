@@ -1,5 +1,3 @@
-const slugify = require('./slugify');
-
 const headingIdRegex = /(?: +|^)\{#([a-z][\w-]*)\}(?: +|$)/i;
 
 /**
@@ -8,13 +6,14 @@ const headingIdRegex = /(?: +|^)\{#([a-z][\w-]*)\}(?: +|$)/i;
  * Adapted from https://github.com/markedjs/marked-custom-heading-id
  *
  * @param {string} text
+ * @param {any} slugger
  * @return {object}
  */
-function getHeadingParts(text) {
+function getHeadingParts(text, slugger) {
     const hasId = text.match(headingIdRegex);
     if (!hasId) {
         return {
-            id: slugify(text),
+            id: slugger.slug(text),
             title: text,
         };
     }

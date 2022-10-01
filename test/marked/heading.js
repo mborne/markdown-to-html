@@ -16,13 +16,23 @@ describe('test heading', function () {
     it('should respect slugger counter', function () {
         const slugger = new marked.Slugger();
         {
-            const result = heading('a great title', 2, 'a great title', slugger);
+            const result = heading(
+                'a great title',
+                2,
+                'a great title',
+                slugger
+            );
             const expected =
                 '<h2 id="a-great-title"><a href="#a-great-title" class="anchor"></a>a great title</h2>';
             expect(result).to.equals(expected);
         }
         {
-            const result = heading('a great title', 2, 'a great title', slugger);
+            const result = heading(
+                'a great title',
+                2,
+                'a great title',
+                slugger
+            );
             const expected =
                 '<h2 id="a-great-title-1"><a href="#a-great-title-1" class="anchor"></a>a great title</h2>';
             expect(result).to.equals(expected);

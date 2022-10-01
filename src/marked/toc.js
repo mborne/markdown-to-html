@@ -15,9 +15,15 @@ function toc(markdownContent) {
         (token) => token.depth != 1 && token.type == 'heading'
     );
 
+    /*
+     * Note that it is important to create a dedicated instance
+     * as it counts occurrence of each title.
+     */
+    const slugger = new marked.Slugger();
+
     return headingTokens
         .map((token) => {
-            let parts = getHeadingParts(token.text);
+            let parts = getHeadingParts(token.text, slugger);
             let spaces = '';
             if (token.depth > 2) {
                 spaces = Array(2 * (token.depth - 2))
