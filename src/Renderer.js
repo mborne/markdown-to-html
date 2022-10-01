@@ -13,7 +13,7 @@ const Layout = require('./Layout');
 const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
-const MarkdownRenderer = require('./markdown/MarkdownRenderer');
+const markdown = require('./markdown');
 const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
 
 /**
@@ -31,8 +31,6 @@ class Renderer {
         this.sourceDir = sourceDir;
         this.layout = layout;
         this.renameMarkdownLinksToHtml = options.mode == RendererMode.CONVERT;
-
-        this.markdownRenderer = new MarkdownRenderer();
     }
 
     /**
@@ -50,7 +48,7 @@ class Renderer {
             if (this.renameMarkdownLinksToHtml) {
                 markdownContent = rewriteLinksToHtml(markdownContent);
             }
-            content = this.markdownRenderer.render(markdownContent);
+            content = markdown.render(markdownContent);
         } else {
             content = fs.readFileSync(sourceFile.absolutePath, 'utf-8');
         }
