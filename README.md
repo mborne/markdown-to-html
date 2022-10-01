@@ -9,9 +9,15 @@ Markdown renderer aiming at providing :
 
 ## Features
 
-* Custom layout with assets management
-* Table of content using `[[toc]]`
-* HTML/JS views to bypass markdown limitation for some pages
+* Markdown files are rendered using the powerfull **[Marked](https://github.com/markedjs/marked#marked)** library.
+* [Marked](https://github.com/markedjs/marked#marked) is extended with :
+  * **Table of content generation** in markdown files (`[[toc]]` from [pandoc](https://pandoc.org/))
+  * The support of custom heading links (`# This is the title {#custom-id}`)
+  * The hability to rename `.md` to `.html` for relative links for static site generation.
+* A **basic layout system** based on [handlebars](https://www.npmjs.com/package/handlebars) is available with some built-in layouts :
+  * **default** to generate classic pages.
+  * **remarkjs** to generate slideshows.
+* Partial HTML/JS views can be injected in the **layout** to bypass markdown limitation for some pages.
 
 ## Samples
 
