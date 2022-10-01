@@ -13,7 +13,7 @@ const Layout = require('./Layout');
 const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
 
-const MarkdownRenderer = require('./marked/MarkdownRenderer');
+const MarkdownRenderer = require('./markdown/MarkdownRenderer');
 const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
 
 /**

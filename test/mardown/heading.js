@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 const marked = require('marked').marked;
 
-const heading = require('../../src/marked/heading');
+const heading = require('../../src/markdown/heading');
 
 describe('test heading', function () {
     it('should invoke slugger', function () {

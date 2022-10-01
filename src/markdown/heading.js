@@ -3,6 +3,8 @@ const getHeadingParts = require('./getHeadingParts');
 /**
  * marked - custom method to render titles.
  *
+ * @private
+ *
  * @param {string} text
  * @param {string} level
  * @param {string} raw

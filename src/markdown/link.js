@@ -3,6 +3,8 @@ const url = require('url');
 /**
  * marked - custom method to render link with a _blank target for external links.
  *
+ * @private
+ *
  * @returns {function}
  */
 function link(href, title, text) {
