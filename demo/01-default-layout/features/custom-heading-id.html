@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <title>demo/index.html</title>
+  <title>features/custom-heading-id.md</title>
 
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
@@ -25,15 +25,14 @@
 
 <body>
   <article class="markdown-body">
-    <h1>A rich HTML/JS view</h1>
-
-<p>Sometime, markdown is not enougth...</p>
-
-<div id="container">
-
-</div>
-
-<script type="text/javascript" src="demo.js"></script>
+    <h1 id="custom-heading-id"><a href="#custom-heading-id" class="anchor"></a>Custom heading id</h1><ul>
+<li><a href="#first-id">Long title with first id</a></li>
+<li><a href="#syntax-may-differ">Syntax may differ</a></li>
+<li><a href="#lets-go">Let&#39;s go!</a></li>
+</ul>
+<h2 id="first-id"><a href="#first-id" class="anchor"></a>Long title with first id</h2><p><code>#first-id</code> is generated on this title using the following syntax <code>## Long title with first id {#first-id}</code></p>
+<h2 id="syntax-may-differ"><a href="#syntax-may-differ" class="anchor"></a>Syntax may differ</h2><p>Note that some other may support another syntax like <code>## [Long title with first id](#first-id)</code>.</p>
+<h2 id="lets-go"><a href="#lets-go" class="anchor"></a>Let&#39;s go!</h2><p>It&#39;s time to test some special chars...</p>
 
   </article>
 

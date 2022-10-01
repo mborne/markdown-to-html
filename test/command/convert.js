@@ -4,7 +4,7 @@ const convert = require('../../src/command/convert');
 
 const fs = require('fs');
 const path = require('path');
-const rootDir = __dirname + '/../data';
+const rootDir = __dirname + '/../../samples/01-default-layout';
 
 const os = require('os');
 const uuid = require('uuid');

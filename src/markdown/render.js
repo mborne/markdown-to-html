@@ -13,7 +13,6 @@ const toc = require('./toc');
  */
 function render(markdownContent) {
     const markedRenderer = new marked.Renderer();
-    markedRenderer.options.smartypants = true;
     markedRenderer.link = link;
     markedRenderer.heading = heading;
 

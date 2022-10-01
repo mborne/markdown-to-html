@@ -6,14 +6,17 @@
 * [Table alignment](features/table-alignment.md)
 * [Syntax Highlighting](features/syntax-highlighting.md)
 
+## Non standard markdown
+
+* [Custom heading id](features/custom-heading-id.md)
+
 ## Non markdown features
 
-* [HTML view](html-view/index.html)
+* [Table of content](features/toc.md)
 * [Resolve index and README](subdir/)
-
-## Issues
-
-* [Custom links](features/custom-links.md)
+* [HTML view](html-view/index.html)
+* [Code formatting with highlight JS](features/highlightjs.md)
+* [Code formatting with highlight JS](features/mermaid.md)
 
 ## References
 

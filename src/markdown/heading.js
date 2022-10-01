@@ -13,7 +13,7 @@ const getHeadingParts = require('./getHeadingParts');
  * @returns {string}
  */
 function heading(text, level, raw, slugger) {
-    let parts = getHeadingParts(text, slugger);
+    let parts = getHeadingParts(text, raw, slugger);
 
     return (
         '<h' +

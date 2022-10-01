@@ -1,14 +1,14 @@
 const expect = require('chai').expect;
 
 const SourceDir = require('../src/SourceDir');
-const sampleSourceDir = new SourceDir(__dirname + '/data');
+const sampleSourceDir = new SourceDir(__dirname + '/../samples/01-default-layout');
 
-describe('test SourceDir', function () {
+describe('test SourceDir using samples/01-default-layout', function () {
     describe('test findFile', function () {
         it('should find files in sample directory', function () {
             let sourceFiles = sampleSourceDir.findFiles();
             expect(sourceFiles).to.be.an('array');
-            expect(sourceFiles.length).to.equal(14);
+            expect(sourceFiles.length).to.greaterThan(15);
 
             let directories = sourceFiles.filter(function (sourceFile) {
                 return sourceFile.type == 'directory';
@@ -41,7 +41,7 @@ describe('test SourceDir', function () {
             expect(absolutePath.endsWith('subdir')).to.be.true;
         });
 
-        it('should should resolve html-view/data.csv file', function () {
+        it('should should resolve html-view/data.csv as a static file', function () {
             let sourceFile = sampleSourceDir.locateFile('html-view/data.csv');
             expect(sourceFile).to.not.be.null;
             // check type
