@@ -1,11 +1,15 @@
 # Custom links
 
-## A very long title with first id {#first-id}
+[[toc]]
 
-Some tools doesn't parse `{#first-id}` in heading.
+## Long title with first id {#first-id}
 
-## [Another long title with second id](#second-id)
+`#first-id` is generated on this title using [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) and the following syntax `## Long title with first id {#first-id}`
 
-Some tools doesn't use `#second-id` as an h2 id.
+## Syntax may differ
 
+Note that some other may support another syntax like `## [Long title with first id](#first-id)`.
 
+## Let's go!
+
+It's time to test some special chars...

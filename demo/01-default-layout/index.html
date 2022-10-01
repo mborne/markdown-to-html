@@ -35,9 +35,10 @@
 <li><a href="#features-for-the-default-template">Features for the default template</a><ul>
 <li><a href="#code-formatting-with-highlight-js">Code formatting with highlight JS</a></li>
 <li><a href="#math-formula-with-mathjax">Math formula with mathjax</a></li>
-<li><a href="#graphs-with-mermaid">Graphs with mermaid</a></li>
+<li><a href="#mermaid">Graphs with mermaid</a></li>
 </ul>
 </li>
+<li><a href="#thats-all">That’s all!</a></li>
 </ul>
 <h3 id="html-views"><a href="#html-views" class="anchor"></a>HTML views</h3><p>The content of <a href="demo/index.html">demo/index.html</a> is included in the layout so that it is possible to mix markdown and lightweight HTML/JS samples.</p>
 <h3 id="links"><a href="#links" class="anchor"></a>Links</h3><ul>
@@ -60,7 +61,7 @@
 <h3 id="math-formula-with-mathjax"><a href="#math-formula-with-mathjax" class="anchor"></a>Math formula with mathjax</h3><p>$$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
 $$</p>
-<h3 id="graphs-with-mermaid"><a href="#graphs-with-mermaid" class="anchor"></a>Graphs with mermaid</h3><pre><code class="language-mermaid">sequenceDiagram
+<h3 id="mermaid"><a href="#mermaid" class="anchor"></a>Graphs with mermaid</h3><pre><code class="language-mermaid">sequenceDiagram
     Alice -&gt;&gt; Bob: Hello Bob, how are you?
     Bob--&gt;&gt;John: How about you John?
     Bob--x Alice: I am good thanks!
@@ -70,6 +71,17 @@ $$</p>
     Bob--&gt;Alice: Checking with John...
     Alice-&gt;John: Yes... John, how are you?
 </code></pre>
+<h2 id="thats-all"><a href="#thats-all" class="anchor"></a>That’s all!</h2><p>This part is joinable from “Table of content” as <code>smartypants</code> is defined to <code>true</code>. Otherwize <code># Let&#39;s rock!</code> is turned into the following token :</p>
+<pre><code class="language-json">{
+  type: &#39;heading&#39;,
+  raw: &quot;# Let&#39;s rock!&quot;,
+  depth: 1,
+  text: &quot;Let&amp;#39;s rock!&quot;
+}
+</code></pre>
+<blockquote>
+<p>Debug : See <a href="https://github.com/mborne/marked/commit/ad2cb211431824e882b9ca9fa0e3700ba9854148" target="_blank">reproduction in forked test/unit/Lexer-spec.js</a>. It might be usefull to forward <code>token.type</code> at this line <a href="https://github.com/markedjs/marked/blob/v4.1.1/src/Lexer.js#L473" target="_blank">Lexer.js#L473</a> to force the use of <code>smartypants</code> for <code>headings</code>? I’ll probably open an issue.</p>
+</blockquote>
 
   </article>
 

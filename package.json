@@ -11,7 +11,8 @@
     "build-demo": "npm run build-demo-01 && npm run build-demo-02",
     "build-demo-01": "rm -rf demo/01-default-layout && node bin/markdown-to-html.js -m convert -l default -O demo/01-default-layout samples/01-default-layout",
     "build-demo-02": "rm -rf demo/02-remarkjs && node bin/markdown-to-html.js -m convert -l remarkjs -O demo/02-remarkjs samples/02-remarkjs",
-    "test": "npm run check-style && nyc --reporter=html --reporter=text --reporter=cobertura mocha",
+    "test": "npm run check-style && npm run unit-test",
+    "unit-test": "nyc --reporter=html --reporter=text --reporter=cobertura mocha",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\"",
     "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\""
@@ -23,11 +24,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "commander": "^9.4.0",
+    "commander": "^9.4.1",
     "debug": "^4.3.4",
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
-    "markdown-toc": "^1.2.0",
     "marked": "^4.1.0",
     "morgan": "^1.10.0",
     "shelljs": "^0.8.5"

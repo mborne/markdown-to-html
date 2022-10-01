@@ -1,23 +1,29 @@
-const slugify = require('./slugify');
+const getHeadingParts = require('./getHeadingParts');
 
 /**
  * marked - custom method to render titles.
  *
+ * @private
+ *
  * @param {string} text
  * @param {string} level
+ * @param {string} raw
+ * @param {any} slugger
+ *
  * @returns {string}
  */
-function heading(text, level) {
-    var slug = slugify(text);
+function heading(text, level, raw, slugger) {
+    let parts = getHeadingParts(text, slugger);
+
     return (
         '<h' +
         level +
         ' id="' +
-        slug +
+        parts.id +
         '"><a href="#' +
-        slug +
+        parts.id +
         '" class="anchor"></a>' +
-        text +
+        parts.title +
         '</h' +
         level +
         '>'
