@@ -1,7 +1,7 @@
 const url = require('url');
 
 /**
- * marked - create custom method to render links with optional renaming from .md to .html.
+ * marked - custom method to render link with a _blank target for external links.
  *
  * @returns {function}
  */

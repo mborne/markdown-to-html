@@ -1,37 +1,17 @@
 const marked = require('marked').marked;
 
-const slugify = require('./slugify');
-
 const link = require('./link');
 const heading = require('./heading');
 
-// To be removed if token.id can't be forwarded to heading function...
-const walkTokens = (token) => {
-    const headingIdRegex = /(?: +|^)\{#([a-z][\w-]*)\}(?: +|$)/i;
-    if (token.type == 'heading') {
-        const hasId = token.text.match(headingIdRegex);
-        if (!hasId) {
-            token.id = slugify(token.text);
-        } else {
-            token.id = hasId[1];
-            token.text = token.text.replace(headingIdRegex, '');
-        }
-    }
-};
-
-marked.use({ walkTokens });
+const getHeadingParts = require('./getHeadingParts');
 
 /**
  * marked - customize marking rendering.
  */
 class MarkdownRenderer {
-    /**
-     * @param {object} options
-     */
-    constructor(options) {
-        options = options || {};
-
+    constructor() {
         this.markedRenderer = new marked.Renderer();
+        this.markedRenderer.options.smartypants = true;
         this.markedRenderer.link = link;
         this.markedRenderer.heading = heading;
     }
@@ -65,17 +45,17 @@ class MarkdownRenderer {
         let headingTokens = tokens.filter(
             (token) => token.depth != 1 && token.type == 'heading'
         );
-        headingTokens.map(walkTokens);
 
         return headingTokens
             .map((token) => {
+                let parts = getHeadingParts(token.text);
                 let spaces = '';
                 if (token.depth > 2) {
                     spaces = Array(2 * (token.depth - 2))
                         .fill('  ')
                         .join('');
                 }
-                return `${spaces}* [${token.text}](#${token.id})`;
+                return `${spaces}* [${parts.title}](#${parts.id})`;
             })
             .join('\n');
     }
