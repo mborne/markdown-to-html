@@ -2,9 +2,7 @@
 
 ## Markdown syntax
 
-* [Basic table](features/table-basic.md)
-* [Table alignment](features/table-alignment.md)
-* [Syntax Highlighting](features/syntax-highlighting.md)
+* [Tables](features/tables.md)
 
 ## Non standard markdown
 
@@ -16,7 +14,8 @@
 * [Resolve index and README](subdir/)
 * [HTML view](html-view/index.html)
 * [Code formatting with highlight JS](features/highlightjs.md)
-* [Code formatting with highlight JS](features/mermaid.md)
+* [Graphs with mermaid](features/mermaid.md)
+* [Math formula with mathjax](features/mathjax.md)
 
 ## References
 

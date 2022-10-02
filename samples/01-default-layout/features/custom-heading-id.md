@@ -13,3 +13,5 @@ Note that some other may support another syntax like `## [Long title with first 
 ## Let's go!
 
 It's time to test some special chars...
+
+[Back to home...](../index.md)
