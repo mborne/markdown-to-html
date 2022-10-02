@@ -4,7 +4,7 @@ const convert = require('../../src/command/convert');
 
 const fs = require('fs');
 const path = require('path');
-const rootDir = __dirname + '/../data';
+const rootDir = __dirname + '/../../samples/01-default-layout';
 
 const os = require('os');
 const uuid = require('uuid');
@@ -24,12 +24,12 @@ describe('test command/convert', function () {
         const expectedFiles = [
             `${outputDir}/no-index`,
             `${outputDir}/no-index/no-index.html`,
-            `${outputDir}/README.html`,
+            `${outputDir}/index.html`,
             `${outputDir}/html-view`,
             `${outputDir}/html-view/index.html`,
             `${outputDir}/html-view/data.csv`,
-            `${outputDir}/subdir`,
-            `${outputDir}/subdir/index.html`,
+            `${outputDir}/subdir-index`,
+            `${outputDir}/subdir-index/index.html`,
         ];
         for (const expectedFile of expectedFiles) {
             expect(

@@ -22,11 +22,13 @@ function toc(markdownContent) {
     const slugger = new marked.Slugger();
 
     return headingTokens
-        .map((token) => {
-            let parts = getHeadingParts(token.text, slugger);
+        .map((headingToken) => {
+            // text token for the content
+            let token = headingToken.tokens[0];
+            let parts = getHeadingParts(token.text, token.raw, slugger);
             let spaces = '';
-            if (token.depth > 2) {
-                spaces = Array(2 * (token.depth - 2))
+            if (headingToken.depth > 2) {
+                spaces = Array(2 * (headingToken.depth - 2))
                     .fill('  ')
                     .join('');
             }
