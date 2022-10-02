@@ -51,7 +51,7 @@ class SourceDir {
     locateFile(relativePath) {
         var absolutePath = path.resolve(this.rootDir, relativePath);
 
-        /* file must be in rootDir */
+        /* file must be in rootDir (path traversal) */
         if (!absolutePath.startsWith(this.rootDir)) {
             return null;
         }
