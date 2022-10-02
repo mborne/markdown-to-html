@@ -80,3 +80,7 @@ See [jamstack.org - Site Generators](https://jamstack.org/generators/) :
 * [Docusaurus](https://docusaurus.io/)
 * [HADS - Hey it's Another Documentation Server!](https://github.com/sinedied/hads)
 * ...
+
+## Docs
+
+* [DEV - Debug with Visual Studio Code](docs/vscode.md)
