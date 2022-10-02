@@ -11,8 +11,10 @@
 ## Non markdown features
 
 * [Table of content](features/toc.md)
-* [Resolve index and README](subdir/)
 * [HTML view](html-view/index.html)
+
+## Features from default layout
+
 * [Code formatting with highlight JS](features/highlightjs.md)
 * [Graphs with mermaid](features/mermaid.md)
 * [Math formula with mathjax](features/mathjax.md)
