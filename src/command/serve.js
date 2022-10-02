@@ -4,7 +4,6 @@ const expressApp = require('../server/expressApp');
  * Serve MD files from rootDir
  * @param {Object} options
  * @param {String} options.rootDir path to source directory
- * @param {String} options.outputDir path to output directory
  * @param {String} options.layoutPath path to layout directory
  */
 function serve(options) {

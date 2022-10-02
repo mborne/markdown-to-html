@@ -11,7 +11,6 @@ const Layout = require('../Layout');
  *
  * @param {Object} options
  * @param {String} options.rootDir path to source directory
- * @param {String} options.outputDir path to output directory
  * @param {String} options.layoutPath path to layout directory
  */
 function expressApp(options) {
