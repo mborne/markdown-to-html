@@ -47,5 +47,4 @@ describe('Testing expressApp with samples/01-default-layout', function () {
             expect(response.text).to.contains('Not found');
         });
     });
-
 });
