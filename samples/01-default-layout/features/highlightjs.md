@@ -29,4 +29,4 @@ int main(int argc, char* argv[]){
 }
 ```
 
-[Back to home...](../index.md)
+[Back to home...](../)

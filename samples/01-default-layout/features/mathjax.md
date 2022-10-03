@@ -4,4 +4,4 @@ $$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
 $$
 
-[Back to home...](../index.md)
+[Back to home...](../)

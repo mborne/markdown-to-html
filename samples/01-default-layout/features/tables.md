@@ -16,4 +16,4 @@ Note that you can generate markdown tables with [www.tablesgenerator.com](https:
 | Header    |    Title    | Here's this |
 | Paragraph |    Text     |    And more |
 
-[Back to home...](../index.md)
+[Back to home...](../)
