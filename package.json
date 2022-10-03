@@ -1,11 +1,18 @@
 {
   "name": "@mborne/markdown-to-html",
-  "version": "0.7.1-pre",
+  "version": "0.8.0-pre",
   "description": "Experiment static site renderer/server supporting markdown and HTML/JS views",
   "main": "index.js",
   "bin": {
     "markdown-to-html": "bin/markdown-to-html.js"
   },
+  "keywords": [
+    "markdown",
+    "marked",
+    "site-generator",
+    "express",
+    "server"
+  ],
   "scripts": {
     "start": "markdown-to-html -m serve -l default test/data",
     "build-demo": "npm run build-demo-01 && npm run build-demo-02",
