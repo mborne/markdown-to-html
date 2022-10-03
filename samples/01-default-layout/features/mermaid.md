@@ -38,4 +38,4 @@ sequenceDiagram
 
 See [mermaid documentation](https://mermaid-js.github.io/mermaid/#/).
 
-[Back to home...](../index.md)
+[Back to home...](../)
