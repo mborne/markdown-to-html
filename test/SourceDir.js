@@ -117,7 +117,6 @@ describe('test SourceDir using samples/01-default-layout', function () {
             expect(sourceFile.absolutePath.endsWith('subdir-index/README.md'));
         });
 
-
         it('should find html-view/index.phtml in html-view', function () {
             let dirFile = sampleSourceDir.locateFile('html-view');
             expect(dirFile).to.be.not.null;
@@ -141,7 +140,6 @@ describe('test SourceDir using samples/01-default-layout', function () {
             expect(sourceFile.absolutePath).to.be.not.null;
             expect(sourceFile.absolutePath.endsWith('html-page/index.html'));
         });
-
 
         it('should return null for no-index', function () {
             let dirFile = sampleSourceDir.locateFile('no-index');

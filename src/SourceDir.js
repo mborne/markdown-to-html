@@ -75,7 +75,7 @@ class SourceDir {
             'index.phtml',
             'index.html',
             'README.md',
-            'readme.md'
+            'readme.md',
         ];
 
         for (let candidate of candidates) {

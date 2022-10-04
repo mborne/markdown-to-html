@@ -66,13 +66,15 @@ function convert(options) {
     debug(`Render markdown files and html views ...`);
     sourceFiles
         .filter(function (file) {
-            return file.type === FileType.MARKDOWN || file.type === FileType.PHTML;
+            return (
+                file.type === FileType.MARKDOWN || file.type === FileType.PHTML
+            );
         })
         .forEach(function (file) {
             let outputPath = outputDir + '/' + file.relativePath;
             if (file.type == FileType.MARKDOWN) {
                 outputPath = renameMdToHtml(outputPath);
-            }else if ( file.type == FileType.PHTML ){
+            } else if (file.type == FileType.PHTML) {
                 outputPath = renameViewToHtml(outputPath);
             }
             debug(`Render ${file.absolutePath} to ${outputPath} ...`);

@@ -89,7 +89,6 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-
     describe('Testing HTML page', async function () {
         describe('GET /01-default-layout/html-page/', async function () {
             it("return a 200 response with 'This is an HTML view' in content", async function () {
