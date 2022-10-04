@@ -28,6 +28,8 @@ describe('test command/convert', function () {
             `${outputDir}/html-view`,
             `${outputDir}/html-view/index.html`,
             `${outputDir}/html-view/data.csv`,
+            `${outputDir}/html-page`,
+            `${outputDir}/html-page/index.html`,
             `${outputDir}/subdir-index`,
             `${outputDir}/subdir-index/index.html`,
         ];

@@ -24,8 +24,8 @@ class SourceFile {
             this.type = FileType.DIRECTORY;
         } else if (this.absolutePath.match(/\.md$/)) {
             this.type = FileType.MARKDOWN;
-        } else if (this.absolutePath.match(/\.html$/)) {
-            this.type = FileType.HTML;
+        } else if (this.absolutePath.match(/\.phtml$/)) {
+            this.type = FileType.PHTML;
         }
 
         this.relativePath = path.relative(

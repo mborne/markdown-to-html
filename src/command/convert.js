@@ -6,6 +6,8 @@ const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
 const Layout = require('../Layout');
 const renameMdToHtml = require('../helpers/renameMdToHtml');
+const renameViewToHtml = require('../helpers/renameViewToHtml');
+const FileType = require('../FileType');
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -42,7 +44,7 @@ function convert(options) {
     debug(`Create directories ...`);
     sourceFiles
         .filter(function (file) {
-            return file.type === 'directory';
+            return file.type === FileType.DIRECTORY;
         })
         .forEach(function (file) {
             const outputPath = outputDir + '/' + file.relativePath;
@@ -53,7 +55,7 @@ function convert(options) {
     debug(`Copy static files ...`);
     sourceFiles
         .filter(function (file) {
-            return file.type === 'static';
+            return file.type === FileType.STATIC;
         })
         .forEach(function (file) {
             const outputPath = outputDir + '/' + file.relativePath;
@@ -64,12 +66,16 @@ function convert(options) {
     debug(`Render markdown files and html views ...`);
     sourceFiles
         .filter(function (file) {
-            return file.type === 'md' || file.type === 'html';
+            return (
+                file.type === FileType.MARKDOWN || file.type === FileType.PHTML
+            );
         })
         .forEach(function (file) {
             let outputPath = outputDir + '/' + file.relativePath;
-            if (file.type == 'md') {
+            if (file.type == FileType.MARKDOWN) {
                 outputPath = renameMdToHtml(outputPath);
+            } else if (file.type == FileType.PHTML) {
+                outputPath = renameViewToHtml(outputPath);
             }
             debug(`Render ${file.absolutePath} to ${outputPath} ...`);
             var html = markdownRenderer.render(file);

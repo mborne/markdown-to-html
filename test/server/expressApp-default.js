@@ -60,9 +60,19 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
     });
 
     describe('Testing HTML view', async function () {
+        describe('GET /01-default-layout/html-view/', async function () {
+            it("return a 200 response with 'This is an HTML view' in content", async function () {
+                const response = await request.get('/html-view/');
+
+                expect(response.status).to.eql(200);
+                expect(response.text).to.include('This is an HTML view');
+            });
+        });
+
         describe('GET /01-default-layout/html-view/index.html', async function () {
             it("return a 200 response with 'This is an HTML view' in content", async function () {
-                const response = await request.get('/html-view/index.html');
+                // TODO : improve to allow .html
+                const response = await request.get('/html-view/index.phtml');
 
                 expect(response.status).to.eql(200);
                 expect(response.text).to.include('This is an HTML view');
@@ -75,6 +85,26 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
 
                 expect(response.status).to.eql(200);
                 expect(response.text).to.include('id,name');
+            });
+        });
+    });
+
+    describe('Testing HTML page', async function () {
+        describe('GET /01-default-layout/html-page/', async function () {
+            it("return a 200 response with 'This is an HTML view' in content", async function () {
+                const response = await request.get('/html-page/');
+
+                expect(response.status).to.eql(200);
+                expect(response.text).to.include('<title>HTML page</title>');
+            });
+        });
+
+        describe('GET /01-default-layout/html-page/index.html', async function () {
+            it("return a 200 response with 'This is an HTML view' in content", async function () {
+                const response = await request.get('/html-page/index.html');
+
+                expect(response.status).to.eql(200);
+                expect(response.text).to.include('<title>HTML page</title>');
             });
         });
     });

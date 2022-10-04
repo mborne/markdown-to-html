@@ -65,12 +65,19 @@ class SourceDir {
     }
 
     /**
-     * Locate index.md or readme.md in relativePath
+     * Locate index files
      * @param {SourceFile} sourceFile a directory
      * @return {SourceFile}
      */
     locateIndex(sourceFile) {
-        let candidates = ['index.md', 'README.md', 'readme.md'];
+        let candidates = [
+            'index.md',
+            'index.phtml',
+            'index.html',
+            'README.md',
+            'readme.md',
+        ];
+
         for (let candidate of candidates) {
             const candidatePath = `${sourceFile.absolutePath}/${candidate}`;
             if (!fs.existsSync(candidatePath)) {
