@@ -15,19 +15,7 @@ const getHeadingParts = require('./getHeadingParts');
 function heading(text, level, raw, slugger) {
     let parts = getHeadingParts(text, raw, slugger);
 
-    return (
-        '<h' +
-        level +
-        ' id="' +
-        parts.id +
-        '"><a href="#' +
-        parts.id +
-        '" class="anchor"></a>' +
-        parts.title +
-        '</h' +
-        level +
-        '>'
-    );
+    return `<h${level} id="${parts.id}">${parts.title}</h${level}>`;
 }
 
 module.exports = heading;
