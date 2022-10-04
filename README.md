@@ -71,6 +71,10 @@ It is inspired from :
 * [mixu/markdown-styles](https://github.com/mixu/markdown-styles)
 * [hads](https://github.com/sinedied/hads)
 
+## License
+
+[MIT](LICENSE)
+
 ## Alternatives
 
 See [jamstack.org - Site Generators](https://jamstack.org/generators/) :
