@@ -11,7 +11,8 @@
 ## Non markdown features
 
 * [Table of content](features/toc.md)
-* [HTML view](html-view/index.html)
+* [HTML view](html-view/) (layout injection)
+* [HTML page](html-page/) (static server).
 
 ## Features from default layout
 

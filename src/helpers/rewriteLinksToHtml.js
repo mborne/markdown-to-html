@@ -3,6 +3,7 @@ const path = require('path');
 const renameMdToHtml = require('./renameMdToHtml');
 
 /**
+ * Rewrite relative .md links to .html in markdown text.
  *
  * @param {string} text
  * @returns {string}

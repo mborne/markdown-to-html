@@ -7,6 +7,7 @@ const SourceDir = require('../SourceDir');
 const Layout = require('../Layout');
 
 const url = require('url');
+const FileType = require('../FileType');
 
 /**
  * Create express app to serve a directory containing mardown files.
@@ -38,7 +39,7 @@ function expressApp(options) {
             res.status(404).send('Not found');
             return;
         }
-        if (sourceFile.type == 'directory') {
+        if (sourceFile.type == FileType.DIRECTORY) {
             // ensure URL has a trailing slash
             if (relativePath != '' && relativePath != '/') {
                 let parsed = url.parse(relativePath);
@@ -54,10 +55,10 @@ function expressApp(options) {
                 res.status(404).send('Not found');
                 return;
             }
-            res.send(renderer.render(indexFile));
-            return;
+            sourceFile = indexFile;
         }
-        if (['md', 'html'].includes(sourceFile.type)) {
+
+        if ([FileType.MARKDOWN, FileType.PHTML].includes(sourceFile.type)) {
             res.send(renderer.render(sourceFile));
         } else {
             res.sendFile(sourceFile.absolutePath);

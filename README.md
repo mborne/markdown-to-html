@@ -75,6 +75,7 @@ It is inspired from :
 
 See [jamstack.org - Site Generators](https://jamstack.org/generators/) :
 
+* [Jellyll](https://jekyllrb.com/)
 * [Docsify](https://docsify.js.org/#/)
 * [MkDocs](https://www.mkdocs.org/)
 * [Docusaurus](https://docusaurus.io/)
