@@ -1,3 +1,4 @@
+const { assert } = require('console');
 const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
@@ -46,22 +47,48 @@ class SourceDir {
      * Locate file in rootDir according to relativePath
      *
      * @param {string} relativePath
-     * @return {SourceFile}
+     * @return {SourceFile?}
      */
     locateFile(relativePath) {
         var absolutePath = path.resolve(this.rootDir, relativePath);
+        if (!fs.existsSync(absolutePath)) {
+            if (relativePath.endsWith('.html')) {
+                return this.locateRenderedFile(relativePath);
+            } else {
+                return null;
+            }
+        }
 
         /* file must be in rootDir (path traversal) */
         if (!absolutePath.startsWith(this.rootDir)) {
             return null;
         }
 
-        /* file must exists */
-        if (!fs.existsSync(absolutePath)) {
-            return null;
-        }
-
         return new SourceFile(this, absolutePath);
+    }
+
+    /**
+     * Locate file rendered to html in order to find .md or .phtml files
+     * using .html in URLs.
+     *
+     * @private
+     *
+     * @param {string} relativePath
+     * @return {SourceFile?}
+     */
+    locateRenderedFile(relativePath) {
+        assert(
+            relativePath.endsWith('.html'),
+            `${relativePath} is not a .html path!`
+        );
+        for (const ext of ['.md', '.phtml']) {
+            let candidatePath = relativePath.slice(0, -5) + ext;
+            let sourceFile = this.locateFile(candidatePath);
+            if (sourceFile != null) {
+                return sourceFile;
+            }
+        }
+        return null;
     }
 
     /**

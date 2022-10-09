@@ -5,8 +5,7 @@ const fs = require('fs');
 const Renderer = require('../Renderer');
 const SourceDir = require('../SourceDir');
 const Layout = require('../Layout');
-const renameMdToHtml = require('../helpers/renameMdToHtml');
-const renameViewToHtml = require('../helpers/renameViewToHtml');
+const renamePathToHtml = require('../helpers/renamePathToHtml');
 const FileType = require('../FileType');
 
 /**
@@ -72,11 +71,7 @@ function convert(options) {
         })
         .forEach(function (file) {
             let outputPath = outputDir + '/' + file.relativePath;
-            if (file.type == FileType.MARKDOWN) {
-                outputPath = renameMdToHtml(outputPath);
-            } else if (file.type == FileType.PHTML) {
-                outputPath = renameViewToHtml(outputPath);
-            }
+            outputPath = renamePathToHtml(outputPath);
             debug(`Render ${file.absolutePath} to ${outputPath} ...`);
             var html = markdownRenderer.render(file);
             fs.writeFileSync(outputPath, html);
