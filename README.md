@@ -30,9 +30,11 @@ Markdown renderer aiming at providing :
 ## Setup
 
 ```bash
-git clone https://github.com/mborne/markdown-to-html
-cd markdown-to-html
-sudo npm install -g
+sudo npm install -g @mborne/markdown-to-html
+# check version
+markdown-to-html --version
+# show help
+markdown-to-html --help
 ```
 
 ## Usage
