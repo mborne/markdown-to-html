@@ -1,6 +1,6 @@
 const url = require('url');
 const path = require('path');
-const renameMdToHtml = require('./renameMdToHtml');
+const renamePathToHtml = require('./renamePathToHtml');
 
 /**
  * Rewrite relative .md links to .html in markdown text.
@@ -18,8 +18,8 @@ function rewriteLinksToHtml(text) {
         var parsed = url.parse(href);
         if (!parsed.protocol) {
             var ext = path.extname(parsed.pathname || '');
-            if (ext === '.md') {
-                parsed.pathname = renameMdToHtml(parsed.pathname);
+            if (ext === '.md' || ext === '.phtml') {
+                parsed.pathname = renamePathToHtml(parsed.pathname);
                 href = url.format(parsed);
             }
         }
