@@ -7,7 +7,6 @@ const SourceDir = require('../SourceDir');
 const Layout = require('../Layout');
 const renamePathToHtml = require('../helpers/renamePathToHtml');
 const FileType = require('../FileType');
-const RendererMode = require('../RendererMode');
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -29,7 +28,7 @@ function convert(options) {
     const sourceDir = new SourceDir(options.rootDir);
     const layout = new Layout(options.layoutPath);
     const markdownRenderer = new Renderer(sourceDir, layout, {
-        mode: RendererMode.CONVERT,
+        renameLinksToHtml: true,
     });
 
     debug(`List files from source directory ...`);

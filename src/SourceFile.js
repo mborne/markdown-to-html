@@ -5,6 +5,8 @@ const FileType = require('./FileType');
 const SourceDir = require('./SourceDir');
 
 /**
+ * Represents a file in a {@link SourceDir}.
+ *
  * @typedef SourceFile
  * @type {object}
  * @property {FileType} type - type of the file
@@ -19,6 +21,10 @@ class SourceFile {
     constructor(sourceDir, absolutePath) {
         this.sourceDir = sourceDir;
         this.absolutePath = absolutePath;
+
+        /*
+         * Detect the type of the file
+         */
         this.type = FileType.STATIC;
         if (fs.lstatSync(this.absolutePath).isDirectory()) {
             this.type = FileType.DIRECTORY;
@@ -32,6 +38,15 @@ class SourceFile {
             this.sourceDir.rootDir,
             this.absolutePath
         );
+    }
+
+    /**
+     * Get content for the given file.
+     *
+     * @returns {string}
+     */
+    getContentRaw() {
+        return fs.readFileSync(this.absolutePath, 'utf-8');
     }
 }
 

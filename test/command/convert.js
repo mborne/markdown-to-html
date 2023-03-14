@@ -4,14 +4,17 @@ const convert = require('../../src/command/convert');
 
 const fs = require('fs');
 const path = require('path');
+
+// source
 const rootDir = __dirname + '/../../samples/01-default-layout';
 
+// layout
+const layoutPath = path.resolve(__dirname, '../../layout/default');
+
+// output
 const os = require('os');
 const uuid = require('uuid');
 const outputDir = os.tmpdir() + '/md2html-' + uuid.v4();
-const layoutPath = path.resolve(__dirname, '../../layout/default');
-
-const shell = require('shelljs');
 
 describe('test command/convert', function () {
     it('should convert files to html', function () {

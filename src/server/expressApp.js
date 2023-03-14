@@ -28,7 +28,7 @@ function expressApp(options) {
     const sourceDir = new SourceDir(options.rootDir);
     const layout = new Layout(options.layoutPath);
     const renderer = new Renderer(sourceDir, layout, {
-        mode: 'serve',
+        renameLinksToHtml: false,
     });
 
     /*

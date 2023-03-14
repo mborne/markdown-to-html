@@ -1,5 +1,8 @@
 const fs = require('fs');
 
+const handlebars = require('handlebars');
+handlebars.registerHelper('asset', require('./handlebars/asset'));
+
 /**
  * Handlebars based layout with a template page.html and an optional assets directory.
  */
@@ -25,6 +28,19 @@ class Layout {
      */
     hasAssets() {
         return fs.existsSync(this.assetsPath);
+    }
+
+    /**
+     * Get handlebar's template.
+     *
+     * @returns {HandlebarsTemplateDelegate<T>}
+     */
+    getTemplate() {
+        const templateSource = fs.readFileSync(
+            this.path + '/page.html',
+            'utf8'
+        );
+        return handlebars.compile(templateSource);
     }
 }
 

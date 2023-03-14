@@ -1,8 +1,8 @@
 const FileType = Object.freeze({
     DIRECTORY: 'directory',
-    STATIC: 'static',
     MARKDOWN: 'md',
     PHTML: 'phtml',
+    STATIC: 'static',
 });
 
 module.exports = FileType;

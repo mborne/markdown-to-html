@@ -9,6 +9,7 @@ const RendererMode = require('../src/RendererMode');
 const modes = {
     convert: require('../src/command/convert'),
     serve: require('../src/command/serve'),
+    check: require('../src/command/check'),
 };
 
 program
@@ -17,7 +18,7 @@ program
     .option(
         '-m, --mode <mode>',
         'Program mode',
-        /^(convert|serve)$/i,
+        /^(convert|serve|check)$/i,
         RendererMode.CONVERT
     )
     .option(
@@ -41,7 +42,7 @@ program
                 : path.resolve(__dirname, `../layout/${cmd.layout}`);
 
         /* build sub-command options */
-        var options = {
+        const options = {
             mode: mode,
             rootDir: path.resolve(source),
             layoutPath: layoutPath,

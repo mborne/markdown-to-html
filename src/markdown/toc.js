@@ -1,6 +1,6 @@
 const marked = require('marked').marked;
 
-const getHeadingParts = require('./getHeadingParts');
+const getHeadingParts = require('./parser/getHeadingParts');
 
 /**
  * Generate markdown table of content from markdown.
@@ -26,6 +26,8 @@ function toc(markdownContent) {
             // text token for the content
             let token = headingToken.tokens[0];
             let parts = getHeadingParts(token.text, token.raw, slugger);
+
+            // indent according to depth
             let spaces = '';
             if (headingToken.depth > 2) {
                 spaces = Array(2 * (headingToken.depth - 2))
