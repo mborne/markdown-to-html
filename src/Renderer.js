@@ -54,13 +54,16 @@ class Renderer {
         }
 
         /* inject html content in a template */
-        var templateSource = fs.readFileSync(
+        const templateSource = fs.readFileSync(
             this.layout.path + '/page.html',
             'utf8'
         );
-        var template = handlebars.compile(templateSource);
+        const template = handlebars.compile(templateSource);
 
-        var context = {
+        /**
+         * Create render context for handlebars
+         */
+        const context = {
             title: path.relative(
                 this.sourceDir.rootDir,
                 sourceFile.absolutePath
@@ -70,6 +73,7 @@ class Renderer {
             rootDir: this.sourceDir.rootDir,
             path: sourceFile.absolutePath,
         };
+
         /* return full html */
         return template(context);
     }

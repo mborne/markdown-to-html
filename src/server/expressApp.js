@@ -17,21 +17,30 @@ const FileType = require('../FileType');
  * @param {String} options.layoutPath path to layout directory
  */
 function expressApp(options) {
+    const app = express();
+
+    /*
+     * log requests
+     * see https://github.com/expressjs/morgan#predefined-formats
+     */
+    app.use(morgan('tiny'));
+
     const sourceDir = new SourceDir(options.rootDir);
     const layout = new Layout(options.layoutPath);
-    var renderer = new Renderer(sourceDir, layout, {
+    const renderer = new Renderer(sourceDir, layout, {
         mode: 'serve',
     });
 
-    const app = express();
-
-    // see https://github.com/expressjs/morgan#predefined-formats
-    app.use(morgan('tiny'));
-
+    /*
+     * serve layout's assets
+     */
     if (layout.hasAssets()) {
         app.use('/assets', express.static(layout.path + '/assets'));
     }
 
+    /*
+     * server files
+     */
     app.get(/^\/(.*)/, function (req, res) {
         let relativePath = req.params[0];
         let sourceFile = sourceDir.locateFile(relativePath);
@@ -39,6 +48,7 @@ function expressApp(options) {
             res.status(404).send('Not found');
             return;
         }
+
         if (sourceFile.type == FileType.DIRECTORY) {
             // ensure URL has a trailing slash
             if (relativePath != '' && relativePath != '/') {

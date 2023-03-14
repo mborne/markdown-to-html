@@ -7,6 +7,7 @@ const SourceDir = require('../SourceDir');
 const Layout = require('../Layout');
 const renamePathToHtml = require('../helpers/renamePathToHtml');
 const FileType = require('../FileType');
+const RendererMode = require('../RendererMode');
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -27,12 +28,12 @@ function convert(options) {
     debug(`Create renderer ...`);
     const sourceDir = new SourceDir(options.rootDir);
     const layout = new Layout(options.layoutPath);
-    var markdownRenderer = new Renderer(sourceDir, layout, {
-        mode: 'convert',
+    const markdownRenderer = new Renderer(sourceDir, layout, {
+        mode: RendererMode.CONVERT,
     });
 
     debug(`List files from source directory ...`);
-    var sourceFiles = sourceDir.findFiles();
+    const sourceFiles = sourceDir.findFiles();
 
     debug(`Copy assets from layout ...`);
     if (layout.hasAssets()) {
@@ -73,7 +74,7 @@ function convert(options) {
             let outputPath = outputDir + '/' + file.relativePath;
             outputPath = renamePathToHtml(outputPath);
             debug(`Render ${file.absolutePath} to ${outputPath} ...`);
-            var html = markdownRenderer.render(file);
+            const html = markdownRenderer.render(file);
             fs.writeFileSync(outputPath, html);
         });
 

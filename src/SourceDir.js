@@ -28,11 +28,11 @@ class SourceDir {
      * @returns {SourceFile[]}
      */
     findFiles() {
-        var sourceFiles = [];
+        const sourceFiles = [];
 
         shell.find(this.rootDir).forEach(
             function (absolutePath) {
-                var relativePath = path.relative(this.rootDir, absolutePath);
+                const relativePath = path.relative(this.rootDir, absolutePath);
                 if (this.isIgnored(relativePath)) {
                     return;
                 }
@@ -50,7 +50,7 @@ class SourceDir {
      * @return {SourceFile?}
      */
     locateFile(relativePath) {
-        var absolutePath = path.resolve(this.rootDir, relativePath);
+        const absolutePath = path.resolve(this.rootDir, relativePath);
         if (!fs.existsSync(absolutePath)) {
             if (relativePath.endsWith('.html')) {
                 return this.locateRenderedFile(relativePath);

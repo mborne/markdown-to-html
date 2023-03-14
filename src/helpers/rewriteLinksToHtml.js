@@ -15,9 +15,9 @@ function rewriteLinksToHtml(text) {
         let title = parts[1];
         let href = parts[2];
 
-        var parsed = url.parse(href);
+        const parsed = url.parse(href);
         if (!parsed.protocol) {
-            var ext = path.extname(parsed.pathname || '');
+            const ext = path.extname(parsed.pathname || '');
             if (ext === '.md' || ext === '.phtml') {
                 parsed.pathname = renamePathToHtml(parsed.pathname);
                 href = url.format(parsed);
