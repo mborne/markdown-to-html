@@ -2,18 +2,24 @@ const cheerio = require('cheerio');
 
 /**
  * Get links from HTML content
- * 
+ *
  * @private
- * 
+ *
  * @param {string} htmlContent
  */
 function getLinks(htmlContent) {
     const $ = cheerio.load(htmlContent);
     const links = [];
-    $('a').each(function (i, link) {
+    $('a').each(function (i, element) {
         links.push({
-            text: $(link).text(),
-            href: $(link).attr('href'),
+            type: 'a',
+            targetUrl: $(element).attr('href'),
+        });
+    });
+    $('img').each(function (i, element) {
+        links.push({
+            type: 'img',
+            targetUrl: $(element).attr('src'),
         });
     });
     return links;

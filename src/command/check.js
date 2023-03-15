@@ -21,7 +21,7 @@ function check(options) {
     debug(`Check source directory ...`);
     const sourceDir = new SourceDir(options.rootDir);
 
-    let deadLinkCount = 0;
+    let deadLinksCount = 0;
 
     debug(`List files from source directory ...`);
     const sourceFiles = sourceDir.findFiles();
@@ -50,42 +50,42 @@ function check(options) {
                 sourceFile.absolutePath
             );
 
-            const href = link.href;
-            if (href.startsWith('#')) {
+            const targetUrl = link.targetUrl;
+            if (targetUrl.startsWith('#')) {
                 debug(
-                    `-- ${sourceFile.relativePath} -> '${link.href}' : SKIPPED (heading link)`
+                    `-- ${sourceFile.relativePath} -> '${targetUrl}' : SKIPPED (anchor link)`
                 );
                 continue;
             }
-            const parsed = url.parse(href);
+            const parsed = url.parse(targetUrl);
             if (parsed.protocol !== null) {
                 debug(
-                    `-- ${sourceFile.relativePath} -> '${link.href}' : SKIPPED (external link)`
+                    `-- ${sourceFile.relativePath} -> '${targetUrl}' : SKIPPED (external link)`
                 );
                 continue;
             }
 
             const absoluteTargetPath = path.resolve(
                 path.dirname(sourceFile.absolutePath),
-                href
+                targetUrl
             );
             link.found = fs.existsSync(absoluteTargetPath);
             const expectedPath = sourceDir.getRelativePath(absoluteTargetPath);
             if (link.found) {
                 debug(
-                    `-- ${sourceFile.relativePath} -> '${link.href}': SUCCESS ('${expectedPath}' found)`
+                    `-- ${sourceFile.relativePath} -> '${targetUrl}': SUCCESS ('${expectedPath}' found)`
                 );
             } else {
                 console.error(
-                    `-- ${sourceFile.relativePath} -> '${link.href}' : FAILURE ('${expectedPath}' not found)`
+                    `-- ${sourceFile.relativePath} -> '${targetUrl}' : FAILURE ('${expectedPath}' not found)`
                 );
-                deadLinkCount++;
+                deadLinksCount++;
             }
         }
     }
 
-    if (deadLinkCount != 0) {
-        throw new Error(`found ${deadLinkCount} dead link(s)`);
+    if (deadLinksCount != 0) {
+        throw new Error(`found ${deadLinksCount} dead link(s)`);
     } else {
         console.log('SUCCESS : No dead link found');
     }
