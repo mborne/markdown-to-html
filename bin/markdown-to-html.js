@@ -4,7 +4,6 @@ const packageMetadata = require('../package.json');
 
 const program = require('commander');
 const path = require('path');
-const RendererMode = require('../src/RendererMode');
 
 const modes = {
     convert: require('../src/command/convert'),
@@ -12,15 +11,24 @@ const modes = {
     check: require('../src/command/check'),
 };
 
+program.version(packageMetadata.version);
+
+/**
+ * Get layout path by name.
+ *
+ * @param {string} layoutName
+ * @returns {string}
+ */
+function getLayoutPath(layoutName) {
+    let layoutNames = require('../layout');
+    return layoutNames.indexOf(layoutName) < 0
+        ? path.resolve(layoutName)
+        : path.resolve(__dirname, `../layout/${layoutName}`);
+}
+
 program
-    .version(packageMetadata.version)
-    .arguments('<source>')
-    .option(
-        '-m, --mode <mode>',
-        'Program mode',
-        /^(convert|serve|check)$/i,
-        RendererMode.CONVERT
-    )
+    .command('convert <source>')
+    .description('generate static site from source')
     .option(
         '-l, --layout <layout>',
         'Name or path to the layout',
@@ -32,24 +40,51 @@ program
         path.resolve('output')
     )
     .action(function (source, cmd) {
-        const mode = cmd.mode;
-
-        /* resolve layout name or path */
-        let layoutNames = require('../layout');
-        let layoutPath =
-            layoutNames.indexOf(cmd.layout) < 0
-                ? path.resolve(cmd.layout)
-                : path.resolve(__dirname, `../layout/${cmd.layout}`);
-
         /* build sub-command options */
         const options = {
-            mode: mode,
             rootDir: path.resolve(source),
-            layoutPath: layoutPath,
+            layoutPath: getLayoutPath(cmd.layout),
             outputDir: path.resolve(cmd.output),
         };
         try {
-            modes[mode](options);
+            modes.convert(options);
+        } catch (e) {
+            console.error(e.message);
+            process.exit(1);
+        }
+    });
+
+program
+    .command('serve <source>')
+    .description('serve source directory')
+    .option(
+        '-l, --layout <layout>',
+        'Name or path to the layout',
+        path.resolve(__dirname + '/../layout/default')
+    )
+    .action(function (source, cmd) {
+        /* build sub-command options */
+        const options = {
+            rootDir: path.resolve(source),
+            layoutPath: getLayoutPath(cmd.layout),
+        };
+        try {
+            modes.serve(options);
+        } catch (e) {
+            console.error(e.message);
+            process.exit(1);
+        }
+    });
+
+program
+    .command('check <source>')
+    .description('check source directory')
+    .action(function (source, cmd) {
+        const options = {
+            rootDir: path.resolve(source),
+        };
+        try {
+            modes.check(options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
