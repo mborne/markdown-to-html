@@ -77,12 +77,12 @@ program
     });
 
 program
-    .command('check <source>')
+    .command('check <sourceDir>')
     .description('check source directory')
-    .action(function (source) {
-        const sourcePath = path.resolve(source);
+    .action(function (sourceDir) {
+        const sourceDirPath = path.resolve(sourceDir);
         try {
-            modes.check(sourcePath);
+            modes.check(sourceDirPath);
         } catch (e) {
             console.error(e.message);
             process.exit(1);

@@ -12,11 +12,11 @@ const getLinks = require('../html/getLinks');
 /**
  * An helper script to detect dead links in .md or .phtml files.
  *
- * @param {String} sourcePath path to source directory
+ * @param {String} sourceDirPath path to source directory
  */
-function check(sourcePath) {
+function check(sourceDirPath) {
     debug(`Check source directory ...`);
-    const sourceDir = new SourceDir(sourcePath);
+    const sourceDir = new SourceDir(sourceDirPath);
 
     let deadLinksCount = 0;
 
