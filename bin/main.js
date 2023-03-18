@@ -79,12 +79,10 @@ program
 program
     .command('check <source>')
     .description('check source directory')
-    .action(function (source, cmd) {
-        const options = {
-            rootDir: path.resolve(source),
-        };
+    .action(function (source) {
+        const sourcePath = path.resolve(source);
         try {
-            modes.check(options);
+            modes.check(sourcePath);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
