@@ -68,10 +68,10 @@ program
 program
     .command('check <sourceDir>')
     .description('check source directory')
-    .action(function (sourceDir) {
+    .action(async function (sourceDir) {
         const sourceDirPath = path.resolve(sourceDir);
         try {
-            modes.check(sourceDirPath);
+            await modes.check(sourceDirPath);
         } catch (e) {
             console.error(e.message);
             process.exit(1);

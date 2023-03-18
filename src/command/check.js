@@ -3,18 +3,19 @@ const debug = require('debug')('markdown-to-html');
 const fs = require('fs');
 const url = require('url');
 const path = require('path');
-const SourceDir = require('../SourceDir');
 
+const SourceDir = require('../SourceDir');
 const markdown = require('../markdown');
 const FileType = require('../FileType');
 const getLinks = require('../html/getLinks');
+const checkUrlExists = require('../helpers/checkUrlExists');
 
 /**
  * An helper script to detect dead links in .md or .phtml files.
  *
  * @param {String} sourceDirPath path to source directory
  */
-function check(sourceDirPath) {
+async function check(sourceDirPath) {
     debug(`Check source directory ...`);
     const sourceDir = new SourceDir(sourceDirPath);
 
@@ -56,9 +57,18 @@ function check(sourceDirPath) {
             }
             const parsed = url.parse(targetUrl);
             if (parsed.protocol !== null) {
-                debug(
-                    `-- ${sourceFile.relativePath} -> '${targetUrl}' : SKIPPED (external link)`
-                );
+                // TODO : add option to disable external link checking
+                link.found = await checkUrlExists(targetUrl);
+                if (link.found) {
+                    debug(
+                        `-- ${sourceFile.relativePath} -> '${targetUrl}': SUCCESS (found)`
+                    );
+                } else {
+                    console.error(
+                        `-- ${sourceFile.relativePath} -> '${targetUrl}' : FAILURE (not found)`
+                    );
+                    deadLinksCount++;
+                }
                 continue;
             }
 
