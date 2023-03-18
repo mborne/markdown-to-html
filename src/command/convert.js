@@ -10,23 +10,22 @@ const FileType = require('../FileType');
 
 /**
  * Convert MD files in rootDir to outputDir
- * @param {Object} options
- * @param {String} options.rootDir path to source directory
- * @param {String} options.outputDir path to output directory
- * @param {String} options.layoutPath path to layout directory
+ *
+ * @param {String} sourceDirPath path to source directory
+ * @param {String} outputDirPath path to output directory
+ * @param {String} layoutPath path to layout directory
  */
-function convert(options) {
+function convert(sourceDirPath, outputDirPath, layoutPath) {
     /* output directory */
     debug("Ensure that outputDir doesn't exists...");
-    const outputDir = options.outputDir;
-    if (fs.existsSync(outputDir)) {
-        throw new Error(outputDir + ' already exists!');
+    if (fs.existsSync(outputDirPath)) {
+        throw new Error(outputDirPath + ' already exists!');
     }
-    shell.mkdir('-p', outputDir);
+    shell.mkdir('-p', outputDirPath);
 
     debug(`Create renderer ...`);
-    const sourceDir = new SourceDir(options.rootDir);
-    const layout = new Layout(options.layoutPath);
+    const sourceDir = new SourceDir(sourceDirPath);
+    const layout = new Layout(layoutPath);
     const markdownRenderer = new Renderer(sourceDir, layout, {
         renameLinksToHtml: true,
     });
@@ -36,8 +35,8 @@ function convert(options) {
 
     debug(`Copy assets from layout ...`);
     if (layout.hasAssets()) {
-        const assertsDir = outputDir + '/assets';
-        shell.cp('-r', options.layoutPath + '/assets', assertsDir);
+        const assertsDir = outputDirPath + '/assets';
+        shell.cp('-r', layoutPath + '/assets', assertsDir);
     }
 
     debug(`Create directories ...`);
@@ -46,7 +45,7 @@ function convert(options) {
             return file.type === FileType.DIRECTORY;
         })
         .forEach(function (file) {
-            const outputPath = outputDir + '/' + file.relativePath;
+            const outputPath = outputDirPath + '/' + file.relativePath;
             debug(`Create directory ${outputPath} ...`);
             shell.mkdir('-p', outputPath);
         });
@@ -57,7 +56,7 @@ function convert(options) {
             return file.type === FileType.STATIC;
         })
         .forEach(function (file) {
-            const outputPath = outputDir + '/' + file.relativePath;
+            const outputPath = outputDirPath + '/' + file.relativePath;
             debug(`Copy ${file.absolutePath} to ${outputPath} ...`);
             shell.cp(file.absolutePath, outputPath);
         });
@@ -70,7 +69,7 @@ function convert(options) {
             );
         })
         .forEach(function (file) {
-            let outputPath = outputDir + '/' + file.relativePath;
+            let outputPath = outputDirPath + '/' + file.relativePath;
             outputPath = renamePathToHtml(outputPath);
             debug(`Render ${file.absolutePath} to ${outputPath} ...`);
             const html = markdownRenderer.render(file);

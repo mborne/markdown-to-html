@@ -27,27 +27,19 @@ function getLayoutPath(layoutName) {
 }
 
 program
-    .command('convert <source>')
+    .command('convert <sourceDir> <outputDir>')
     .description('generate static site from source')
     .option(
         '-l, --layout <layout>',
         'Name or path to the layout',
         path.resolve(__dirname + '/../layout/default')
     )
-    .option(
-        '-O, --output <output>',
-        'Path to output dir',
-        path.resolve('output')
-    )
-    .action(function (source, cmd) {
-        /* build sub-command options */
-        const options = {
-            rootDir: path.resolve(source),
-            layoutPath: getLayoutPath(cmd.layout),
-            outputDir: path.resolve(cmd.output),
-        };
+    .action(function (sourceDir, outputDir, cmd) {
+        const sourceDirPath = path.resolve(sourceDir);
+        const outputDirPath = path.resolve(outputDir);
+        const layoutPath = getLayoutPath(cmd.layout);
         try {
-            modes.convert(options);
+            modes.convert(sourceDirPath, outputDirPath, layoutPath);
         } catch (e) {
             console.error(e.message);
             process.exit(1);

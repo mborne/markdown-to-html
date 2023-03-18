@@ -4,7 +4,7 @@
 
 Markdown renderer aiming at providing :
 
-* A static side generator (converting .md to .html)
+* A static site generator (converting .md to .html)
 * A live server (serving rendered .md files)
 
 ## Features
@@ -44,7 +44,7 @@ See `markdown-to-html [serve|convert|check] --help`.
 ### Generate static website
 
 ```bash
-markdown-to-html convert samples/01-default-layout -O output 
+markdown-to-html convert samples/01-default-layout /tmp/output
 ```
 
 ### Serve markdown file

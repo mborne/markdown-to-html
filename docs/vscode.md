@@ -22,8 +22,8 @@ Use the following config in `.vscode/launch.json` file to debug tests or server 
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/bin/markdown-to-html.js",
-            "args": ["-l","remarkjs","-m","serve","-l","default","samples/01-default-layout"]
+            "program": "${workspaceFolder}/bin/main.js",
+            "args": ["serve","samples/01-default-layout", "-l","remarkjs"]
         }
     ]
 }
