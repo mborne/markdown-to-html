@@ -12,11 +12,10 @@ const FileType = require('../FileType');
 /**
  * Create express app to serve a directory containing mardown files.
  *
- * @param {Object} options
- * @param {String} options.rootDir path to source directory
- * @param {String} options.layoutPath path to layout directory
+ * @param {String} sourceDirPath path to source directory
+ * @param {String} layoutPath path to layout directory
  */
-function expressApp(options) {
+function expressApp(sourceDirPath, layoutPath) {
     const app = express();
 
     /*
@@ -25,8 +24,8 @@ function expressApp(options) {
      */
     app.use(morgan('tiny'));
 
-    const sourceDir = new SourceDir(options.rootDir);
-    const layout = new Layout(options.layoutPath);
+    const sourceDir = new SourceDir(sourceDirPath);
+    const layout = new Layout(layoutPath);
     const renderer = new Renderer(sourceDir, layout, {
         renameLinksToHtml: false,
     });

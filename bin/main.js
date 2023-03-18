@@ -55,21 +55,18 @@ program
     });
 
 program
-    .command('serve <source>')
+    .command('serve <sourceDir>')
     .description('serve source directory')
     .option(
         '-l, --layout <layout>',
         'Name or path to the layout',
         path.resolve(__dirname + '/../layout/default')
     )
-    .action(function (source, cmd) {
-        /* build sub-command options */
-        const options = {
-            rootDir: path.resolve(source),
-            layoutPath: getLayoutPath(cmd.layout),
-        };
+    .action(function (sourceDir, cmd) {
+        const sourceDirPath = path.resolve(sourceDir);
+        const layoutPath = getLayoutPath(cmd.layout);
         try {
-            modes.serve(options);
+            modes.serve(sourceDirPath, layoutPath);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
