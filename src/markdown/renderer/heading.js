@@ -1,4 +1,4 @@
-const getHeadingParts = require('./getHeadingParts');
+const getHeadingParts = require('../parser/getHeadingParts');
 
 /**
  * marked - custom method to render titles.

@@ -4,7 +4,7 @@
 
 Markdown renderer aiming at providing :
 
-* A static side generator (converting .md to .html)
+* A static site generator (converting .md to .html)
 * A live server (serving rendered .md files)
 
 ## Features
@@ -39,25 +39,30 @@ markdown-to-html --help
 
 ## Usage
 
+See `markdown-to-html [serve|convert|check] --help`.
+
 ### Generate static website
 
 ```bash
-markdown-to-html -O output sample
+markdown-to-html convert samples/01-default-layout /tmp/output
 ```
 
 ### Serve markdown file
 
 ```bash
-markdown-serve --mode serve sample
+# with the default layout
+markdown-to-html serve samples/01-default-layout
+# with a custom layout
+markdown-to-html serve samples/02-remarkjs --layout remarkjs
 ```
 
-## Options
+### Check markdown file
 
-See `bin/markdown-to-html.js --help` to configure :
+To check links between markdown files :
 
-* layout
-* output directory
-
+```bash
+markdown-to-html check samples/01-default-layout
+```
 
 ## Credits
 
@@ -82,8 +87,8 @@ It is inspired from :
 See [jamstack.org - Site Generators](https://jamstack.org/generators/) :
 
 * [Jellyll](https://jekyllrb.com/)
-* [Docsify](https://docsify.js.org/#/)
 * [MkDocs](https://www.mkdocs.org/)
+* [Docsify](https://docsify.js.org/#/)
 * [Docusaurus](https://docusaurus.io/)
 * [HADS - Hey it's Another Documentation Server!](https://github.com/sinedied/hads)
 * ...

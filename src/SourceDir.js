@@ -5,7 +5,7 @@ const shell = require('shelljs');
 const SourceFile = require('./SourceFile');
 
 /**
- * Represents a source directory containing markdown
+ * Represents a root directory containing markdown
  * and static files.
  */
 class SourceDir {
@@ -23,16 +23,26 @@ class SourceDir {
     }
 
     /**
+     * Get relative path for a given file.
+     *
+     * @param {string} absolutePath
+     * @returns {string}
+     */
+    getRelativePath(absolutePath) {
+        return path.relative(this.rootDir, absolutePath);
+    }
+
+    /**
      * Find files in root directory
      *
      * @returns {SourceFile[]}
      */
     findFiles() {
-        var sourceFiles = [];
+        const sourceFiles = [];
 
         shell.find(this.rootDir).forEach(
             function (absolutePath) {
-                var relativePath = path.relative(this.rootDir, absolutePath);
+                const relativePath = this.getRelativePath(absolutePath);
                 if (this.isIgnored(relativePath)) {
                     return;
                 }
@@ -50,7 +60,7 @@ class SourceDir {
      * @return {SourceFile?}
      */
     locateFile(relativePath) {
-        var absolutePath = path.resolve(this.rootDir, relativePath);
+        const absolutePath = path.resolve(this.rootDir, relativePath);
         if (!fs.existsSync(absolutePath)) {
             if (relativePath.endsWith('.html')) {
                 return this.locateRenderedFile(relativePath);

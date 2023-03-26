@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const link = require('../../src/markdown/link');
+const link = require('../../../src/markdown/renderer/link');
 
 describe('test link', function () {
     it('should works for basic case without', function () {

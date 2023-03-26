@@ -1,8 +1,9 @@
-var handlebars = require('handlebars');
-var path = require('path');
+const handlebars = require('handlebars');
+const path = require('path');
 
 /**
- * handlebars helper providing {{asset 'highlight/styles/github.css'}}
+ * Handlebars helper providing {{asset 'highlight/styles/github.css'}}.
+ *
  * @param {string} context
  * @param {Object} options
  */
@@ -12,7 +13,7 @@ module.exports = function (context, options) {
         options.data.root.rootDir + '/assets'
     );
 
-    var output = '';
+    let output = '';
     output += relativePath + '/';
     context = context.replace(/^\//, '');
     output += context;

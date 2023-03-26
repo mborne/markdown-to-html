@@ -1,7 +1,7 @@
 const marked = require('marked').marked;
 
-const link = require('./link');
-const heading = require('./heading');
+const link = require('./renderer/link');
+const heading = require('./renderer/heading');
 
 const toc = require('./toc');
 

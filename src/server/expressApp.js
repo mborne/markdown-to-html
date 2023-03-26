@@ -12,26 +12,34 @@ const FileType = require('../FileType');
 /**
  * Create express app to serve a directory containing mardown files.
  *
- * @param {Object} options
- * @param {String} options.rootDir path to source directory
- * @param {String} options.layoutPath path to layout directory
+ * @param {String} sourceDirPath path to source directory
+ * @param {String} layoutPath path to layout directory
  */
-function expressApp(options) {
-    const sourceDir = new SourceDir(options.rootDir);
-    const layout = new Layout(options.layoutPath);
-    var renderer = new Renderer(sourceDir, layout, {
-        mode: 'serve',
-    });
-
+function expressApp(sourceDirPath, layoutPath) {
     const app = express();
 
-    // see https://github.com/expressjs/morgan#predefined-formats
+    /*
+     * log requests
+     * see https://github.com/expressjs/morgan#predefined-formats
+     */
     app.use(morgan('tiny'));
 
+    const sourceDir = new SourceDir(sourceDirPath);
+    const layout = new Layout(layoutPath);
+    const renderer = new Renderer(sourceDir, layout, {
+        renameLinksToHtml: false,
+    });
+
+    /*
+     * serve layout's assets
+     */
     if (layout.hasAssets()) {
         app.use('/assets', express.static(layout.path + '/assets'));
     }
 
+    /*
+     * server files
+     */
     app.get(/^\/(.*)/, function (req, res) {
         let relativePath = req.params[0];
         let sourceFile = sourceDir.locateFile(relativePath);
@@ -39,6 +47,7 @@ function expressApp(options) {
             res.status(404).send('Not found');
             return;
         }
+
         if (sourceFile.type == FileType.DIRECTORY) {
             // ensure URL has a trailing slash
             if (relativePath != '' && relativePath != '/') {

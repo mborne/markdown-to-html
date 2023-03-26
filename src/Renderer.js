@@ -10,9 +10,6 @@ const SourceFile = require('./SourceFile');
 const FileType = require('./FileType');
 const Layout = require('./Layout');
 
-const handlebars = require('handlebars');
-handlebars.registerHelper('asset', require('./handlebars/asset'));
-
 const markdown = require('./markdown');
 const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
 
@@ -25,12 +22,13 @@ class Renderer {
      * @param {Layout} layout
      *
      * @param {Object} options
-     * @param {RendererMode} options.mode convert or serve
+     * @param {boolean} options.renameLinksToHtml convert .md or .phtml links to .html
      */
     constructor(sourceDir, layout, options) {
         this.sourceDir = sourceDir;
         this.layout = layout;
-        this.renameMarkdownLinksToHtml = options.mode == RendererMode.CONVERT;
+        this.renameLinksToHtml = options.renameLinksToHtml || false;
+        this.template = this.layout.getTemplate();
     }
 
     /**
@@ -43,24 +41,20 @@ class Renderer {
         let content = null;
         let markdownContent = null;
         if (FileType.MARKDOWN == sourceFile.type) {
-            markdownContent = fs.readFileSync(sourceFile.absolutePath, 'utf8');
+            markdownContent = sourceFile.getContentRaw();
             // replace .md links by .html links
-            if (this.renameMarkdownLinksToHtml) {
+            if (this.renameLinksToHtml) {
                 markdownContent = rewriteLinksToHtml(markdownContent);
             }
             content = markdown.render(markdownContent);
         } else {
-            content = fs.readFileSync(sourceFile.absolutePath, 'utf-8');
+            content = sourceFile.getContentRaw();
         }
 
-        /* inject html content in a template */
-        var templateSource = fs.readFileSync(
-            this.layout.path + '/page.html',
-            'utf8'
-        );
-        var template = handlebars.compile(templateSource);
-
-        var context = {
+        /**
+         * Create render context for handlebars
+         */
+        const context = {
             title: path.relative(
                 this.sourceDir.rootDir,
                 sourceFile.absolutePath
@@ -70,8 +64,9 @@ class Renderer {
             rootDir: this.sourceDir.rootDir,
             path: sourceFile.absolutePath,
         };
+
         /* return full html */
-        return template(context);
+        return this.template(context);
     }
 }
 

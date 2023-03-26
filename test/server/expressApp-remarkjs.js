@@ -2,12 +2,11 @@
 
 const supertest = require('supertest');
 const expect = require('chai').expect;
-
 const expressApp = require('../../src/server/expressApp');
-const app = expressApp({
-    rootDir: __dirname + '/../../samples/02-remarkjs',
-    layoutPath: __dirname + '/../../layout/remarkjs',
-});
+
+const sourceDirPath = __dirname + '/../../samples/02-remarkjs';
+const layoutPath = __dirname + '/../../layout/remarkjs';
+const app = expressApp(sourceDirPath, layoutPath);
 
 const request = supertest(app);
 
