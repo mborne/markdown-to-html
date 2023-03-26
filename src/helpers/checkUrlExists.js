@@ -5,7 +5,7 @@ const axios = require('axios');
  * Test if URL exists.
  *
  * @param {string} url
- * @returns
+ * @returns {boolean}
  */
 async function checkUrlExists(url) {
     debug(`checkUrlExists('${url}')...`);
@@ -16,7 +16,7 @@ async function checkUrlExists(url) {
         debug(`checkUrlExists('${url}') : SUCCESS (${response.status})`);
         return true;
     } catch (error) {
-        debug(`checkUrlExists('${url}') : FAILURE (${error.response.status})`);
+        debug(`checkUrlExists('${url}') : FAILURE (${error.message})`);
         return false;
     }
 }

@@ -10,16 +10,22 @@ describe('test command/check', function () {
         const sourceDirPath = `${SAMPLES_DIR}/01-default-layout`;
         let error = null;
         try {
-            await check(sourceDirPath);
+            await check(sourceDirPath, {
+                checkExternalLinks: false,
+            });
         } catch (e) {
             error = e;
         }
         expect(error).to.be.not.null;
-        expect(error.message).to.equal('found 2 dead link(s)');
+        expect(error.message)
+            .to.be.a('string')
+            .and.satisfy((m) => m.startsWith('Found 2 dead link(s)'));
     });
 
     it('shout not find dead links samples/02-remarkjs', async function () {
         const sourceDirPath = `${SAMPLES_DIR}/02-remarkjs`;
-        await check(sourceDirPath);
+        await check(sourceDirPath, {
+            checkExternalLinks: false,
+        });
     });
 });

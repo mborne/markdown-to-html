@@ -68,10 +68,17 @@ program
 program
     .command('check <sourceDir>')
     .description('check source directory')
-    .action(async function (sourceDir) {
+    .option(
+        '--check-external-links',
+        'also check external links (performs HTTP requests)'
+    )
+    .action(async function (sourceDir, cmd) {
         const sourceDirPath = path.resolve(sourceDir);
+        const options = {
+            checkExternalLinks: cmd.checkExternalLinks,
+        };
         try {
-            await modes.check(sourceDirPath);
+            await modes.check(sourceDirPath, options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
