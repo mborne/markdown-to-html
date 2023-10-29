@@ -1,5 +1,6 @@
 const marked = require('marked').marked;
 
+const Slugger = require('../helpers/Slugger');
 const getHeadingParts = require('./parser/getHeadingParts');
 
 /**
@@ -19,7 +20,7 @@ function toc(markdownContent) {
      * Note that it is important to create a dedicated instance
      * as it counts occurrence of each title.
      */
-    const slugger = new marked.Slugger();
+    const slugger = new Slugger();
 
     return headingTokens
         .map((headingToken) => {

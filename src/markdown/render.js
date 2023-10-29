@@ -1,9 +1,4 @@
-const marked = require('marked').marked;
-
-const link = require('./renderer/link');
-const heading = require('./renderer/heading');
-
-const toc = require('./toc');
+const marked = require('./marked');
 
 /**
  * Render markdown content to HTML.
@@ -12,16 +7,8 @@ const toc = require('./toc');
  * @returns {string}
  */
 function render(markdownContent) {
-    const markedRenderer = new marked.Renderer();
-    markedRenderer.link = link;
-    markedRenderer.heading = heading;
-
-    /* render table of content */
-    markdownContent = markdownContent.replace('[[toc]]', toc(markdownContent));
     /* render markdown to html */
-    return marked(markdownContent, {
-        renderer: markedRenderer,
-    });
+    return marked.parse(markdownContent);
 }
 
 module.exports = render;

@@ -1,4 +1,5 @@
 const getHeadingParts = require('../parser/getHeadingParts');
+const slugger = require('./slugger');
 
 /**
  * marked - custom method to render titles.
@@ -12,7 +13,7 @@ const getHeadingParts = require('../parser/getHeadingParts');
  *
  * @returns {string}
  */
-function heading(text, level, raw, slugger) {
+function heading(text, level, raw) {
     let parts = getHeadingParts(text, raw, slugger);
 
     return `<h${level} id="${parts.id}">${parts.title}</h${level}>`;
