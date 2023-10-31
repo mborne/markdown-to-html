@@ -2,10 +2,8 @@ const debug = require('debug')('markdown-to-html');
 
 const SourceDir = require('./SourceDir');
 
-const fs = require('fs');
 const path = require('path');
 
-const RendererMode = require('./RendererMode');
 const SourceFile = require('./SourceFile');
 const FileType = require('./FileType');
 const Layout = require('./Layout');
