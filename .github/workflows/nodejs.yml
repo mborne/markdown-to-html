@@ -30,7 +30,7 @@ jobs:
       run: npm install
 
     - name: Run tests
-      run: npm test
+      run: npm coverage
 
     - name: Publish coverage to coveralls.io
       run: npm run coveralls
