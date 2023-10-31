@@ -19,7 +19,8 @@
     "build-demo-01": "rm -rf demo/01-default-layout && node bin/main.js convert -l default samples/01-default-layout demo/01-default-layout",
     "build-demo-02": "rm -rf demo/02-remarkjs && node bin/main.js convert -l remarkjs samples/02-remarkjs demo/02-remarkjs",
     "test": "npm run check-style && npm run unit-test",
-    "unit-test": "nyc --reporter=html --reporter=text --reporter=cobertura mocha",
+    "unit-test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text --reporter=cobertura mocha",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\"",
     "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.js\" \"bin/*.js\""
