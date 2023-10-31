@@ -87,7 +87,7 @@ It is inspired from :
 See [jamstack.org - Site Generators](https://jamstack.org/generators/) :
 
 * [Jellyll](https://jekyllrb.com/)
-* [MkDocs](https://www.mkdocs.org/)
+* [MkDocs](https://www.mkdocs.org/), [Material for MkDocs](https://github.com/squidfunk/mkdocs-material#readme),...
 * [Docsify](https://docsify.js.org/#/)
 * [Docusaurus](https://docusaurus.io/)
 * [HADS - Hey it's Another Documentation Server!](https://github.com/sinedied/hads)
