@@ -14,9 +14,12 @@ Markdown renderer aiming at providing :
   * **Table of content generation** in markdown files (`[[toc]]` from [pandoc](https://pandoc.org/))
   * The support of custom heading links (`# This is the title {#custom-id}`)
   * The hability to rename `.md` to `.html` for relative links for static site generation.
-* A **basic layout system** based on [handlebars](https://www.npmjs.com/package/handlebars) is available with some built-in layouts :
+* A **basic layout system** based on [handlebars](https://www.npmjs.com/package/handlebars) with some built-in layouts :
   * **default** to generate classic pages.
   * **remarkjs** to generate slideshows.
+* [front-matter](https://www.npmjs.com/package/front-matter#front-matter) allows to **use YAML metadata** to :
+  * Overwrite page title (default is file path)
+  * Overwrite page lang (default is `"en"`)
 * Partial HTML/JS views can be injected in the **layout** to bypass markdown limitation for some pages.
 
 ## Samples
@@ -67,10 +70,11 @@ markdown-to-html check samples/01-default-layout
 ## Credits
 
 * [marked](https://www.npmjs.com/package/marked) provides the markdown parser.
-* [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) provided the solution to support custom heading id.
 * [handlebars](https://www.npmjs.com/package/handlebars) provides the template engine.
 * [commander](https://www.npmjs.com/package/commander) allows CLI options handling.
 * [shelljs](https://www.npmjs.com/package/shelljs) allows to list files, copy directory, etc.
+* [front-matter](https://www.npmjs.com/package/front-matter#front-matter) allows YAML metadata parsing
+* [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) provided the solution to support custom heading id.
 * [express](https://www.npmjs.com/package/express) provides the server mode.
 
 It is inspired from :

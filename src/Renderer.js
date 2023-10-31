@@ -9,6 +9,7 @@ const FileType = require('./FileType');
 const Layout = require('./Layout');
 
 const markdown = require('./markdown');
+const fm = require('front-matter');
 const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
 
 /**
@@ -36,32 +37,46 @@ class Renderer {
     render(sourceFile) {
         debug(`render('${JSON.stringify(sourceFile)}')...`);
 
-        let content = null;
-        let markdownContent = null;
-        if (FileType.MARKDOWN == sourceFile.type) {
-            markdownContent = sourceFile.getContentRaw();
-            // replace .md links by .html links
-            if (this.renameLinksToHtml) {
-                markdownContent = rewriteLinksToHtml(markdownContent);
-            }
-            content = markdown.render(markdownContent);
-        } else {
-            content = sourceFile.getContentRaw();
-        }
-
-        /**
-         * Create render context for handlebars
+        /*
+         * Prepare rendering context with default metadata
          */
         const context = {
+            // handlebars helpers requirements
+            rootDir: this.sourceDir.rootDir,
+            path: sourceFile.absolutePath,
+
+            // in order to allow to produce edit link in custom template
+            relativePath: sourceFile.relativePath,
+
+            // common HTML metadata
             title: path.relative(
                 this.sourceDir.rootDir,
                 sourceFile.absolutePath
             ),
-            content: content,
-            markdownContent: markdownContent,
-            rootDir: this.sourceDir.rootDir,
-            path: sourceFile.absolutePath,
+            lang: 'en', // TODO add env DEFAULT_LANG
         };
+
+        if (FileType.MARKDOWN == sourceFile.type) {
+            // read metadata from YAML
+            const { attributes, body } = fm(sourceFile.getContentRaw());
+            let markdownContent = body;
+            for (const key in attributes) {
+                context[key] = attributes[key];
+            }
+
+            // replace .md links by .html links
+            if (this.renameLinksToHtml) {
+                markdownContent = rewriteLinksToHtml(markdownContent);
+            }
+
+            // render markdown
+            context.content = markdown.render(markdownContent);
+            // output markdown source (for layout like remarkjs layout)
+            context.markdownContent = markdownContent;
+        } else {
+            // output raw content
+            context.content = sourceFile.getContentRaw();
+        }
 
         /* return full html */
         return this.template(context);
