@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <title>subdir-readme</title>
+  <title>Custom title from YAML metadata</title>
 
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
@@ -24,10 +24,15 @@
 </head>
 
 <body>
-  <!-- source : subdir-readme/README.md-->
+  <!-- source : features/yaml-metadata.md-->
   <article class="markdown-body">
-    <h1 id="subdir-readme">subdir-readme</h1><p>Testing a subdirectory with an README.md file.</p>
-<p><a href="missing-file.html">A missing link in a md file</a></p>
+    <h1 id="using-yaml-metadata">Using YAML metadata</h1><p>This page rely on YAML metadata to control &quot;title&quot; and &quot;lang&quot; in HTML page :</p>
+<pre><code class="language-yaml">---
+title: Custom title from YAML metadata
+lang: en
+---
+</code></pre>
+<p><a href="../">Back to home...</a></p>
 
   </article>
 
