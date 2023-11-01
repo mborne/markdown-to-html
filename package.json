@@ -1,6 +1,6 @@
 {
   "name": "@mborne/markdown-to-html",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Experimental static site renderer/server supporting markdown and HTML/JS views",
   "main": "index.js",
   "bin": {
@@ -37,6 +37,7 @@
     "commander": "^11.1.0",
     "debug": "^4.3.4",
     "express": "^4.18.2",
+    "front-matter": "^4.0.2",
     "handlebars": "^4.7.8",
     "marked": "^9.1.3",
     "morgan": "^1.10.0",

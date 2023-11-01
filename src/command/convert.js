@@ -14,8 +14,10 @@ const FileType = require('../FileType');
  * @param {String} sourceDirPath path to source directory
  * @param {String} outputDirPath path to output directory
  * @param {String} layoutPath path to layout directory
+ * @param {Object} options
+ * @param {string} options.language language for HTML pages defaulted to "en"
  */
-function convert(sourceDirPath, outputDirPath, layoutPath) {
+function convert(sourceDirPath, outputDirPath, layoutPath, options) {
     /* output directory */
     debug("Ensure that outputDir doesn't exists...");
     if (fs.existsSync(outputDirPath)) {
@@ -26,9 +28,11 @@ function convert(sourceDirPath, outputDirPath, layoutPath) {
     debug(`Create renderer ...`);
     const sourceDir = new SourceDir(sourceDirPath);
     const layout = new Layout(layoutPath);
-    const markdownRenderer = new Renderer(sourceDir, layout, {
-        renameLinksToHtml: true,
-    });
+
+    options = options || {};
+    // force renaming of links from .md to .html
+    options.renameLinksToHtml = true;
+    const markdownRenderer = new Renderer(sourceDir, layout, options);
 
     debug(`List files from source directory ...`);
     const sourceFiles = sourceDir.findFiles();

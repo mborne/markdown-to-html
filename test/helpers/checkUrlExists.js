@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 const checkUrlExists = require('../../src/helpers/checkUrlExists');
 
-describe('Test helper checkUrlExists', function () {
+describe('Test helper checkUrlExists', async function () {
     it('should find https://github.com/mborne', async function () {
         const result = await checkUrlExists('https://github.com/mborne');
         expect(result).to.be.true;

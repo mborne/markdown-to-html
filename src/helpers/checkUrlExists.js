@@ -1,6 +1,9 @@
 const debug = require('debug')('markdown-to-html');
 const axios = require('axios');
 
+const http = require('http');
+const https = require('https');
+
 /**
  * Test if URL exists.
  *
@@ -12,6 +15,9 @@ async function checkUrlExists(url) {
     try {
         let response = await axios.get(url, {
             responseType: 'stream',
+            timeout: 1000,
+            httpAgent: new http.Agent({ keepAlive: false }),
+            httpsAgent: new https.Agent({ keepAlive: false }),
         });
         debug(`checkUrlExists('${url}') : SUCCESS (${response.status})`);
         return true;

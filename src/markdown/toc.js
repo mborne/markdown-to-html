@@ -18,7 +18,7 @@ function toc(markdownContent) {
 
     /*
      * Note that it is important to create a dedicated instance
-     * as it counts occurrence of each title.
+     * as Slugger counts occurrence of each title.
      */
     const slugger = new Slugger();
 

@@ -11,7 +11,7 @@ const app = expressApp(sourceDirPath, layoutPath);
 const request = supertest(app);
 
 describe('Testing expressApp with samples/01-default-layout', async function () {
-    describe('GET /index.md', function () {
+    describe('GET /index.md', async function () {
         it("return a 200 response with 'Markdown syntax' in content", async function () {
             const response = await request.get('/index.md');
 

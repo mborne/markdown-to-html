@@ -7,6 +7,7 @@
 ## Non standard markdown
 
 * [Custom heading id](features/custom-heading-id.md)
+* [YAML metadata](features/yaml-metadata.md)
 
 ## Non markdown features
 

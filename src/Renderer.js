@@ -9,7 +9,9 @@ const FileType = require('./FileType');
 const Layout = require('./Layout');
 
 const markdown = require('./markdown');
+const fm = require('front-matter');
 const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
+const getMetadata = require('./html/getMetadata');
 
 /**
  * Helper class to render markdown files in a directory
@@ -21,11 +23,13 @@ class Renderer {
      *
      * @param {Object} options
      * @param {boolean} options.renameLinksToHtml convert .md or .phtml links to .html
+     * @param {string} options.language language for HTML pages defaulted to "en"
      */
     constructor(sourceDir, layout, options) {
         this.sourceDir = sourceDir;
         this.layout = layout;
         this.renameLinksToHtml = options.renameLinksToHtml || false;
+        this.language = options.language || 'en';
         this.template = this.layout.getTemplate();
     }
 
@@ -36,32 +40,59 @@ class Renderer {
     render(sourceFile) {
         debug(`render('${JSON.stringify(sourceFile)}')...`);
 
-        let content = null;
-        let markdownContent = null;
-        if (FileType.MARKDOWN == sourceFile.type) {
-            markdownContent = sourceFile.getContentRaw();
-            // replace .md links by .html links
-            if (this.renameLinksToHtml) {
-                markdownContent = rewriteLinksToHtml(markdownContent);
-            }
-            content = markdown.render(markdownContent);
-        } else {
-            content = sourceFile.getContentRaw();
-        }
-
-        /**
-         * Create render context for handlebars
+        /*
+         * Prepare rendering context with default metadata
          */
         const context = {
+            // handlebars helpers requirements
+            rootDir: this.sourceDir.rootDir,
+            path: sourceFile.absolutePath,
+
+            // in order to allow to produce edit link in custom template
+            relativePath: sourceFile.relativePath,
+
+            // common HTML metadata
             title: path.relative(
                 this.sourceDir.rootDir,
                 sourceFile.absolutePath
             ),
-            content: content,
-            markdownContent: markdownContent,
-            rootDir: this.sourceDir.rootDir,
-            path: sourceFile.absolutePath,
+            lang: this.language,
         };
+
+        if (FileType.MARKDOWN == sourceFile.type) {
+            // read title from markdown
+            const markdownTitle = markdown.title(sourceFile.getContentRaw());
+            if (markdownTitle) {
+                context.title = markdownTitle;
+            }
+
+            // read metadata from YAML
+            const { attributes, body } = fm(sourceFile.getContentRaw());
+            let markdownContent = body;
+            for (const key in attributes) {
+                context[key] = attributes[key];
+            }
+
+            // replace .md links by .html links
+            if (this.renameLinksToHtml) {
+                markdownContent = rewriteLinksToHtml(markdownContent);
+            }
+
+            // render markdown
+            context.content = markdown.render(markdownContent);
+            // output markdown source (for layout like remarkjs layout)
+            context.markdownContent = markdownContent;
+        } else {
+            if (sourceFile.type == FileType.PHTML) {
+                const { title } = getMetadata(sourceFile.getContentRaw());
+                if (title) {
+                    context.title = title;
+                }
+            }
+
+            // output raw content
+            context.content = sourceFile.getContentRaw();
+        }
 
         /* return full html */
         return this.template(context);

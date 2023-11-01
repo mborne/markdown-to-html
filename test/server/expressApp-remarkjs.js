@@ -14,7 +14,7 @@ const request = supertest(app);
  * Complete expressApp-default.js with a layout embedding assets.
  */
 describe('Testing expressApp with samples/02-remarkjs', async function () {
-    describe('GET /', function () {
+    describe('GET /', async function () {
         it("return a 200 response with 'RemarkJS layout' in content", async function () {
             const response = await request.get('/');
 

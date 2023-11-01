@@ -13,6 +13,20 @@ const modes = {
 
 program.version(packageMetadata.version);
 
+const optionLang = new program.Option(
+    '--language <language>',
+    'Default value for HTML lang metadata if not overwritten by YAML metadata (lang)'
+)
+    .env('LANGUAGE')
+    .default('en');
+
+const optionLayout = new program.Option(
+    '-l, --layout <layout>',
+    'Name or path to the layout'
+)
+    .env('LAYOUT')
+    .default('default');
+
 /**
  * Get layout path by name.
  *
@@ -29,17 +43,14 @@ function getLayoutPath(layoutName) {
 program
     .command('convert <sourceDir> <outputDir>')
     .description('generate static site from source')
-    .option(
-        '-l, --layout <layout>',
-        'Name or path to the layout',
-        path.resolve(__dirname + '/../layout/default')
-    )
-    .action(function (sourceDir, outputDir, cmd) {
+    .addOption(optionLayout)
+    .addOption(optionLang)
+    .action(function (sourceDir, outputDir, options) {
         const sourceDirPath = path.resolve(sourceDir);
         const outputDirPath = path.resolve(outputDir);
-        const layoutPath = getLayoutPath(cmd.layout);
+        const layoutPath = getLayoutPath(options.layout);
         try {
-            modes.convert(sourceDirPath, outputDirPath, layoutPath);
+            modes.convert(sourceDirPath, outputDirPath, layoutPath, options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
@@ -49,16 +60,13 @@ program
 program
     .command('serve <sourceDir>')
     .description('serve source directory')
-    .option(
-        '-l, --layout <layout>',
-        'Name or path to the layout',
-        path.resolve(__dirname + '/../layout/default')
-    )
-    .action(function (sourceDir, cmd) {
+    .addOption(optionLayout)
+    .addOption(optionLang)
+    .action(function (sourceDir, options) {
         const sourceDirPath = path.resolve(sourceDir);
-        const layoutPath = getLayoutPath(cmd.layout);
+        const layoutPath = getLayoutPath(options.layout);
         try {
-            modes.serve(sourceDirPath, layoutPath);
+            modes.serve(sourceDirPath, layoutPath, options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
@@ -72,11 +80,8 @@ program
         '--check-external-links',
         'also check external links (performs HTTP requests)'
     )
-    .action(async function (sourceDir, cmd) {
+    .action(async function (sourceDir, options) {
         const sourceDirPath = path.resolve(sourceDir);
-        const options = {
-            checkExternalLinks: cmd.checkExternalLinks,
-        };
         try {
             await modes.check(sourceDirPath, options);
         } catch (e) {
