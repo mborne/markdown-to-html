@@ -22,27 +22,19 @@ Markdown renderer aiming at providing :
   * Overwrite page lang (default is `"en"`)
 * Partial HTML/JS views can be injected in the **layout** to bypass markdown limitation for some pages.
 
-## Samples
 
-| Example                                                                                   | Source                                                                              | Layout                                                                                 |
-| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [Classic example](https://mborne.github.io/markdown-to-html/demo/01-default-layout)       | [samples/01-default-layout/index.md](samples/01-default-layout/index.md)            | [layout/default/page.html](layout/default/page.html)                                   |
-| [RemarkJS slideshow](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)          | [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)                  | [layout/remarkjs/page.html](layout/default/page.html)                                  |
-| [GitHub pages generated mixing both](https://mborne.github.io/cours-patron-conception/#1) | [mborne/cours-patron-conception](https://github.com/mborne/cours-patron-conception) | see [build.js](https://github.com/mborne/cours-patron-conception/blob/master/build.js) |
+## Usage
 
-## Setup
+### Install
 
 ```bash
-sudo npm install -g @mborne/markdown-to-html
+npm install -g @mborne/markdown-to-html
 # check version
 markdown-to-html --version
 # show help
 markdown-to-html --help
+# markdown-to-html [serve|convert|check] --help
 ```
-
-## Usage
-
-See `markdown-to-html [serve|convert|check] --help`.
 
 ### Generate static website
 
@@ -81,6 +73,16 @@ It is inspired from :
 
 * [mixu/markdown-styles](https://github.com/mixu/markdown-styles)
 * [hads](https://github.com/sinedied/hads)
+
+
+## Samples
+
+| Example                                                                                   | Source                                                                              | Layout                                                                                 |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Classic example](https://mborne.github.io/markdown-to-html/demo/01-default-layout)       | [samples/01-default-layout/index.md](samples/01-default-layout/index.md)            | [layout/default/page.html](layout/default/page.html)                                   |
+| [RemarkJS slideshow](https://mborne.github.io/markdown-to-html/demo/02-remarkjs)          | [samples/02-remarkjs/index.md](samples/01-default-layout/index.md)                  | [layout/remarkjs/page.html](layout/default/page.html)                                  |
+| [GitHub pages generated mixing both](https://mborne.github.io/cours-patron-conception/#1) | [mborne/cours-patron-conception](https://github.com/mborne/cours-patron-conception) | see [build.js](https://github.com/mborne/cours-patron-conception/blob/master/build.js) |
+
 
 ## License
 
