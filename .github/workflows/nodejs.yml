@@ -34,6 +34,6 @@ jobs:
 
     - name: Publish coverage to coveralls.io
       run: npm run coveralls
-      if: github.ref == 'refs/heads/master' && matrix.node-version == '20.x'
+      if: github.ref == 'refs/heads/master' && matrix.node-version == '18.x'
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
