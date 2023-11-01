@@ -14,8 +14,10 @@ const FileType = require('../FileType');
  *
  * @param {String} sourceDirPath path to source directory
  * @param {String} layoutPath path to layout directory
+ * @param {Object} options
+ * @param {string} options.language language for HTML pages defaulted to "en"
  */
-function expressApp(sourceDirPath, layoutPath) {
+function expressApp(sourceDirPath, layoutPath, options) {
     const app = express();
 
     /*
@@ -26,9 +28,15 @@ function expressApp(sourceDirPath, layoutPath) {
 
     const sourceDir = new SourceDir(sourceDirPath);
     const layout = new Layout(layoutPath);
-    const renderer = new Renderer(sourceDir, layout, {
-        renameLinksToHtml: false,
-    });
+
+    /*
+     * disable renaming of links from .md to .html
+     * see https://github.com/mborne/markdown-to-html/issues/28
+     */
+    options = options || {};
+    options.renameLinksToHtml = false;
+
+    const renderer = new Renderer(sourceDir, layout, options);
 
     /*
      * serve layout's assets

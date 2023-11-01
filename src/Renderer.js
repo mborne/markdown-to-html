@@ -22,11 +22,13 @@ class Renderer {
      *
      * @param {Object} options
      * @param {boolean} options.renameLinksToHtml convert .md or .phtml links to .html
+     * @param {string} options.language language for HTML pages defaulted to "en"
      */
     constructor(sourceDir, layout, options) {
         this.sourceDir = sourceDir;
         this.layout = layout;
         this.renameLinksToHtml = options.renameLinksToHtml || false;
+        this.language = options.language || 'en';
         this.template = this.layout.getTemplate();
     }
 
@@ -53,7 +55,7 @@ class Renderer {
                 this.sourceDir.rootDir,
                 sourceFile.absolutePath
             ),
-            lang: 'en', // TODO add env DEFAULT_LANG
+            lang: this.language,
         };
 
         if (FileType.MARKDOWN == sourceFile.type) {
