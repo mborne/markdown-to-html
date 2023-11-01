@@ -51,12 +51,14 @@ markdown-to-html serve samples/01-default-layout
 markdown-to-html serve samples/02-remarkjs --layout remarkjs
 ```
 
-### Check markdown file
+### Check markdown files
 
 To check links between markdown files :
 
 ```bash
 markdown-to-html check samples/01-default-layout
+# to include HTTP test for remote URLs
+markdown-to-html check samples/01-default-layout --check-external-links
 ```
 
 ## Credits
