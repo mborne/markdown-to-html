@@ -11,6 +11,7 @@ const Layout = require('./Layout');
 const markdown = require('./markdown');
 const fm = require('front-matter');
 const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
+const getMetadata = require('./html/getMetadata');
 
 /**
  * Helper class to render markdown files in a directory
@@ -59,6 +60,12 @@ class Renderer {
         };
 
         if (FileType.MARKDOWN == sourceFile.type) {
+            // read title from markdown
+            const markdownTitle = markdown.title(sourceFile.getContentRaw());
+            if (markdownTitle) {
+                context.title = markdownTitle;
+            }
+
             // read metadata from YAML
             const { attributes, body } = fm(sourceFile.getContentRaw());
             let markdownContent = body;
@@ -76,6 +83,13 @@ class Renderer {
             // output markdown source (for layout like remarkjs layout)
             context.markdownContent = markdownContent;
         } else {
+            if (sourceFile.type == FileType.PHTML) {
+                const { title } = getMetadata(sourceFile.getContentRaw());
+                if (title) {
+                    context.title = title;
+                }
+            }
+
             // output raw content
             context.content = sourceFile.getContentRaw();
         }

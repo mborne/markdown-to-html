@@ -6,7 +6,7 @@ const url = require('url');
 const path = require('path');
 const markdown = require('./markdown');
 const FileType = require('./FileType');
-const getLinks = require('./html/getLinks');
+const getMetadata = require('./html/getMetadata');
 const checkUrlExists = require('./helpers/checkUrlExists');
 
 const ErrorLevel = Object.freeze({
@@ -75,7 +75,7 @@ class Checker {
         }
 
         // get links from html
-        const links = getLinks(htmlContent);
+        const { links } = getMetadata(htmlContent);
         if (links.length == 0) {
             debug(
                 `checkSourceFile('${sourceFile.relativePath}') : SKIPPED (no links found)`
