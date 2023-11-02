@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
 const SourceFile = require('./SourceFile');
+const SourceDirFilter = require('./SourceDirFilter');
 
 /**
  * Represents a root directory containing markdown
@@ -20,6 +21,7 @@ class SourceDir {
             throw new Error('Input file ' + rootDir + ' is not a directory');
         }
         this.rootDir = path.resolve(rootDir);
+        this.filter = new SourceDirFilter();
     }
 
     /**
@@ -43,7 +45,7 @@ class SourceDir {
         shell.find(this.rootDir).forEach(
             function (absolutePath) {
                 const relativePath = this.getRelativePath(absolutePath);
-                if (this.isIgnored(relativePath)) {
+                if (this.filter.isIgnored(relativePath)) {
                     return;
                 }
                 sourceFiles.push(new SourceFile(this, absolutePath));
@@ -123,22 +125,6 @@ class SourceDir {
             return new SourceFile(this, candidatePath);
         }
         return null;
-    }
-
-    /**
-     * Test if a file is ignored (allows to ignore .git directory)
-     *
-     * @param {string} relativePath
-     *
-     * @returns {boolean}
-     */
-    isIgnored(relativePath) {
-        /* skip git */
-        if (relativePath.match(/\.git/)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
 
