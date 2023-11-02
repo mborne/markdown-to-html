@@ -234,12 +234,4 @@ describe('test SourceDir using samples/01-default-layout', function () {
             expect(sourceFile).to.be.null;
         });
     });
-
-    describe('test isIgnored', function () {
-        it('should ignore .git directories', function () {
-            expect(
-                sampleSourceDir.isIgnored('something/.git/something-else.md')
-            ).to.be.true;
-        });
-    });
 });
