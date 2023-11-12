@@ -20,7 +20,7 @@ function serve(sourceDirPath, layoutPath, options) {
         server.close(() => {
             debug('HTTP server closed');
         });
-    })
+    });
 }
 
 module.exports = serve;
