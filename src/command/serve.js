@@ -1,3 +1,4 @@
+const debug = require('debug')('markdown-to-html');
 const expressApp = require('../server/expressApp');
 
 /**
@@ -10,9 +11,16 @@ const expressApp = require('../server/expressApp');
 function serve(sourceDirPath, layoutPath, options) {
     const app = expressApp(sourceDirPath, layoutPath, options);
 
-    app.listen(3000, function () {
+    const server = app.listen(3000, function () {
         console.log('Application started on http://localhost:3000');
     });
+
+    process.on('SIGTERM', () => {
+        debug('SIGTERM signal received: closing HTTP server');
+        server.close(() => {
+            debug('HTTP server closed');
+        });
+    })
 }
 
 module.exports = serve;
