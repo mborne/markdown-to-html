@@ -2,6 +2,7 @@ const fs = require('fs');
 
 const handlebars = require('handlebars');
 handlebars.registerHelper('asset', require('./handlebars/asset'));
+handlebars.registerHelper('url', require('./handlebars/url'));
 
 /**
  * Handlebars based layout with a template page.html and an optional assets directory.
