@@ -2,7 +2,9 @@ const handlebars = require('handlebars');
 const path = require('path');
 
 /**
- * Handlebars helper providing a way to compute relative URL to rendered source {{url '/index.html'}}.
+ * Handlebars helper providing a way to compute relative URL from rendered file to a given path
+ *
+ * Note that {{url '.'}} provides relative URL to rootDir.
  *
  * @param {string} context
  * @param {Object} options

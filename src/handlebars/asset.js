@@ -8,8 +8,9 @@ const path = require('path');
  * @param {Object} options
  */
 module.exports = function (context, options) {
+    const parentDir = path.resolve(options.data.root.path, '..');
     const relativePath = path.relative(
-        path.resolve(options.data.root.path, '..'),
+        parentDir,
         options.data.root.rootDir + '/assets'
     );
 
