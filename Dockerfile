@@ -11,5 +11,4 @@ VOLUME /data
 
 EXPOSE 3000
 
-CMD [ "/bin/sh", "/opt/markdown-to-html/docker/application.sh" ]
-
+CMD [ "/bin/sh", "/opt/markdown-to-html/.docker/application.sh" ]
