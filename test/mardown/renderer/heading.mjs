@@ -1,7 +1,7 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const slugger = require('../../../src/markdown/renderer/slugger');
-const heading = require('../../../src/markdown/renderer/heading');
+import slugger from '../../../src/markdown/renderer/slugger.js';
+import heading from '../../../src/markdown/renderer/heading.js';
 
 describe('test heading', function () {
     this.beforeEach(function () {

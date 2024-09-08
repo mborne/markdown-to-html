@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const SourceDirFilter = require('../src/SourceDirFilter');
+import SourceDirFilter from '../src/SourceDirFilter.js';
 
 const defaultFilter = new SourceDirFilter();
 

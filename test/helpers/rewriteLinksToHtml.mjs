@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const rewriteLinksToHtml = require('../../src/helpers/rewriteLinksToHtml');
+import rewriteLinksToHtml from '../../src/helpers/rewriteLinksToHtml.js';
 
 describe('Test link rewrite to html', function () {
     it('should work with relative links', function () {

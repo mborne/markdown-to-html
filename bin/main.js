@@ -2,7 +2,7 @@
 
 const packageMetadata = require('../package.json');
 
-const program = require('commander');
+const {program,Option} = require('commander');
 const path = require('path');
 
 const modes = {
@@ -11,16 +11,14 @@ const modes = {
     check: require('../src/command/check'),
 };
 
-program.version(packageMetadata.version);
-
-const optionLang = new program.Option(
+const optionLang = new Option(
     '--language <language>',
     'Default value for HTML lang metadata if not overwritten by YAML metadata (lang)'
 )
     .env('LANGUAGE')
     .default('en');
 
-const optionLayout = new program.Option(
+const optionLayout = new Option(
     '-l, --layout <layout>',
     'Name or path to the layout'
 )
@@ -39,6 +37,8 @@ function getLayoutPath(layoutName) {
         ? path.resolve(layoutName)
         : path.resolve(__dirname, `../layout/${layoutName}`);
 }
+
+program.version(packageMetadata.version);
 
 program
     .command('convert <sourceDir> <outputDir>')

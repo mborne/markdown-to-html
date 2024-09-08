@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const renamePathToHtml = require('../../src/helpers/renamePathToHtml');
+import renamePathToHtml from '../../src/helpers/renamePathToHtml.js';
 
 describe('Test helper renamePathToHtml', function () {
     it('should rename .md extension', function () {

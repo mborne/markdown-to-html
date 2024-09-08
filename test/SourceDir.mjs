@@ -1,18 +1,20 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const FileType = require('../src/FileType');
-const SourceDir = require('../src/SourceDir');
+import helpers from './helpers.js';
+
+import FileType from '../src/FileType.js';
+import SourceDir from '../src/SourceDir.js';
 
 describe('test SourceDir with bad constructor params', function () {
     it('should throw if rootDir is not found', function () {
-        const rootDir = __dirname + '/not-found/';
+        const rootDir = helpers.PROJECT_DIR + '/not-found/';
         expect(function () {
             new SourceDir(rootDir);
         }).to.throw(Error, `Input file ${rootDir} not found`);
     });
 
     it('should throw if rootDir is not a directory', function () {
-        const rootDir = __filename;
+        const rootDir = helpers.PROJECT_DIR + '/README.md';
         expect(function () {
             new SourceDir(rootDir);
         }).to.throw(Error, `Input file ${rootDir} is not a directory`);
@@ -20,7 +22,7 @@ describe('test SourceDir with bad constructor params', function () {
 });
 
 const sampleSourceDir = new SourceDir(
-    __dirname + '/../samples/01-default-layout'
+    helpers.getSampleDir('01-default-layout')
 );
 
 describe('test SourceDir using samples/01-default-layout', function () {
