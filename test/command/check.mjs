@@ -1,13 +1,12 @@
-const expect = require('chai').expect;
-const path = require('path');
+import { expect } from 'chai';
 
-const check = require('../../src/command/check');
+import check from '../../src/command/check.js';
 
-const SAMPLES_DIR = path.resolve(__dirname + '/../../samples');
+import helpers from '../helpers.js';
 
 describe('test command/check', function () {
     it('should find dead links in samples/01-default-layout', async function () {
-        const sourceDirPath = `${SAMPLES_DIR}/01-default-layout`;
+        const sourceDirPath = helpers.getSampleDir('01-default-layout');
         let error = null;
         try {
             await check(sourceDirPath, {
@@ -23,7 +22,7 @@ describe('test command/check', function () {
     });
 
     it('shout not find dead links samples/02-remarkjs', async function () {
-        const sourceDirPath = `${SAMPLES_DIR}/02-remarkjs`;
+        const sourceDirPath = helpers.getSampleDir('02-remarkjs');
         await check(sourceDirPath, {
             checkExternalLinks: false,
         });

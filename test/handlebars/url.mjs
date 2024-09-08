@@ -1,16 +1,12 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const path = require('path');
-const url = require('../../src/handlebars/url');
+import helpers from '../helpers.js';
 
-const sampleRootDir = path.resolve(
-    __dirname,
-    '../../samples/01-default-layout'
-);
-const samplePath = path.resolve(
-    __dirname,
-    '../../samples/01-default-layout/features/custom-heading-id.md'
-);
+import url from '../../src/handlebars/url.js';
+
+const sampleRootDir = helpers.getSampleDir('01-default-layout');
+const samplePath = `${sampleRootDir}/features/custom-heading-id.md`;
+
 const options = {
     data: {
         root: {

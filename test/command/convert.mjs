@@ -1,23 +1,19 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const convert = require('../../src/command/convert');
+import convert from '../../src/command/convert.js';
 
-const fs = require('fs');
-const path = require('path');
+import { existsSync } from 'fs';
+
+import helpers from '../helpers.js';
 
 // source
-const sourceDirPath = __dirname + '/../../samples/01-default-layout';
-
+const sourceDirPath = helpers.getSampleDir('01-default-layout');
 // layout
-const layoutPath = path.resolve(__dirname, '../../layout/default');
-
-// output
-const os = require('os');
-const uuid = require('uuid');
-const outputDirPath = os.tmpdir() + '/md2html-' + uuid.v4();
+const layoutPath = helpers.getLayoutPath('default');
 
 describe('test command/convert', function () {
     it('should convert files to html', function () {
+        const outputDirPath = helpers.getTempDirPath();
         convert(sourceDirPath, outputDirPath, layoutPath);
 
         const expectedFiles = [
@@ -33,10 +29,8 @@ describe('test command/convert', function () {
             `${outputDirPath}/subdir-index/index.html`,
         ];
         for (const expectedFile of expectedFiles) {
-            expect(
-                fs.existsSync(expectedFile),
-                `${expectedFile} file not found!`
-            ).to.be.true;
+            expect(existsSync(expectedFile), `${expectedFile} file not found!`)
+                .to.be.true;
         }
     });
 });

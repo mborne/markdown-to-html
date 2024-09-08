@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const checkUrlExists = require('../../src/helpers/checkUrlExists');
+import checkUrlExists from '../../src/helpers/checkUrlExists.js';
 
 describe('Test helper checkUrlExists', async function () {
     it('should find https://github.com/mborne', async function () {

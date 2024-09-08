@@ -1,11 +1,14 @@
 /*eslint-env node, mocha */
 
-const supertest = require('supertest');
-const expect = require('chai').expect;
-const expressApp = require('../../src/server/expressApp');
+import { expect } from 'chai';
+import supertest from 'supertest';
 
-const sourceDirPath = __dirname + '/../../samples/02-remarkjs';
-const layoutPath = __dirname + '/../../layout/remarkjs';
+import helpers from '../helpers.js';
+
+import expressApp from '../../src/server/expressApp.js';
+
+const sourceDirPath = helpers.getSampleDir('02-remarkjs');
+const layoutPath = helpers.getLayoutPath('remarkjs');
 const app = expressApp(sourceDirPath, layoutPath);
 
 const request = supertest(app);

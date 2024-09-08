@@ -1,9 +1,8 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const title = require('../../src/markdown/title');
+import title from '../../src/markdown/title.js';
 
-const helpers = require('../helpers');
-const fs = require('fs');
+import helpers from '../helpers.js';
 
 describe('Regress test for markdown.title', function () {
     it('should extract h1 title for sample-1.md', function () {

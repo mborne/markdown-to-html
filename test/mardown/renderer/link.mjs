@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const link = require('../../../src/markdown/renderer/link');
+import link from '../../../src/markdown/renderer/link.js';
 
 describe('test link', function () {
     it('should works for basic case without', function () {

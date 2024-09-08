@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
+import { expect } from 'chai';
 
-const render = require('../../src/markdown/render');
+import render from '../../src/markdown/render.js';
 
 describe('Test markdown.render', function () {
     it('should support custom id', function () {
