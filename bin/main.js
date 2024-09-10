@@ -2,7 +2,7 @@
 
 const packageMetadata = require('../package.json');
 
-const {program,Option} = require('commander');
+const { program, Option } = require('commander');
 const path = require('path');
 
 const modes = {
