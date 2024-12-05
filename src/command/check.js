@@ -4,11 +4,15 @@ import { SourceDir } from '../SourceDir.js';
 import { Checker } from '../Checker.js';
 
 /**
+ * @typedef {Object} CheckOptions
+ * @property {boolean} checkExternalLinks perform request to check external links?
+ */
+
+/**
  * An helper script to detect dead links in .md or .phtml files.
  *
  * @param {String} sourceDirPath path to source directory
- * @param {object} options
- * @param {boolean} options.checkExternalLinks perform request to check external links?
+ * @param {CheckOptions} options
  */
 export default async function check(sourceDirPath, options) {
     debug(`check('${sourceDirPath}',${JSON.stringify(options)}...)`);

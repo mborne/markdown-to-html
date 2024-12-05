@@ -7,7 +7,7 @@ import url from 'url';
 import { Renderer } from '../Renderer.js';
 import { SourceDir } from '../SourceDir.js';
 import { Layout } from '../Layout.js';
-import { FileType } from '../FileType.js';
+import { FileType } from '../SourceFile.js';
 
 /**
  * Create express app to serve a directory containing mardown files.

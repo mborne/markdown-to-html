@@ -1,6 +1,6 @@
 import { getSampleDir, getTestDataPath } from './helpers';
 
-import { FileType } from '../src/FileType.js';
+import { FileType } from '../src/SourceFile.js';
 import { SourceDir } from '../src/SourceDir.js';
 
 describe('Test SourceDir', function () {

@@ -1,8 +1,17 @@
 import { lstatSync, readFileSync } from 'fs';
 import path from 'path';
 
-import { FileType } from './FileType.js';
 import { SourceDir } from './SourceDir.js';
+
+/**
+ * @enum {string} - types of files in a {@link SourceDir}
+ */
+export const FileType = Object.freeze({
+    DIRECTORY: 'directory',
+    MARKDOWN: 'md',
+    PHTML: 'phtml',
+    STATIC: 'static',
+});
 
 /**
  * Represents a file in a {@link SourceDir}.

@@ -11,6 +11,7 @@ describe('test command/convert', function () {
         const outputDirPath = getTempDirPath();
         convert(sourceDirPath, outputDirPath, layoutPath, {
             language: 'fr',
+            force: false
         });
 
         const expectedFiles = [

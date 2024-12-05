@@ -6,7 +6,7 @@ import path from 'path';
 
 import { SourceDir } from './SourceDir.js';
 import render from './markdown/render.js';
-import { FileType } from './FileType.js';
+import { FileType } from './SourceFile.js';
 import getMetadata from './html/getMetadata.js';
 import checkUrlExists from './helpers/checkUrlExists.js';
 

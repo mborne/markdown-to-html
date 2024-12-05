@@ -6,8 +6,14 @@ import fs, { mkdirSync } from 'fs';
 import { Renderer } from '../Renderer.js';
 import { SourceDir } from '../SourceDir.js';
 import { Layout } from '../Layout.js';
-import { FileType } from '../FileType.js';
+import { FileType } from '../SourceFile.js';
 import renamePathToHtml from '../helpers/renamePathToHtml.js';
+
+/**
+ * @typedef {Object} ConvertOptions
+ * @property {string} language language for HTML pages defaulted to "en"
+ * @property {boolean} force force overwrite existing output dir if it exists
+ */
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -15,9 +21,7 @@ import renamePathToHtml from '../helpers/renamePathToHtml.js';
  * @param {String} sourceDirPath path to source directory
  * @param {String} outputDirPath path to output directory
  * @param {String} layoutPath path to layout directory
- * @param {Object} options
- * @param {string} options.language language for HTML pages defaulted to "en"
- * @param {boolean} options.force force overwrite existing output dir if it exists
+ * @param {ConvertOptions} options
  */
 export default function convert(
     sourceDirPath,

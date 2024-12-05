@@ -4,8 +4,7 @@ import path from 'path';
 import fm from 'front-matter';
 
 import { SourceDir } from './SourceDir.js';
-import { SourceFile } from './SourceFile.js';
-import { FileType } from './FileType.js';
+import { SourceFile, FileType } from './SourceFile.js';
 import { Layout } from './Layout.js';
 import render from './markdown/render.js';
 import title from './markdown/title.js';

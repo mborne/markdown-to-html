@@ -2,11 +2,15 @@ import debug from 'debug';
 import expressApp from '../server/expressApp.js';
 
 /**
+ * @typedef {Object} ServeOptions
+ * @property {string} language language for HTML pages defaulted to "en"
+ */
+
+/**
  * Serve MD files from rootDir
  * @param {String} sourceDirPath path to source directory
  * @param {String} layoutPath path to layout directory
- * @param {Object} options
- * @param {string} options.language language for HTML pages defaulted to "en"
+ * @param {ServeOptions} options
  */
 export default function serve(sourceDirPath, layoutPath, options) {
     const app = expressApp(sourceDirPath, layoutPath, options);
