@@ -26,6 +26,12 @@ const optionLayout = new Option(
     'Name or path to the layout'
 ).env('LAYOUT').default('default');
 
+const optionForce = new Option(
+    '-f, --force',
+    'Force overwrite existing files'
+).env('FORCE').default(false);
+
+
 // TODO : list folders from LAYOUTS_DIR
 import { layoutNames } from '../layout/index.js';
 
@@ -48,6 +54,7 @@ program
     .description('generate static site from source')
     .addOption(optionLayout)
     .addOption(optionLang)
+    .addOption(optionForce)
     .action(function (sourceDir, outputDir, options) {
         const sourceDirPath = path.resolve(sourceDir);
         const outputDirPath = path.resolve(outputDir);

@@ -17,6 +17,7 @@ import renamePathToHtml from '../helpers/renamePathToHtml.js';
  * @param {String} layoutPath path to layout directory
  * @param {Object} options
  * @param {string} options.language language for HTML pages defaulted to "en"
+ * @param {boolean} options.force force overwrite existing output dir if it exists
  */
 export default function convert(
     sourceDirPath,
@@ -27,7 +28,11 @@ export default function convert(
     /* output directory */
     debug("Ensure that outputDir doesn't exists...");
     if (fs.existsSync(outputDirPath)) {
-        throw new Error(outputDirPath + ' already exists!');
+        if ( options.force ){
+            shell.rm('-rf', `${outputDirPath}/*`);
+        }else{
+            throw new Error(outputDirPath + ' already exists!');
+        }
     }
     mkdirSync(outputDirPath, { recursive: true });
     shell.mkdir('-p', outputDirPath);
