@@ -2,8 +2,7 @@ import { expect } from 'chai';
 
 import checkUrlExists from '../../src/helpers/checkUrlExists.js';
 
-describe('Test helper checkUrlExists', function () {
-
+describe('Test Test helpers/checkUrlExists', function () {
     it('should find https://github.com/mborne', async function () {
         const result = await checkUrlExists('https://github.com/mborne');
         expect(result).to.be.true;
@@ -20,5 +19,4 @@ describe('Test helper checkUrlExists', function () {
         );
         expect(result).to.be.false;
     });
-
 });

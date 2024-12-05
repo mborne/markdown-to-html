@@ -3,17 +3,17 @@
 import { expect } from 'chai';
 import supertest from 'supertest';
 
-import { helpers } from '../helpers';
+import { getLayoutPath, getSampleDir } from '../helpers';
 
 import expressApp from '../../src/server/expressApp.js';
 
-const sourceDirPath = helpers.getSampleDir('01-default-layout');
-const layoutPath = helpers.getLayoutPath('default');
-const app = expressApp(sourceDirPath, layoutPath,{});
+const sourceDirPath = getSampleDir('01-default-layout');
+const layoutPath = getLayoutPath('default');
+const app = expressApp(sourceDirPath, layoutPath, {});
 
 const request = supertest(app);
 
-describe('Testing expressApp with samples/01-default-layout', function () {
+describe('Test server/expressApp with samples/01-default-layout', function () {
     describe('GET /index.md', function () {
         it("return a 200 response with 'Markdown syntax' in content", async function () {
             const response = await request.get('/index.md');

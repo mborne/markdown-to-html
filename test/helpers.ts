@@ -4,56 +4,40 @@ import fs from 'fs';
 import os from 'os';
 import { v4 as uuidV4 } from 'uuid';
 
-const PROJECT_DIR = path.resolve(__dirname + '/../');
-const SAMPLES_DIR = path.resolve(__dirname + '/../samples');
+export const PROJECT_DIR = path.resolve(__dirname + '/../');
+export const SAMPLES_DIR = path.resolve(PROJECT_DIR, './samples');
 
-export const helpers = {
-    PROJECT_DIR: PROJECT_DIR,
+/**
+ * Get path to samples/{sampleName}
+ */
+export function getSampleDir(sampleName: string): string {
+    return path.resolve(SAMPLES_DIR, sampleName);
+}
 
-    /**
-     * Get path to samples/{sampleName}
-     *
-     * @param {string} sampleName
-     * @returns {string}
-     */
-    getSampleDir(sampleName) {
-        return path.resolve(SAMPLES_DIR, sampleName);
-    },
+/**
+ * Get path to a layout.
+ */
+export function getLayoutPath(layoutName: string): string {
+    return path.resolve(PROJECT_DIR, `layout/${layoutName}`);
+}
 
-    /**
-     * Get path to a layout.
-     *
-     * @param {string} layoutName
-     * @returns {string}
-     */
-    getLayoutPath(layoutName) {
-        return path.resolve(PROJECT_DIR, `layout/${layoutName}`);
-    },
+/**
+ * Generate temp directory path
+ */
+export function getTempDirPath(): string {
+    return os.tmpdir() + '/md2html-' + uuidV4();
+}
 
-    /**
-     * Get temp directory path
-     *
-     * @returns {string}
-     */
-    getTempDirPath() {
-        return os.tmpdir() + '/md2html-' + uuidV4();
-    },
+/**
+ * Get absolute path test/data/${relativePath}
+ */
+export function getTestDataPath(relativePath): string {
+    return path.resolve(__dirname + '/data/', relativePath);
+}
 
-    /**
-     * Get path to file in test/data directory
-     *
-     * @param {string} relativePath
-     */
-    getTestDataPath(relativePath) {
-        return path.resolve(__dirname + '/data/', relativePath);
-    },
-
-    /**
-     * Get path to file in test/data directory
-     *
-     * @param {string} relativePath
-     */
-    getTestDataContent(relativePath) {
-        return fs.readFileSync(this.getTestDataPath(relativePath), 'utf-8');
-    },
-};
+/**
+ * Get content of test/data/${relativePath}
+ */
+export function getTestDataContent(relativePath: string): string {
+    return fs.readFileSync(getTestDataPath(relativePath), 'utf-8');
+}

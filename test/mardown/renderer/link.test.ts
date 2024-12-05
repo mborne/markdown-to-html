@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import link from '../../../src/markdown/renderer/link.js';
 
-describe('test link', function () {
+describe('Test markdown/renderer/link', function () {
     it('should works for basic case without', function () {
         const result = link('something.html', null, 'Something text');
         const expected = '<a href="something.html">Something text</a>';

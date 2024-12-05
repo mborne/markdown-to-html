@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import renamePathToHtml from '../../src/helpers/renamePathToHtml.js';
 
-describe('Test helper renamePathToHtml', function () {
+describe('Test helpers/renamePathToHtml', function () {
     it('should rename .md extension', function () {
         const result = renamePathToHtml('path/to/something.md');
         const expected = 'path/to/something.html';

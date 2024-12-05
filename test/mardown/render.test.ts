@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import render from '../../src/markdown/render.js';
 
-describe('Test markdown.render', function () {
+describe('Test markdown/render', function () {
     it('should support custom id', function () {
         const result = render('# A title with a custom id {#my-id}');
         const expected = '<h1 id="my-id">A title with a custom id</h1>';

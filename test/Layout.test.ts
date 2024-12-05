@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 
-import { helpers } from './helpers';
+import { getLayoutPath, getSampleDir } from './helpers';
 
 import { Layout } from '../src/Layout';
 
-describe('test Layout', function () {
+describe('Test Layout', function () {
     describe('test constructor', function () {
         it('should ensure that layoutPath exists', function () {
             let thrown = false;
             try {
-                new Layout(helpers.PROJECT_DIR + '/not-found');
+                new Layout(getLayoutPath('not-found'));
             } catch (e) {
                 thrown = true;
             }
@@ -19,7 +19,7 @@ describe('test Layout', function () {
         it('should ensure that page.html exists', function () {
             let thrown = false;
             try {
-                new Layout(helpers.PROJECT_DIR);
+                new Layout(getSampleDir('02-remarkjs'));
             } catch (e) {
                 thrown = true;
             }
@@ -29,12 +29,12 @@ describe('test Layout', function () {
 
     describe('test hasAssets', function () {
         it('should return false for default layout', function () {
-            let layout = new Layout(helpers.getLayoutPath('default'));
+            let layout = new Layout(getLayoutPath('default'));
             expect(layout.hasAssets()).to.be.false;
         });
 
         it('should return true for remarkjs layout', function () {
-            let layout = new Layout(helpers.getLayoutPath('remarkjs'));
+            let layout = new Layout(getLayoutPath('remarkjs'));
             expect(layout.hasAssets()).to.be.true;
         });
     });

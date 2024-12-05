@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { helpers } from '../helpers';
+import { getSampleDir } from '../helpers';
 
 import { url } from '../../src/handlebars/url.js';
 
-const sampleRootDir = helpers.getSampleDir('01-default-layout');
+const sampleRootDir = getSampleDir('01-default-layout');
 const samplePath = `${sampleRootDir}/features/custom-heading-id.md`;
 
 const options = {

@@ -1,33 +1,34 @@
 import { expect } from 'chai';
 
-import { helpers } from './helpers';
+import { getSampleDir, getTestDataPath, PROJECT_DIR } from './helpers';
 
 import { FileType } from '../src/FileType.js';
 import { SourceDir } from '../src/SourceDir.js';
 
-describe('test SourceDir with bad constructor params', function () {
-    it('should throw if rootDir is not found', function () {
-        const rootDir = helpers.PROJECT_DIR + '/not-found/';
-        expect(function () {
-            new SourceDir(rootDir);
-        }).to.throw(Error, `Input file ${rootDir} not found`);
+describe('Test SourceDir', function () {
+
+    describe('test constructor with invalid rootDir', function () {
+
+        it('should throw if rootDir is not found', function () {
+            const rootDir = getSampleDir('not-found');
+            expect(function () {
+                new SourceDir(rootDir);
+            }).to.throw(Error, `Input file ${rootDir} not found`);
+        });
+    
+        it('should throw if rootDir is not a directory', function () {
+            const rootDir = getTestDataPath('sample-1.md');
+            expect(function () {
+                new SourceDir(rootDir);
+            }).to.throw(Error, `Input file ${rootDir} is not a directory`);
+        });
+
     });
 
-    it('should throw if rootDir is not a directory', function () {
-        const rootDir = helpers.PROJECT_DIR + '/README.md';
-        expect(function () {
-            new SourceDir(rootDir);
-        }).to.throw(Error, `Input file ${rootDir} is not a directory`);
-    });
-});
 
-const sampleSourceDir = new SourceDir(
-    helpers.getSampleDir('01-default-layout')
-);
-
-describe('test SourceDir using samples/01-default-layout', function () {
     describe('test findFile', function () {
         it('should find files in sample directory', function () {
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let sourceFiles = sampleSourceDir.findFiles();
             expect(sourceFiles).to.be.an('array');
             expect(sourceFiles.length).to.greaterThan(15);
@@ -41,8 +42,9 @@ describe('test SourceDir using samples/01-default-layout', function () {
     });
 
     describe('test locateFile', function () {
-        describe('test directory', function () {
+        describe('test locateFile with a directory', function () {
             it('should find empty path as rootDir', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('');
                 expect(sourceFile).to.not.be.null;
                 // check type
@@ -54,6 +56,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
 
             it('should find subdir-index as a directory', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('subdir-index');
                 expect(sourceFile).to.not.be.null;
                 // check type
@@ -65,6 +68,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
 
             it('should should resolve directory without readme or index file', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('no-index');
                 // check type
                 expect(sourceFile.type).to.equals(FileType.DIRECTORY);
@@ -75,8 +79,9 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
         });
 
-        describe('test markdown', function () {
+        describe('test locateFile with a .md file', function () {
             it('should should resolve no-index/no-index.md file', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile(
                     'no-index/no-index.md'
                 );
@@ -90,6 +95,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
 
             it('should resolve no-index/no-index.html as no-index/no-index.md', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile(
                     'no-index/no-index.html'
                 );
@@ -103,8 +109,9 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
         });
 
-        describe('test HTML views', function () {
+        describe('test locateFile with a .phtml file', function () {
             it('should should resolve html-view/index.phtml as an HTML view', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile(
                     'html-view/index.phtml'
                 );
@@ -118,6 +125,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
 
             it('should resolve html-view/index.html as html-view/index.phtml', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile(
                     'html-view/index.html'
                 );
@@ -131,8 +139,9 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
         });
 
-        describe('test static files', function () {
+        describe('test locateFile with a static .csv file', function () {
             it('should should resolve html-view/data.csv as a static file', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile =
                     sampleSourceDir.locateFile('html-view/data.csv');
                 expect(sourceFile).to.not.be.null;
@@ -145,14 +154,16 @@ describe('test SourceDir using samples/01-default-layout', function () {
             });
         });
 
-        describe('test not found', function () {
+        describe('test locateFile not found', function () {
             it('should return null for does-not-exist.md', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile =
                     sampleSourceDir.locateFile('does-not-exist.md');
                 expect(sourceFile).to.be.null;
             });
 
             it('should return null for does-not-exist.html', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 // note that it will try .md and .phtml
                 let sourceFile = sampleSourceDir.locateFile(
                     'does-not-exist.html'
@@ -163,11 +174,13 @@ describe('test SourceDir using samples/01-default-layout', function () {
 
         describe('test path traversal protection', function () {
             it('should protect against path traversal with absolute path', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('/etc/hosts');
                 expect(sourceFile).to.be.null;
             });
 
             it('should protect against path traversal with relative path', function () {
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('../README.md');
                 expect(sourceFile).to.be.null;
             });
@@ -176,6 +189,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
 
     describe('test locateIndex', function () {
         it('should find subdir-index/index.md in subdir-index', function () {
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('subdir-index');
             expect(dirFile).to.be.not.null;
             expect(dirFile.type).to.equals(FileType.DIRECTORY);
@@ -188,6 +202,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
         });
 
         it('should find subdir-readme/README.md in subdir-readme', function () {
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('subdir-readme');
             expect(dirFile).to.be.not.null;
             expect(dirFile.type).to.equals(FileType.DIRECTORY);
@@ -200,6 +215,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
         });
 
         it('should find html-view/index.phtml in html-view', function () {
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('html-view');
             expect(dirFile).to.be.not.null;
             expect(dirFile.type).to.equals(FileType.DIRECTORY);
@@ -212,6 +228,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
         });
 
         it('should find html-page/index.html in html-page', function () {
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('html-page');
             expect(dirFile).to.be.not.null;
             expect(dirFile.type).to.equals(FileType.DIRECTORY);
@@ -224,6 +241,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
         });
 
         it('should return null for no-index', function () {
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('no-index');
             expect(dirFile).to.be.not.null;
             expect(dirFile.type).to.equals(FileType.DIRECTORY);
@@ -232,4 +250,6 @@ describe('test SourceDir using samples/01-default-layout', function () {
             expect(sourceFile).to.be.null;
         });
     });
+
 });
+

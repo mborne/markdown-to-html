@@ -5,7 +5,7 @@ import { SourceDirFilter } from '../src/SourceDirFilter.js';
 const defaultFilter = new SourceDirFilter();
 
 describe('test SourceDirFilter', function () {
-    describe('test isIgnored with default SourceDirFilter', function () {
+    describe('test isIgnored(relativePath)', function () {
         it('should ignore .git directory', function () {
             expect(defaultFilter.isIgnored('something/.git/something-else.md'))
                 .to.be.true;
@@ -33,7 +33,8 @@ describe('test SourceDirFilter', function () {
         });
 
         it('should not ignore other files', function () {
-            expect(defaultFilter.isIgnored('something/index.md')).to.be.false;
+            expect(defaultFilter.isIgnored('something/other-file.md')).to.be
+                .false;
         });
     });
 });

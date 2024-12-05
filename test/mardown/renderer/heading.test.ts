@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 
-import { slugger } from '../../../src/markdown/renderer/slugger.js';
 import heading from '../../../src/markdown/renderer/heading.js';
+import { slugger } from '../../../src/markdown/renderer/slugger.js';
 
-beforeEach(()=>{
+// reset slugger counter before each test
+beforeEach(() => {
     slugger.reset();
 });
 
-describe('test heading', function () {
+describe('Test markdown/renderer/heading', function () {
     it('should invoke slugger', function () {
         const result = heading('a great title', 2, 'a great title');
         const expected = '<h2 id="a-great-title">a great title</h2>';

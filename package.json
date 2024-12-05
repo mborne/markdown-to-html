@@ -23,7 +23,7 @@
     "coverage": "jest --collectCoverage=true",
     "coveralls": "c8 report --reporter=text-lcov | coveralls",
     "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\"",
-    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.js\""
+    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.ts\""
   },
   "author": "Mickael Borne <mborne@users.noreply.github.com>",
   "repository": {

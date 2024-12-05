@@ -2,20 +2,17 @@ import { expect } from 'chai';
 
 import convert from '../../src/command/convert.js';
 
+import { getLayoutPath, getSampleDir, getTempDirPath } from '../helpers';
 import { existsSync } from 'fs';
 
-import { helpers } from '../helpers';
-
-// source
-const sourceDirPath = helpers.getSampleDir('01-default-layout');
-// layout
-const layoutPath = helpers.getLayoutPath('default');
+const sourceDirPath = getSampleDir('01-default-layout');
+const layoutPath = getLayoutPath('default');
 
 describe('test command/convert', function () {
     it('should convert files to html', function () {
-        const outputDirPath = helpers.getTempDirPath();
+        const outputDirPath = getTempDirPath();
         convert(sourceDirPath, outputDirPath, layoutPath, {
-            language: 'fr'
+            language: 'fr',
         });
 
         const expectedFiles = [

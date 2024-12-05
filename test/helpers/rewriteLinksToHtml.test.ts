@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import rewriteLinksToHtml from '../../src/helpers/rewriteLinksToHtml.js';
 
-describe('Test link rewrite to html', function () {
+describe('Test helpers/rewriteLinksToHtml', function () {
     it('should work with relative links', function () {
         const result = rewriteLinksToHtml('[Something](something.md)');
         const expected = '[Something](something.html)';
