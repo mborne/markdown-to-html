@@ -14,7 +14,7 @@ import { FileType } from '../FileType.js';
  *
  * @param {String} sourceDirPath path to source directory
  * @param {String} layoutPath path to layout directory
- * @param {Object} options
+ * @param {Object|undefined} options
  * @param {string} options.language language for HTML pages defaulted to "en"
  */
 export default function expressApp(sourceDirPath, layoutPath, options) {

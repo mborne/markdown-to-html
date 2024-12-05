@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { helpers } from '../helpers.js';
+import { helpers } from '../helpers';
 import fs from 'fs';
 
 import toc from '../../src/markdown/toc.js';

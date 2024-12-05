@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { helpers } from './helpers.js';
+import { helpers } from './helpers';
 
 import { FileType } from '../src/FileType.js';
 import { SourceDir } from '../src/SourceDir.js';

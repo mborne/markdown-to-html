@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { helpers } from '../helpers.js';
+import { helpers } from '../helpers';
 
 import { url } from '../../src/handlebars/url.js';
 
@@ -16,7 +16,7 @@ const options = {
     },
 };
 
-describe('Test handlebar helper url', async function () {
+describe('Test handlebar helper url', function () {
     it('should compute path to root for /', async function () {
         const result = url('/', options);
         expect(result.toString()).to.equal('../');

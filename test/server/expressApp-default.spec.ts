@@ -3,18 +3,18 @@
 import { expect } from 'chai';
 import supertest from 'supertest';
 
-import { helpers } from '../helpers.js';
+import { helpers } from '../helpers';
 
 import expressApp from '../../src/server/expressApp.js';
 
 const sourceDirPath = helpers.getSampleDir('01-default-layout');
 const layoutPath = helpers.getLayoutPath('default');
-const app = expressApp(sourceDirPath, layoutPath);
+const app = expressApp(sourceDirPath, layoutPath,{});
 
 const request = supertest(app);
 
-describe('Testing expressApp with samples/01-default-layout', async function () {
-    describe('GET /index.md', async function () {
+describe('Testing expressApp with samples/01-default-layout', function () {
+    describe('GET /index.md', function () {
         it("return a 200 response with 'Markdown syntax' in content", async function () {
             const response = await request.get('/index.md');
 
@@ -23,7 +23,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-    describe('GET /not-found.md', async function () {
+    describe('GET /not-found.md', function () {
         it("return a 404 response with 'Not found' in content", async function () {
             const response = await request.get('/not-found.md');
 
@@ -32,8 +32,8 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-    describe('Testing index resolution', async function () {
-        describe('GET /subdir-index/', async function () {
+    describe('Testing index resolution', function () {
+        describe('GET /subdir-index/', function () {
             it("return a 200 response with 'with an index.md file' in content", async function () {
                 const response = await request.get('/subdir-index/');
 
@@ -42,7 +42,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
             });
         });
 
-        describe('GET /subdir-readme/', async function () {
+        describe('GET /subdir-readme/', function () {
             it("return a 200 response with 'with an index.md file' in content", async function () {
                 const response = await request.get('/subdir-readme/');
 
@@ -51,7 +51,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
             });
         });
 
-        describe('GET /no-index/', async function () {
+        describe('GET /no-index/', function () {
             it("return a 404 response with 'Not found' in content", async function () {
                 const response = await request.get('/no-index/');
 
@@ -61,8 +61,8 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-    describe('Testing HTML view', async function () {
-        describe('GET /01-default-layout/html-view/', async function () {
+    describe('Testing HTML view', function () {
+        describe('GET /01-default-layout/html-view/', function () {
             it("return a 200 response with 'This is an HTML view' in content", async function () {
                 const response = await request.get('/html-view/');
 
@@ -71,7 +71,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
             });
         });
 
-        describe('GET /01-default-layout/html-view/index.html', async function () {
+        describe('GET /01-default-layout/html-view/index.html', function () {
             it("return a 200 response with 'This is an HTML view' in content", async function () {
                 // TODO : improve to allow .html
                 const response = await request.get('/html-view/index.phtml');
@@ -81,7 +81,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
             });
         });
 
-        describe('GET /html-view/data.csv', async function () {
+        describe('GET /html-view/data.csv', function () {
             it("return a 200 response with 'id,name' in content", async function () {
                 const response = await request.get('/html-view/data.csv');
 
@@ -91,8 +91,8 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-    describe('Testing HTML page', async function () {
-        describe('GET /01-default-layout/html-page/', async function () {
+    describe('Testing HTML page', function () {
+        describe('GET /01-default-layout/html-page/', function () {
             it("return a 200 response with 'This is an HTML view' in content", async function () {
                 const response = await request.get('/html-page/');
 
@@ -101,7 +101,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
             });
         });
 
-        describe('GET /01-default-layout/html-page/index.html', async function () {
+        describe('GET /01-default-layout/html-page/index.html', function () {
             it("return a 200 response with 'This is an HTML view' in content", async function () {
                 const response = await request.get('/html-page/index.html');
 
@@ -111,8 +111,8 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-    describe('Testing redirect for directories', async function () {
-        describe('GET /subdir-index', async function () {
+    describe('Testing redirect for directories', function () {
+        describe('GET /subdir-index', function () {
             it('return a 302 response to /subdir-index/', async function () {
                 const response = await request.get('/subdir-index');
 
@@ -121,7 +121,7 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
             });
         });
 
-        describe('GET /subdir-index?page=10', async function () {
+        describe('GET /subdir-index?page=10', function () {
             it('return a 301 response to /subdir-index/ as query string is ignored', async function () {
                 const response = await request.get('/subdir-index?page=10');
 
@@ -131,8 +131,8 @@ describe('Testing expressApp with samples/01-default-layout', async function () 
         });
     });
 
-    describe('Testing path traversal', async function () {
-        describe('GET /../../package.json', async function () {
+    describe('Testing path traversal', function () {
+        describe('GET /../../package.json', function () {
             it('return a 404 response', async function () {
                 const response = await request.get('/../../package.json');
 

@@ -7,7 +7,7 @@ import { slugger } from './slugger.js';
  * @private
  *
  * @param {string} text
- * @param {string} level
+ * @param {number} level
  * @param {string} raw
  * @param {any} slugger
  *

@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 
-import { helpers } from './helpers.js';
+import { helpers } from './helpers';
 
-import { Layout } from '../src/Layout.js';
+import { Layout } from '../src/Layout';
 
 describe('test Layout', function () {
     describe('test constructor', function () {
         it('should ensure that layoutPath exists', function () {
             let thrown = false;
             try {
-                new Layout(helpers.PROJ + '/not-found');
+                new Layout(helpers.PROJECT_DIR + '/not-found');
             } catch (e) {
                 thrown = true;
             }

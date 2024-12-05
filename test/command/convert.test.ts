@@ -4,7 +4,7 @@ import convert from '../../src/command/convert.js';
 
 import { existsSync } from 'fs';
 
-import { helpers } from '../helpers.js';
+import { helpers } from '../helpers';
 
 // source
 const sourceDirPath = helpers.getSampleDir('01-default-layout');
@@ -14,7 +14,9 @@ const layoutPath = helpers.getLayoutPath('default');
 describe('test command/convert', function () {
     it('should convert files to html', function () {
         const outputDirPath = helpers.getTempDirPath();
-        convert(sourceDirPath, outputDirPath, layoutPath);
+        convert(sourceDirPath, outputDirPath, layoutPath, {
+            language: 'fr'
+        });
 
         const expectedFiles = [
             `${outputDirPath}/no-index`,

@@ -2,7 +2,8 @@ import { expect } from 'chai';
 
 import checkUrlExists from '../../src/helpers/checkUrlExists.js';
 
-describe('Test helper checkUrlExists', async function () {
+describe('Test helper checkUrlExists', function () {
+
     it('should find https://github.com/mborne', async function () {
         const result = await checkUrlExists('https://github.com/mborne');
         expect(result).to.be.true;
@@ -18,5 +19,6 @@ describe('Test helper checkUrlExists', async function () {
             'https://github.com/mborne/not-found'
         );
         expect(result).to.be.false;
-    }).timeout(5000);
+    });
+
 });
