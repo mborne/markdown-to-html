@@ -1,4 +1,4 @@
-const url = require('url');
+import url from 'url';
 
 /**
  * marked - custom method to render link with a _blank target for external links.
@@ -7,7 +7,7 @@ const url = require('url');
  *
  * @returns {function}
  */
-function link(href, title, text) {
+export default function link(href, title, text) {
     const parsed = url.parse(href);
 
     /* convert .md links to .html for non external links */
@@ -26,5 +26,3 @@ function link(href, title, text) {
     out += '>' + text + '</a>';
     return out;
 }
-
-module.exports = link;

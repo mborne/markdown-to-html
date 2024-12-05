@@ -1,15 +1,15 @@
-const { assert } = require('console');
-const fs = require('fs');
-const path = require('path');
-const shell = require('shelljs');
-const SourceFile = require('./SourceFile');
-const SourceDirFilter = require('./SourceDirFilter');
+import assert from 'assert';
+import fs from 'fs';
+import path from 'path';
+import shell from 'shelljs';
+import { SourceFile } from './SourceFile.js';
+import { SourceDirFilter } from './SourceDirFilter.js';
 
 /**
  * Represents a root directory containing markdown
  * and static files.
  */
-class SourceDir {
+export class SourceDir {
     /**
      * @param {string} rootDir the rendered directory.
      */
@@ -127,5 +127,3 @@ class SourceDir {
         return null;
     }
 }
-
-module.exports = SourceDir;

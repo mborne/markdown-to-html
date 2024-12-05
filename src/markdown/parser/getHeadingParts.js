@@ -10,7 +10,7 @@ const headingIdRegex = /(?: +|^)\{#([a-z][\w-]*)\}(?: +|$)/i;
  * @param {any} slugger
  * @return {object}
  */
-function getHeadingParts(text, raw, slugger) {
+export default function getHeadingParts(text, raw, slugger) {
     const hasId = text.match(headingIdRegex);
     if (!hasId) {
         return {
@@ -23,5 +23,3 @@ function getHeadingParts(text, raw, slugger) {
         title: text.replace(headingIdRegex, ''),
     };
 }
-
-module.exports = getHeadingParts;

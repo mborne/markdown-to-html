@@ -1,7 +1,7 @@
 /**
  * Test if a file is ignored (allows to ignore some directories like .git, node_modules,...)
  */
-class SourceDirFilter {
+export class SourceDirFilter {
     constructor() {
         this.ignoredList = [/^\.git$/, /^node_modules$/];
     }
@@ -25,5 +25,3 @@ class SourceDirFilter {
         return false;
     }
 }
-
-module.exports = SourceDirFilter;

@@ -1,13 +1,17 @@
-const fs = require('fs');
+import fs from 'fs';
 
-const handlebars = require('handlebars');
-handlebars.registerHelper('asset', require('./handlebars/asset'));
-handlebars.registerHelper('url', require('./handlebars/url'));
+import handlebars from 'handlebars';
+
+import { asset } from './handlebars/asset.js';
+handlebars.registerHelper('asset', asset);
+
+import { url } from './handlebars/url.js';
+handlebars.registerHelper('url', url);
 
 /**
  * Handlebars based layout with a template page.html and an optional assets directory.
  */
-class Layout {
+export class Layout {
     /**
      * @param {string} layoutPath path to the directory containing page.html
      */
@@ -44,5 +48,3 @@ class Layout {
         return handlebars.compile(templateSource);
     }
 }
-
-module.exports = Layout;

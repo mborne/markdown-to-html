@@ -1,4 +1,4 @@
-const cheerio = require('cheerio');
+import * as cheerio from 'cheerio';
 
 /**
  * Get links from HTML content
@@ -7,7 +7,7 @@ const cheerio = require('cheerio');
  *
  * @param {string} htmlContent
  */
-function getMetadata(htmlContent) {
+export default function getMetadata(htmlContent) {
     const $ = cheerio.load(htmlContent);
 
     const metadata = {
@@ -39,5 +39,3 @@ function getMetadata(htmlContent) {
 
     return metadata;
 }
-
-module.exports = getMetadata;

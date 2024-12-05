@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import title from '../../src/markdown/title.js';
+import { helpers } from '../helpers.js';
 
-import helpers from '../helpers.js';
+import title from '../../src/markdown/title.js';
 
 describe('Regress test for markdown.title', function () {
     it('should extract h1 title for sample-1.md', function () {

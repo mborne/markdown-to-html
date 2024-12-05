@@ -1,7 +1,6 @@
-const Slugger = require('../../helpers/Slugger');
+import Slugger from '../../helpers/Slugger.js';
 
 /**
  * Global instance for marked
  */
-const slugger = new Slugger();
-module.exports = slugger;
+export const slugger = new Slugger();

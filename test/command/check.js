@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import check from '../../src/command/check.js';
+import {helpers} from '../helpers.js';
 
-import helpers from '../helpers.js';
+import check from '../../src/command/check.js';
 
 describe('test command/check', function () {
     it('should find dead links in samples/01-default-layout', async function () {

@@ -1,13 +1,13 @@
-const express = require('express');
+import express from 'express';
 
-const morgan = require('morgan');
+import morgan from 'morgan';
 
-const Renderer = require('../Renderer');
-const SourceDir = require('../SourceDir');
-const Layout = require('../Layout');
+import url from 'url';
 
-const url = require('url');
-const FileType = require('../FileType');
+import { Renderer } from '../Renderer.js';
+import { SourceDir } from '../SourceDir.js';
+import { Layout } from '../Layout.js';
+import { FileType } from '../FileType.js';
 
 /**
  * Create express app to serve a directory containing mardown files.
@@ -17,7 +17,7 @@ const FileType = require('../FileType');
  * @param {Object} options
  * @param {string} options.language language for HTML pages defaulted to "en"
  */
-function expressApp(sourceDirPath, layoutPath, options) {
+export default function expressApp(sourceDirPath, layoutPath, options) {
     const app = express();
 
     /*
@@ -85,4 +85,3 @@ function expressApp(sourceDirPath, layoutPath, options) {
     return app;
 }
 
-module.exports = expressApp;

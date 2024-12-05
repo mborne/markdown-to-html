@@ -1,5 +1,5 @@
-const getHeadingParts = require('../parser/getHeadingParts');
-const slugger = require('./slugger');
+import getHeadingParts from '../parser/getHeadingParts.js';
+import { slugger } from './slugger.js';
 
 /**
  * marked - custom method to render titles.
@@ -13,10 +13,8 @@ const slugger = require('./slugger');
  *
  * @returns {string}
  */
-function heading(text, level, raw) {
+export default function heading(text, level, raw) {
     let parts = getHeadingParts(text, raw, slugger);
 
     return `<h${level} id="${parts.id}">${parts.title}</h${level}>`;
 }
-
-module.exports = heading;

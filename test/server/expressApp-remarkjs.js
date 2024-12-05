@@ -3,7 +3,7 @@
 import { expect } from 'chai';
 import supertest from 'supertest';
 
-import helpers from '../helpers.js';
+import {helpers} from '../helpers.js';
 
 import expressApp from '../../src/server/expressApp.js';
 

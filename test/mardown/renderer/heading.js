@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import slugger from '../../../src/markdown/renderer/slugger.js';
+import { slugger } from '../../../src/markdown/renderer/slugger.js';
 import heading from '../../../src/markdown/renderer/heading.js';
 
 describe('test heading', function () {

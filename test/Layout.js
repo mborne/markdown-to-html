@@ -1,9 +1,8 @@
 import { expect } from 'chai';
 
-import Layout from '../src/Layout.js';
+import { helpers } from './helpers.js';
 
-const __dirname = import.meta.dirname;
-import helpers from './helpers.js';
+import { Layout } from '../src/Layout.js';
 
 describe('test Layout', function () {
     describe('test constructor', function () {
@@ -20,7 +19,7 @@ describe('test Layout', function () {
         it('should ensure that page.html exists', function () {
             let thrown = false;
             try {
-                new Layout(__dirname);
+                new Layout(helpers.PROJECT_DIR);
             } catch (e) {
                 thrown = true;
             }

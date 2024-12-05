@@ -1,6 +1,6 @@
-const url = require('url');
-const path = require('path');
-const renamePathToHtml = require('./renamePathToHtml');
+import url from 'url';
+import path from 'path';
+import renamePathToHtml from './renamePathToHtml.js';
 
 /**
  * Rewrite relative .md links to .html in markdown text.
@@ -8,7 +8,7 @@ const renamePathToHtml = require('./renamePathToHtml');
  * @param {string} text
  * @returns {string}
  */
-function rewriteLinksToHtml(text) {
+export default function rewriteLinksToHtml(text) {
     return text.replace(/\[([^\[\]]*)\]\((.*?)\)/gm, function (link) {
         let parts = link.match(/\[([^\[\]]*)\]\((.*?)\)/);
 
@@ -26,5 +26,3 @@ function rewriteLinksToHtml(text) {
         return `[${title}](${href})`;
     });
 }
-
-module.exports = rewriteLinksToHtml;

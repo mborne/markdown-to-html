@@ -1,7 +1,7 @@
-const debug = require('debug')('markdown-to-html');
+import debug from 'debug';
 
-const SourceDir = require('../SourceDir');
-const Checker = require('../Checker');
+import { SourceDir } from '../SourceDir.js';
+import { Checker } from '../Checker.js';
 
 /**
  * An helper script to detect dead links in .md or .phtml files.
@@ -10,7 +10,7 @@ const Checker = require('../Checker');
  * @param {object} options
  * @param {boolean} options.checkExternalLinks perform request to check external links?
  */
-async function check(sourceDirPath, options) {
+export default async function check(sourceDirPath, options) {
     debug(`check('${sourceDirPath}',${JSON.stringify(options)}...)`);
     const sourceDir = new SourceDir(sourceDirPath);
     const checker = new Checker(options);
@@ -27,5 +27,3 @@ async function check(sourceDirPath, options) {
         console.log('SUCCESS : No dead link found');
     }
 }
-
-module.exports = check;

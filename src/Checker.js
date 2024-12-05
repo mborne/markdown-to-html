@@ -1,13 +1,14 @@
-const debug = require('debug')('markdown-to-html');
+import debug from 'debug';
 
-const SourceDir = require('./SourceDir');
-const fs = require('fs');
-const url = require('url');
-const path = require('path');
-const markdown = require('./markdown');
-const FileType = require('./FileType');
-const getMetadata = require('./html/getMetadata');
-const checkUrlExists = require('./helpers/checkUrlExists');
+import fs from 'fs';
+import url from 'url';
+import path from 'path';
+
+import { SourceDir } from './SourceDir.js';
+import render from './markdown/render.js';
+import { FileType } from './FileType.js';
+import getMetadata from './html/getMetadata.js';
+import checkUrlExists from './helpers/checkUrlExists.js';
 
 const ErrorLevel = Object.freeze({
     INFO: 'INFO',
@@ -22,7 +23,7 @@ const ErrorCode = Object.freeze({
 /**
  * Helper class to check files in a source directory
  */
-class Checker {
+export class Checker {
     /**
      * @param {object} options
      * @param {boolean} options.checkExternalLinks
@@ -71,7 +72,7 @@ class Checker {
         // render content to html
         let htmlContent = sourceFile.getContentRaw();
         if (FileType.MARKDOWN === sourceFile.type) {
-            htmlContent = markdown.render(htmlContent);
+            htmlContent = render(htmlContent);
         }
 
         // get links from html
@@ -202,4 +203,3 @@ class Checker {
     }
 }
 
-module.exports = Checker;

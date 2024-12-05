@@ -1,11 +1,11 @@
-const marked = require('marked').marked;
+import marked from './marked.js';
 
 /**
  * Extract first h1 title from markdown.
  *
  * @param {string} markdownContent
  */
-function title(markdownContent) {
+export default function title(markdownContent) {
     const lexer = new marked.Lexer();
     let tokens = lexer.lex(markdownContent);
     let h1Tokens = tokens.filter(
@@ -17,5 +17,3 @@ function title(markdownContent) {
         return null;
     }
 }
-
-module.exports = title;

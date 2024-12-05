@@ -1,4 +1,4 @@
-const marked = require('./marked');
+import marked from './marked.js';
 
 /**
  * Render markdown content to HTML.
@@ -6,9 +6,7 @@ const marked = require('./marked');
  * @param {string} markdownContent
  * @returns {string}
  */
-function render(markdownContent) {
+export default function render(markdownContent) {
     /* render markdown to html */
     return marked.parse(markdownContent);
 }
-
-module.exports = render;

@@ -1,8 +1,8 @@
-const debug = require('debug')('markdown-to-html');
-const axios = require('axios');
+import debug from 'debug';
+import axios from 'axios';
 
-const http = require('http');
-const https = require('https');
+import http from 'http';
+import https from 'https';
 
 /**
  * Test if URL exists.
@@ -10,7 +10,7 @@ const https = require('https');
  * @param {string} url
  * @returns {boolean}
  */
-async function checkUrlExists(url) {
+export default async function checkUrlExists(url) {
     debug(`checkUrlExists('${url}')...`);
     try {
         let response = await axios.get(url, {
@@ -26,5 +26,3 @@ async function checkUrlExists(url) {
         return false;
     }
 }
-
-module.exports = checkUrlExists;

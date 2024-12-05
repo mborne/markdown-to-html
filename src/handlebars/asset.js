@@ -1,5 +1,5 @@
-const handlebars = require('handlebars');
-const path = require('path');
+import path from 'path';
+import handlebars from 'handlebars';
 
 /**
  * Handlebars helper providing {{asset 'highlight/styles/github.css'}}.
@@ -7,7 +7,7 @@ const path = require('path');
  * @param {string} context
  * @param {Object} options
  */
-module.exports = function (context, options) {
+export function asset(context, options) {
     const parentDir = path.resolve(options.data.root.path, '..');
     const relativePath = path.relative(
         parentDir,
@@ -20,4 +20,4 @@ module.exports = function (context, options) {
     output += context;
 
     return new handlebars.SafeString(output);
-};
+}

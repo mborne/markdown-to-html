@@ -1,12 +1,13 @@
-const debug = require('debug')('markdown-to-html');
+import debug from 'debug';
 
-const shell = require('shelljs');
-const fs = require('fs');
-const Renderer = require('../Renderer');
-const SourceDir = require('../SourceDir');
-const Layout = require('../Layout');
-const renamePathToHtml = require('../helpers/renamePathToHtml');
-const FileType = require('../FileType');
+import shell from 'shelljs';
+import fs from 'fs';
+
+import {Renderer} from '../Renderer.js';
+import {SourceDir} from '../SourceDir.js';
+import {Layout} from '../Layout.js';
+import { FileType } from '../FileType.js';
+import renamePathToHtml from '../helpers/renamePathToHtml.js';
 
 /**
  * Convert MD files in rootDir to outputDir
@@ -17,7 +18,7 @@ const FileType = require('../FileType');
  * @param {Object} options
  * @param {string} options.language language for HTML pages defaulted to "en"
  */
-function convert(sourceDirPath, outputDirPath, layoutPath, options) {
+export default function convert(sourceDirPath, outputDirPath, layoutPath, options) {
     /* output directory */
     debug("Ensure that outputDir doesn't exists...");
     if (fs.existsSync(outputDirPath)) {
@@ -82,5 +83,3 @@ function convert(sourceDirPath, outputDirPath, layoutPath, options) {
 
     debug(`Render completed`);
 }
-
-module.exports = convert;

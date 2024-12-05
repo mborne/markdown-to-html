@@ -5,7 +5,7 @@
  *
  * @see https://raw.githubusercontent.com/markedjs/marked/v4.3.0/src/Slugger.js
  */
-class Slugger {
+export default class Slugger {
     constructor() {
         this.seen = {};
     }
@@ -66,5 +66,3 @@ class Slugger {
         return this.getNextSafeSlug(slug, options.dryrun);
     }
 }
-
-module.exports = Slugger;

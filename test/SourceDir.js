@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import helpers from './helpers.js';
+import { helpers } from './helpers.js';
 
-import FileType from '../src/FileType.js';
-import SourceDir from '../src/SourceDir.js';
+import { FileType } from '../src/FileType.js';
+import { SourceDir } from '../src/SourceDir.js';
 
 describe('test SourceDir with bad constructor params', function () {
     it('should throw if rootDir is not found', function () {
@@ -86,8 +86,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
                 // check absolutePath
                 let absolutePath = sourceFile.absolutePath;
                 expect(absolutePath).to.not.be.null;
-                expect(absolutePath.endsWith('no-index/no-index.md')).to.be
-                    .true;
+                expect(absolutePath.endsWith('no-index.md')).to.be.true;
             });
 
             it('should resolve no-index/no-index.html as no-index/no-index.md', function () {
@@ -100,8 +99,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
                 // check absolutePath
                 let absolutePath = sourceFile.absolutePath;
                 expect(absolutePath).to.not.be.null;
-                expect(absolutePath.endsWith('no-index/no-index.md')).to.be
-                    .true;
+                expect(absolutePath.endsWith('no-index.md')).to.be.true;
             });
         });
 
@@ -116,8 +114,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
                 // check absolutePath
                 let absolutePath = sourceFile.absolutePath;
                 expect(absolutePath).to.not.be.null;
-                expect(absolutePath.endsWith('html-view/index.phtml')).to.be
-                    .true;
+                expect(absolutePath.endsWith('index.phtml')).to.be.true;
             });
 
             it('should resolve html-view/index.html as html-view/index.phtml', function () {
@@ -130,8 +127,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
                 // check absolutePath
                 let absolutePath = sourceFile.absolutePath;
                 expect(absolutePath).to.not.be.null;
-                expect(absolutePath.endsWith('html-view/index.phtml')).to.be
-                    .true;
+                expect(absolutePath.endsWith('index.phtml')).to.be.true;
             });
         });
 
@@ -145,7 +141,7 @@ describe('test SourceDir using samples/01-default-layout', function () {
                 // check absolutePath
                 let absolutePath = sourceFile.absolutePath;
                 expect(absolutePath).to.not.be.null;
-                expect(absolutePath.endsWith('html-view/data.csv')).to.be.true;
+                expect(absolutePath.endsWith('data.csv')).to.be.true;
             });
         });
 

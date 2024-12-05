@@ -4,7 +4,7 @@
  * @param {string} path
  * @return {string}
  */
-function renamePathToHtml(path) {
+export default function renamePathToHtml(path) {
     if (path.endsWith('.md')) {
         return path.slice(0, -3) + '.html';
     } else if (path.endsWith('.phtml')) {
@@ -13,5 +13,3 @@ function renamePathToHtml(path) {
         return path;
     }
 }
-
-module.exports = renamePathToHtml;

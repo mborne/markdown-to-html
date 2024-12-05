@@ -1,13 +1,14 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
-const os = require('os');
-const uuid = require('uuid');
+import os from 'os';
+import { v4 as uuidV4 } from 'uuid';
 
+const __dirname = import.meta.dirname;
 const PROJECT_DIR = path.resolve(__dirname + '/../');
 const SAMPLES_DIR = path.resolve(__dirname + '/../samples');
 
-const helpers = {
+export const helpers = {
     PROJECT_DIR: PROJECT_DIR,
 
     /**
@@ -36,7 +37,7 @@ const helpers = {
      * @returns {string}
      */
     getTempDirPath() {
-        return os.tmpdir() + '/md2html-' + uuid.v4();
+        return os.tmpdir() + '/md2html-' + uuidV4();
     },
 
     /**
@@ -57,5 +58,3 @@ const helpers = {
         return fs.readFileSync(this.getTestDataPath(relativePath), 'utf-8');
     },
 };
-
-module.exports = helpers;

@@ -1,7 +1,7 @@
-const marked = require('marked').marked;
+import marked from './marked.js';
 
-const Slugger = require('../helpers/Slugger');
-const getHeadingParts = require('./parser/getHeadingParts');
+import Slugger from '../helpers/Slugger.js';
+import getHeadingParts from './parser/getHeadingParts.js';
 
 /**
  * Generate markdown table of content from markdown.
@@ -9,7 +9,7 @@ const getHeadingParts = require('./parser/getHeadingParts');
  * @param {string} markdownContent markdown source
  * @returns {string}
  */
-function toc(markdownContent) {
+export default function toc(markdownContent) {
     const lexer = new marked.Lexer();
     let tokens = lexer.lex(markdownContent);
     let headingTokens = tokens.filter(
@@ -39,5 +39,3 @@ function toc(markdownContent) {
         })
         .join('\n');
 }
-
-module.exports = toc;

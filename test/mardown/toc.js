@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import toc from '../../src/markdown/toc.js';
-
-import helpers from '../helpers.js';
+import { helpers } from '../helpers.js';
 import fs from 'fs';
+
+import toc from '../../src/markdown/toc.js';
 
 describe('Regress test for markdown.toc', function () {
     it('should produce expected markdown for sample-1.md', function () {

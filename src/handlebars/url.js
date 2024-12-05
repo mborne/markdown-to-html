@@ -1,5 +1,5 @@
-const handlebars = require('handlebars');
-const path = require('path');
+import path from 'path';
+import handlebars from 'handlebars';
 
 /**
  * Handlebars helper providing a way to compute relative URL from rendered file to a given path
@@ -9,7 +9,7 @@ const path = require('path');
  * @param {string} context
  * @param {Object} options
  */
-module.exports = function (context, options) {
+export function url(context, options) {
     const parentDir = path.resolve(options.data.root.path, '..');
     const targetPath = path.resolve(
         options.data.root.rootDir,
@@ -20,4 +20,4 @@ module.exports = function (context, options) {
         ? relativeTargetPath + '/'
         : relativeTargetPath;
     return new handlebars.SafeString(relativeUrl);
-};
+}

@@ -1,5 +1,3 @@
-module.exports = {
-    render: require('./render'),
-    toc: require('./toc'),
-    title: require('./title'),
-};
+export * from './render.js';
+export * from './toc.js';
+export * from './title.js';

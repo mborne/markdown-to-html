@@ -1,7 +1,8 @@
-const marked = require('marked').marked;
+import { marked } from 'marked';
 
-const toc = require('./toc');
-const slugger = require('./renderer/slugger');
+import toc from './toc.js';
+
+import { slugger } from './renderer/slugger.js';
 
 /**
  * Customize preprocess.
@@ -29,11 +30,14 @@ marked.use({ hooks: { preprocess } });
  *
  * @see https://marked.js.org/using_pro#renderer
  */
+import heading from './renderer/heading.js';
+import link from './renderer/link.js';
+
 const renderer = {
-    heading: require('./renderer/heading'),
-    link: require('./renderer/link'),
+    heading: heading,
+    link: link,
 };
 
 marked.use({ renderer });
 
-module.exports = marked;
+export default marked;

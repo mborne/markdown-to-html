@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import SourceDirFilter from '../src/SourceDirFilter.js';
+import { SourceDirFilter } from '../src/SourceDirFilter.js';
 
 const defaultFilter = new SourceDirFilter();
 

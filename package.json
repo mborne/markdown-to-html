@@ -1,8 +1,9 @@
 {
   "name": "@mborne/markdown-to-html",
-  "version": "0.10.4",
+  "version": "0.11.0",
   "description": "Experimental static site renderer/server supporting markdown and HTML/JS views",
   "main": "index.js",
+  "type": "module",
   "bin": {
     "markdown-to-html": "bin/main.js"
   },

@@ -1,35 +1,34 @@
-const debug = require('debug')('markdown-to-html');
+import debug from 'debug';
+import path from 'path';
 
-const SourceDir = require('./SourceDir');
+import fm from 'front-matter';
 
-const path = require('path');
-
-const SourceFile = require('./SourceFile');
-const FileType = require('./FileType');
-const Layout = require('./Layout');
-
-const markdown = require('./markdown');
-const fm = require('front-matter');
-const rewriteLinksToHtml = require('./helpers/rewriteLinksToHtml');
-const getMetadata = require('./html/getMetadata');
+import {SourceDir} from './SourceDir.js';
+import { SourceFile } from './SourceFile.js';
+import { FileType } from './FileType.js';
+import { Layout } from './Layout.js';
+import render from './markdown/render.js';
+import title from './markdown/title.js';
+import rewriteLinksToHtml from './helpers/rewriteLinksToHtml.js';
+import getMetadata from './html/getMetadata.js';
 
 /**
  * Helper class to render markdown files in a directory
  */
-class Renderer {
+export class Renderer {
     /**
      * @param {SourceDir} sourceDir
      * @param {Layout} layout
      *
      * @param {Object} options
-     * @param {boolean} options.renameLinksToHtml convert .md or .phtml links to .html
-     * @param {string} options.language language for HTML pages defaulted to "en"
+     * @param {boolean} [options.renameLinksToHtml=false] convert .md or .phtml links to .html
+     * @param {string} [options.language='en'] language for HTML pages defaulted to "en"
      */
-    constructor(sourceDir, layout, options) {
+    constructor(sourceDir, layout, options = {}) {
         this.sourceDir = sourceDir;
         this.layout = layout;
-        this.renameLinksToHtml = options.renameLinksToHtml || false;
-        this.language = options.language || 'en';
+        this.renameLinksToHtml = options.renameLinksToHtml ?? false;
+        this.language = options.language ?? 'en';
         this.template = this.layout.getTemplate();
     }
 
@@ -61,7 +60,7 @@ class Renderer {
 
         if (FileType.MARKDOWN == sourceFile.type) {
             // read title from markdown
-            const markdownTitle = markdown.title(sourceFile.getContentRaw());
+            const markdownTitle = title(sourceFile.getContentRaw());
             if (markdownTitle) {
                 context.title = markdownTitle;
             }
@@ -79,7 +78,7 @@ class Renderer {
             }
 
             // render markdown
-            context.content = markdown.render(markdownContent);
+            context.content = render(markdownContent);
             // output markdown source (for layout like remarkjs layout)
             context.markdownContent = markdownContent;
         } else {
@@ -98,5 +97,3 @@ class Renderer {
         return this.template(context);
     }
 }
-
-module.exports = Renderer;

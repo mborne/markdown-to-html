@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+import { lstatSync, readFileSync } from 'fs';
+import path from 'path';
 
-const FileType = require('./FileType');
-const SourceDir = require('./SourceDir');
+import { FileType } from './FileType.js';
+import { SourceDir } from './SourceDir.js';
 
 /**
  * Represents a file in a {@link SourceDir}.
@@ -13,7 +13,7 @@ const SourceDir = require('./SourceDir');
  * @property {string} path - absolute path to the file
  * @property {string} relativePath - path relative  to the root dir
  */
-class SourceFile {
+export class SourceFile {
     /**
      * @param {SourceDir} sourceDir
      * @param {string} absolutePath
@@ -26,7 +26,7 @@ class SourceFile {
          * Detect the type of the file
          */
         this.type = FileType.STATIC;
-        if (fs.lstatSync(this.absolutePath).isDirectory()) {
+        if (lstatSync(this.absolutePath).isDirectory()) {
             this.type = FileType.DIRECTORY;
         } else if (this.absolutePath.match(/\.md$/)) {
             this.type = FileType.MARKDOWN;
@@ -46,8 +46,6 @@ class SourceFile {
      * @returns {string}
      */
     getContentRaw() {
-        return fs.readFileSync(this.absolutePath, 'utf-8');
+        return readFileSync(this.absolutePath, 'utf-8');
     }
 }
-
-module.exports = SourceFile;

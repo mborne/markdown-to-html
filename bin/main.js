@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
-const packageMetadata = require('../package.json');
+//const packageMetadata = require('../package.json');
 
-const { program, Option } = require('commander');
-const path = require('path');
+import {program, Option} from 'commander';
 
-const modes = {
-    convert: require('../src/command/convert'),
-    serve: require('../src/command/serve'),
-    check: require('../src/command/check'),
-};
+import path from 'path';
+
+import convert from '../src/command/convert.js';
+import serve from '../src/command/serve.js';
+import check from '../src/command/check.js';
 
 const optionLang = new Option(
     '--language <language>',
@@ -50,7 +49,7 @@ program
         const outputDirPath = path.resolve(outputDir);
         const layoutPath = getLayoutPath(options.layout);
         try {
-            modes.convert(sourceDirPath, outputDirPath, layoutPath, options);
+            convert(sourceDirPath, outputDirPath, layoutPath, options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
@@ -66,7 +65,7 @@ program
         const sourceDirPath = path.resolve(sourceDir);
         const layoutPath = getLayoutPath(options.layout);
         try {
-            modes.serve(sourceDirPath, layoutPath, options);
+            serve(sourceDirPath, layoutPath, options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);
@@ -83,7 +82,7 @@ program
     .action(async function (sourceDir, options) {
         const sourceDirPath = path.resolve(sourceDir);
         try {
-            await modes.check(sourceDirPath, options);
+            await check(sourceDirPath, options);
         } catch (e) {
             console.error(e.message);
             process.exit(1);

@@ -9,21 +9,10 @@ Use the following config in `.vscode/launch.json` file to debug tests or server 
         {
             "type": "node",
             "request": "launch",
-            "name": "Run test",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/node_modules/.bin/mocha"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Serve samples/01-default-layout",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/bin/main.js",
-            "args": ["serve","samples/01-default-layout", "-l","remarkjs"]
+            "name": "Run mocha",
+            "runtimeExecutable": "mocha",
+            "cwd": "${workspaceFolder}",
+            "args": []
         }
     ]
 }

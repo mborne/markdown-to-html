@@ -1,5 +1,5 @@
-const debug = require('debug')('markdown-to-html');
-const expressApp = require('../server/expressApp');
+import debug from 'debug';
+import expressApp from '../server/expressApp.cjs';
 
 /**
  * Serve MD files from rootDir
