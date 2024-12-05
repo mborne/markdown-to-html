@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { getSampleDir } from '../helpers';
 
 import { url } from '../../src/handlebars/url.js';
@@ -19,10 +17,10 @@ const options = {
 describe('Test handlebar helper url', function () {
     it('should compute path to root for /', async function () {
         const result = url('/', options);
-        expect(result.toString()).to.equal('../');
+        expect(result.toString()).toEqual('../');
     });
     it('should work for features/mathjax.md', async function () {
         const result = url('features/mathjax.md', options);
-        expect(result.toString()).to.equal('mathjax.md');
+        expect(result.toString()).toEqual('mathjax.md');
     });
 });

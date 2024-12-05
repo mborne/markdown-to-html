@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { getSampleDir } from '../helpers';
 
 import check from '../../src/command/check.js';
@@ -14,11 +12,11 @@ describe('test command/check', function () {
             });
         } catch (err) {
             expectionThrown = true;
-            expect(err).to.be.an.instanceOf(Error);
-            expect(err.message).to.include('Found 2 dead link(s)');
-            expect(err.message).to.include('missing-file.md');
+            expect(err).toBeInstanceOf(Error);
+            expect(err.message).toContain('Found 2 dead link(s)');
+            expect(err.message).toContain('missing-file.md');
         }
-        expect(expectionThrown).to.be.true;
+        expect(expectionThrown).toBeTruthy();
     });
 
     it('shout not find dead links samples/02-remarkjs', async function () {

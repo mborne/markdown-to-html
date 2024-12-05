@@ -1,6 +1,5 @@
 /*eslint-env node, mocha */
 
-import { expect } from 'chai';
 import supertest from 'supertest';
 
 import { getLayoutPath, getSampleDir } from '../helpers';
@@ -21,8 +20,8 @@ describe('Test server/expressApp with samples/02-remarkjs', function () {
         it("return a 200 response with 'RemarkJS layout' in content", async function () {
             const response = await request.get('/');
 
-            expect(response.status).to.eql(200);
-            expect(response.text).to.contains('RemarkJS layout');
+            expect(response.status).toEqual(200);
+            expect(response.text).toContain('RemarkJS layout');
         });
     });
 });

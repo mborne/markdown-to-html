@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { getLayoutPath, getSampleDir } from './helpers';
 
 import { Layout } from '../src/Layout';
@@ -13,7 +11,7 @@ describe('Test Layout', function () {
             } catch (e) {
                 thrown = true;
             }
-            expect(thrown).to.be.true;
+            expect(thrown).toBe(true);
         });
 
         it('should ensure that page.html exists', function () {
@@ -23,19 +21,19 @@ describe('Test Layout', function () {
             } catch (e) {
                 thrown = true;
             }
-            expect(thrown).to.be.true;
+            expect(thrown).toBe(true);
         });
     });
 
     describe('test hasAssets', function () {
         it('should return false for default layout', function () {
             let layout = new Layout(getLayoutPath('default'));
-            expect(layout.hasAssets()).to.be.false;
+            expect(layout.hasAssets()).toBe(false);
         });
 
         it('should return true for remarkjs layout', function () {
             let layout = new Layout(getLayoutPath('remarkjs'));
-            expect(layout.hasAssets()).to.be.true;
+            expect(layout.hasAssets()).toBe(true);
         });
     });
 });

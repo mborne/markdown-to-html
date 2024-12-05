@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import heading from '../../../src/markdown/renderer/heading.js';
 import { slugger } from '../../../src/markdown/renderer/slugger.js';
 
@@ -12,19 +10,19 @@ describe('Test markdown/renderer/heading', function () {
     it('should invoke slugger', function () {
         const result = heading('a great title', 2, 'a great title');
         const expected = '<h2 id="a-great-title">a great title</h2>';
-        expect(result).to.equals(expected);
+        expect(result).toEqual(expected);
     });
 
     it('should respect slugger counter', function () {
         {
             const result = heading('a great title', 2, 'a great title');
             const expected = '<h2 id="a-great-title">a great title</h2>';
-            expect(result).to.equals(expected);
+            expect(result).toEqual(expected);
         }
         {
             const result = heading('a great title', 2, 'a great title');
             const expected = '<h2 id="a-great-title-1">a great title</h2>';
-            expect(result).to.equals(expected);
+            expect(result).toEqual(expected);
         }
     });
 
@@ -35,6 +33,6 @@ describe('Test markdown/renderer/heading', function () {
             'a great title {#my-id}'
         );
         const expected = '<h2 id="my-id">a great title</h2>';
-        expect(result).to.equals(expected);
+        expect(result).toEqual(expected);
     });
 });

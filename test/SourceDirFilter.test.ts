@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { SourceDirFilter } from '../src/SourceDirFilter.js';
 
 const defaultFilter = new SourceDirFilter();
@@ -8,12 +6,11 @@ describe('test SourceDirFilter', function () {
     describe('test isIgnored(relativePath)', function () {
         it('should ignore .git directory', function () {
             expect(defaultFilter.isIgnored('something/.git/something-else.md'))
-                .to.be.true;
+                .toBe(true);
         });
 
         it('should ignore node_modules directory', function () {
-            expect(defaultFilter.isIgnored('node_modules/something-else.md')).to
-                .be.true;
+            expect(defaultFilter.isIgnored('node_modules/something-else.md')).toBe(true);
         });
 
         it('should ignore node_modules sub directory', function () {
@@ -21,7 +18,7 @@ describe('test SourceDirFilter', function () {
                 defaultFilter.isIgnored(
                     'something/node_modules/something-else.md'
                 )
-            ).to.be.true;
+            ).toBe(true);
         });
 
         it('should not ignore node_modules_example directory', function () {
@@ -29,12 +26,11 @@ describe('test SourceDirFilter', function () {
                 defaultFilter.isIgnored(
                     'node_modules_example/something-else.md'
                 )
-            ).to.be.false;
+            ).toBe(false);
         });
 
         it('should not ignore other files', function () {
-            expect(defaultFilter.isIgnored('something/other-file.md')).to.be
-                .false;
+            expect(defaultFilter.isIgnored('something/other-file.md')).toBe(false);
         });
     });
 });

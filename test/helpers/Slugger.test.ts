@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import Slugger from '../../src/helpers/Slugger';
 
 describe('Test helpers/Slugger', () => {
@@ -7,7 +6,7 @@ describe('Test helpers/Slugger', () => {
         const expectedSlug = 'hello-world';
 
         const slugger = new Slugger();
-        expect(slugger.slug(text)).to.equal(expectedSlug);
+        expect(slugger.slug(text)).toEqual(expectedSlug);
     });
 
     it('should ensure slug unicity', () => {
@@ -16,7 +15,7 @@ describe('Test helpers/Slugger', () => {
         const expectedSlug2 = 'hello-world-1';
 
         const slugger = new Slugger();
-        expect(slugger.slug(text)).to.equal(expectedSlug1);
-        expect(slugger.slug(text)).to.equal(expectedSlug2);
+        expect(slugger.slug(text)).toEqual(expectedSlug1);
+        expect(slugger.slug(text)).toEqual(expectedSlug2);
     });
 });
