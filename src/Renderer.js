@@ -47,7 +47,7 @@ export class Renderer {
             path: sourceFile.absolutePath,
 
             // in order to allow to produce edit link in custom template
-            relativePath: sourceFile.relativePath,
+            relativePath: sourceFile.relativePath.replaceAll('\\','/'),
 
             // common HTML metadata
             title: path.relative(
