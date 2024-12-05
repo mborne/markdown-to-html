@@ -3,9 +3,9 @@ import debug from 'debug';
 import shell from 'shelljs';
 import fs from 'fs';
 
-import {Renderer} from '../Renderer.js';
-import {SourceDir} from '../SourceDir.js';
-import {Layout} from '../Layout.js';
+import { Renderer } from '../Renderer.js';
+import { SourceDir } from '../SourceDir.js';
+import { Layout } from '../Layout.js';
 import { FileType } from '../FileType.js';
 import renamePathToHtml from '../helpers/renamePathToHtml.js';
 
@@ -18,7 +18,12 @@ import renamePathToHtml from '../helpers/renamePathToHtml.js';
  * @param {Object} options
  * @param {string} options.language language for HTML pages defaulted to "en"
  */
-export default function convert(sourceDirPath, outputDirPath, layoutPath, options) {
+export default function convert(
+    sourceDirPath,
+    outputDirPath,
+    layoutPath,
+    options
+) {
     /* output directory */
     debug("Ensure that outputDir doesn't exists...");
     if (fs.existsSync(outputDirPath)) {

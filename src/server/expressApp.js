@@ -84,4 +84,3 @@ export default function expressApp(sourceDirPath, layoutPath, options) {
 
     return app;
 }
-

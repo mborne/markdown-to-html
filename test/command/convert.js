@@ -4,7 +4,7 @@ import convert from '../../src/command/convert.js';
 
 import { existsSync } from 'fs';
 
-import {helpers} from '../helpers.js';
+import { helpers } from '../helpers.js';
 
 // source
 const sourceDirPath = helpers.getSampleDir('01-default-layout');

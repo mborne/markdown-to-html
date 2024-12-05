@@ -2,7 +2,7 @@
 
 //const packageMetadata = require('../package.json');
 
-import {program, Option} from 'commander';
+import { program, Option } from 'commander';
 
 import path from 'path';
 

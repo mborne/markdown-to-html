@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import {helpers} from '../helpers.js';
+import { helpers } from '../helpers.js';
 
 import check from '../../src/command/check.js';
 

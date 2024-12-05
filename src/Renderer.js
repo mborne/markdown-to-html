@@ -3,7 +3,7 @@ import path from 'path';
 
 import fm from 'front-matter';
 
-import {SourceDir} from './SourceDir.js';
+import { SourceDir } from './SourceDir.js';
 import { SourceFile } from './SourceFile.js';
 import { FileType } from './FileType.js';
 import { Layout } from './Layout.js';
