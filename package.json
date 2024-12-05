@@ -20,8 +20,8 @@
     "build-demo-01": "rm -rf demo/01-default-layout && node bin/main.js convert -l default samples/01-default-layout demo/01-default-layout",
     "build-demo-02": "rm -rf demo/02-remarkjs && node bin/main.js convert -l remarkjs samples/02-remarkjs demo/02-remarkjs",
     "test": "jest",
-    "coverage": "jest --collectCoverage=true",
-    "coveralls": "c8 report --reporter=text-lcov | coveralls",
+    "coverage": "jest --coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\"",
     "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.ts\""
   },
@@ -48,12 +48,11 @@
     "@types/jest": "^29.5.14",
     "coveralls": "^3.1.1",
     "jest": "^29.7.0",
-    "jest-esm-transformer": "^1.0.0",
     "prettier": "3.4.2",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.3"
   }
 }

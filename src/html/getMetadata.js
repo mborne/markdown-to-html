@@ -18,7 +18,7 @@ import * as cheerio from 'cheerio';
  * @private
  *
  * @param {string} htmlContent
- * 
+ *
  * @returns {HtmlMetadata}
  */
 export default function getMetadata(htmlContent) {

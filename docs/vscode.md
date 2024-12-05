@@ -1,6 +1,6 @@
 # Debug with Visual Studio Code
 
-Use the following config in `.vscode/launch.json` file to debug tests or server mode with [Visual Studio Code](https://code.visualstudio.com/) : 
+Use the following config in `.vscode/launch.json` file to debug tests with [Visual Studio Code](https://code.visualstudio.com/) : 
 
 ```json
 {
@@ -9,8 +9,8 @@ Use the following config in `.vscode/launch.json` file to debug tests or server 
         {
             "type": "node",
             "request": "launch",
-            "name": "Run mocha",
-            "runtimeExecutable": "mocha",
+            "name": "Run tests",
+            "runtimeExecutable": "jest",
             "cwd": "${workspaceFolder}",
             "args": []
         }

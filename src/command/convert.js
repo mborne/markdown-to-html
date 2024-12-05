@@ -1,7 +1,7 @@
 import debug from 'debug';
 
 import shell from 'shelljs';
-import fs from 'fs';
+import fs, { mkdirSync } from 'fs';
 
 import { Renderer } from '../Renderer.js';
 import { SourceDir } from '../SourceDir.js';
@@ -29,6 +29,7 @@ export default function convert(
     if (fs.existsSync(outputDirPath)) {
         throw new Error(outputDirPath + ' already exists!');
     }
+    mkdirSync(outputDirPath, { recursive: true });
     shell.mkdir('-p', outputDirPath);
 
     debug(`Create renderer ...`);

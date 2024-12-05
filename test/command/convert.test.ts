@@ -26,11 +26,12 @@ describe('test command/convert', function () {
             'subdir-index/index.html',
         ];
 
-        for ( const expectedFile of expectedFiles ) {
-            it(`should produce ${expectedFile}`, function(){
-                expect(existsSync(`${outputDirPath}/${expectedFile}`)).toBe(true);
+        for (const expectedFile of expectedFiles) {
+            it(`should produce ${expectedFile}`, function () {
+                expect(existsSync(`${outputDirPath}/${expectedFile}`)).toBe(
+                    true
+                );
             });
         }
     });
-
 });

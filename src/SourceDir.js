@@ -1,7 +1,6 @@
 import assert from 'assert';
-import fs from 'fs';
+import fs, { readdirSync } from 'fs';
 import path from 'path';
-import shell from 'shelljs';
 import { SourceFile } from './SourceFile.js';
 import { SourceDirFilter } from './SourceDirFilter.js';
 
@@ -42,16 +41,19 @@ export class SourceDir {
     findFiles() {
         const sourceFiles = [];
 
-        shell.find(this.rootDir).forEach(
-            function (absolutePath) {
-                const relativePath = this.getRelativePath(absolutePath);
-                if (this.filter.isIgnored(relativePath)) {
-                    return;
-                }
-                sourceFiles.push(new SourceFile(this, absolutePath));
-            }.bind(this)
-        );
+        // list all files and directories recursively
+        const relativePaths = readdirSync(this.rootDir, {
+            recursive: true,
+        });
 
+        // filter out directories and files that are ignored
+        for (const relativePath of relativePaths) {
+            if (this.filter.isIgnored(relativePath)) {
+                continue;
+            }
+            const absolutePath = path.resolve(this.rootDir, relativePath);
+            sourceFiles.push(new SourceFile(this, absolutePath));
+        }
         return sourceFiles;
     }
 

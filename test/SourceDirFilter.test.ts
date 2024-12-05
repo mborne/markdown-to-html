@@ -5,12 +5,15 @@ const defaultFilter = new SourceDirFilter();
 describe('test SourceDirFilter', function () {
     describe('test isIgnored(relativePath)', function () {
         it('should ignore .git directory', function () {
-            expect(defaultFilter.isIgnored('something/.git/something-else.md'))
-                .toBe(true);
+            expect(
+                defaultFilter.isIgnored('something/.git/something-else.md')
+            ).toBe(true);
         });
 
         it('should ignore node_modules directory', function () {
-            expect(defaultFilter.isIgnored('node_modules/something-else.md')).toBe(true);
+            expect(
+                defaultFilter.isIgnored('node_modules/something-else.md')
+            ).toBe(true);
         });
 
         it('should ignore node_modules sub directory', function () {
@@ -30,7 +33,9 @@ describe('test SourceDirFilter', function () {
         });
 
         it('should not ignore other files', function () {
-            expect(defaultFilter.isIgnored('something/other-file.md')).toBe(false);
+            expect(defaultFilter.isIgnored('something/other-file.md')).toBe(
+                false
+            );
         });
     });
 });
