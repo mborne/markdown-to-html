@@ -14,7 +14,7 @@ export default function getHeadingParts(text, raw, slugger) {
     const hasId = text.match(headingIdRegex);
     if (!hasId) {
         return {
-            id: slugger.slug(raw),
+            id: slugger.slug(text),
             title: text,
         };
     }

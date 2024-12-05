@@ -12,9 +12,7 @@ import getHeadingParts from './parser/getHeadingParts.js';
 export default function toc(markdownContent) {
     const lexer = new marked.Lexer();
     let tokens = lexer.lex(markdownContent);
-    let headingTokens = tokens.filter(
-        (token) => token.depth != 1 && token.type == 'heading'
-    );
+    let headingTokens = tokens.filter((token) => token.depth != 1 && token.type == 'heading');
 
     /*
      * Note that it is important to create a dedicated instance

@@ -22,9 +22,7 @@ describe('Test SourceDir', function () {
 
     describe('test findFiles', function () {
         it('should find files in sample directory', function () {
-            const sampleSourceDir = new SourceDir(
-                getSampleDir('01-default-layout')
-            );
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let sourceFiles = sampleSourceDir.findFiles();
             expect(sourceFiles).toBeInstanceOf(Array);
             expect(sourceFiles.length).toBeGreaterThan(15);
@@ -40,9 +38,7 @@ describe('Test SourceDir', function () {
     describe('test locateFile', function () {
         describe('test locateFile with a directory', function () {
             it('should find empty path as rootDir', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('');
                 expect(sourceFile).not.toBeNull();
                 // check type
@@ -54,9 +50,7 @@ describe('Test SourceDir', function () {
             });
 
             it('should find subdir-index as a directory', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('subdir-index');
                 expect(sourceFile).not.toBeNull();
                 // check type
@@ -68,9 +62,7 @@ describe('Test SourceDir', function () {
             });
 
             it('should should resolve directory without readme or index file', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('no-index');
                 // check type
                 expect(sourceFile.type).toEqual(FileType.DIRECTORY);
@@ -83,12 +75,8 @@ describe('Test SourceDir', function () {
 
         describe('test locateFile with a .md file', function () {
             it('should should resolve no-index/no-index.md file', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
-                let sourceFile = sampleSourceDir.locateFile(
-                    'no-index/no-index.md'
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
+                let sourceFile = sampleSourceDir.locateFile('no-index/no-index.md');
                 expect(sourceFile).not.toBeNull();
                 // check type
                 expect(sourceFile.type).toEqual(FileType.MARKDOWN);
@@ -99,12 +87,8 @@ describe('Test SourceDir', function () {
             });
 
             it('should resolve no-index/no-index.html as no-index/no-index.md', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
-                let sourceFile = sampleSourceDir.locateFile(
-                    'no-index/no-index.html'
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
+                let sourceFile = sampleSourceDir.locateFile('no-index/no-index.html');
                 expect(sourceFile).not.toBeNull();
                 // check type
                 expect(sourceFile.type).toEqual(FileType.MARKDOWN);
@@ -117,12 +101,8 @@ describe('Test SourceDir', function () {
 
         describe('test locateFile with a .phtml file', function () {
             it('should should resolve html-view/index.phtml as an HTML view', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
-                let sourceFile = sampleSourceDir.locateFile(
-                    'html-view/index.phtml'
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
+                let sourceFile = sampleSourceDir.locateFile('html-view/index.phtml');
                 expect(sourceFile).not.toBeNull();
                 // check type
                 expect(sourceFile.type).toEqual(FileType.PHTML);
@@ -133,12 +113,8 @@ describe('Test SourceDir', function () {
             });
 
             it('should resolve html-view/index.html as html-view/index.phtml', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
-                let sourceFile = sampleSourceDir.locateFile(
-                    'html-view/index.html'
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
+                let sourceFile = sampleSourceDir.locateFile('html-view/index.html');
                 expect(sourceFile).not.toBeNull();
                 // check type
                 expect(sourceFile.type).toEqual(FileType.PHTML);
@@ -151,11 +127,8 @@ describe('Test SourceDir', function () {
 
         describe('test locateFile with a static .csv file', function () {
             it('should should resolve html-view/data.csv as a static file', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
-                let sourceFile =
-                    sampleSourceDir.locateFile('html-view/data.csv');
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
+                let sourceFile = sampleSourceDir.locateFile('html-view/data.csv');
                 expect(sourceFile).not.toBeNull();
                 // check type
                 expect(sourceFile.type).toEqual(FileType.STATIC);
@@ -168,39 +141,28 @@ describe('Test SourceDir', function () {
 
         describe('test locateFile not found', function () {
             it('should return null for does-not-exist.md', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
-                let sourceFile =
-                    sampleSourceDir.locateFile('does-not-exist.md');
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
+                let sourceFile = sampleSourceDir.locateFile('does-not-exist.md');
                 expect(sourceFile).toBeNull();
             });
 
             it('should return null for does-not-exist.html', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 // note that it will try .md and .phtml
-                let sourceFile = sampleSourceDir.locateFile(
-                    'does-not-exist.html'
-                );
+                let sourceFile = sampleSourceDir.locateFile('does-not-exist.html');
                 expect(sourceFile).toBeNull();
             });
         });
 
         describe('test path traversal protection', function () {
             it('should protect against path traversal with absolute path', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('/etc/hosts');
                 expect(sourceFile).toBeNull();
             });
 
             it('should protect against path traversal with relative path', function () {
-                const sampleSourceDir = new SourceDir(
-                    getSampleDir('01-default-layout')
-                );
+                const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
                 let sourceFile = sampleSourceDir.locateFile('../README.md');
                 expect(sourceFile).toBeNull();
             });
@@ -209,9 +171,7 @@ describe('Test SourceDir', function () {
 
     describe('test locateIndex', function () {
         it('should find subdir-index/index.md in subdir-index', function () {
-            const sampleSourceDir = new SourceDir(
-                getSampleDir('01-default-layout')
-            );
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('subdir-index');
             expect(dirFile).not.toBeNull();
             expect(dirFile.type).toEqual(FileType.DIRECTORY);
@@ -224,9 +184,7 @@ describe('Test SourceDir', function () {
         });
 
         it('should find subdir-readme/README.md in subdir-readme', function () {
-            const sampleSourceDir = new SourceDir(
-                getSampleDir('01-default-layout')
-            );
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('subdir-readme');
             expect(dirFile).not.toBeNull();
             expect(dirFile.type).toEqual(FileType.DIRECTORY);
@@ -239,9 +197,7 @@ describe('Test SourceDir', function () {
         });
 
         it('should find html-view/index.phtml in html-view', function () {
-            const sampleSourceDir = new SourceDir(
-                getSampleDir('01-default-layout')
-            );
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('html-view');
             expect(dirFile).not.toBeNull();
             expect(dirFile.type).toEqual(FileType.DIRECTORY);
@@ -254,9 +210,7 @@ describe('Test SourceDir', function () {
         });
 
         it('should find html-page/index.html in html-page', function () {
-            const sampleSourceDir = new SourceDir(
-                getSampleDir('01-default-layout')
-            );
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('html-page');
             expect(dirFile).not.toBeNull();
             expect(dirFile.type).toEqual(FileType.DIRECTORY);
@@ -269,9 +223,7 @@ describe('Test SourceDir', function () {
         });
 
         it('should return null for no-index', function () {
-            const sampleSourceDir = new SourceDir(
-                getSampleDir('01-default-layout')
-            );
+            const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));
             let dirFile = sampleSourceDir.locateFile('no-index');
             expect(dirFile).not.toBeNull();
             expect(dirFile.type).toEqual(FileType.DIRECTORY);

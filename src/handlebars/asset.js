@@ -9,10 +9,7 @@ import handlebars from 'handlebars';
  */
 export function asset(context, options) {
     const parentDir = path.resolve(options.data.root.path, '..');
-    const relativePath = path.relative(
-        parentDir,
-        options.data.root.rootDir + '/assets'
-    );
+    const relativePath = path.relative(parentDir, options.data.root.rootDir + '/assets');
 
     let output = '';
     output += relativePath + '/';

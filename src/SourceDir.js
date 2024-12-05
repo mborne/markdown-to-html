@@ -91,10 +91,7 @@ export class SourceDir {
      * @return {SourceFile?}
      */
     locateRenderedFile(relativePath) {
-        assert(
-            relativePath.endsWith('.html'),
-            `${relativePath} is not a .html path!`
-        );
+        assert(relativePath.endsWith('.html'), `${relativePath} is not a .html path!`);
         for (const ext of ['.md', '.phtml']) {
             let candidatePath = relativePath.slice(0, -5) + ext;
             let sourceFile = this.locateFile(candidatePath);
@@ -111,16 +108,10 @@ export class SourceDir {
      * @return {SourceFile}
      */
     locateIndex(sourceFile) {
-        let candidates = [
-            'index.md',
-            'index.phtml',
-            'index.html',
-            'README.md',
-            'readme.md',
-        ];
+        let candidates = ['index.md', 'index.phtml', 'index.html', 'README.md', 'readme.md'];
 
         for (let candidate of candidates) {
-            const candidatePath = `${sourceFile.absolutePath}/${candidate}`;
+            const candidatePath = path.resolve(sourceFile.absolutePath, candidate);
             if (!fs.existsSync(candidatePath)) {
                 continue;
             }

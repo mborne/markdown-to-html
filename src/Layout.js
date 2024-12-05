@@ -41,10 +41,7 @@ export class Layout {
      * @returns {HandlebarsTemplateDelegate<T>}
      */
     getTemplate() {
-        const templateSource = fs.readFileSync(
-            this.path + '/page.html',
-            'utf8'
-        );
+        const templateSource = fs.readFileSync(this.path + '/page.html', 'utf8');
         return handlebars.compile(templateSource);
     }
 }

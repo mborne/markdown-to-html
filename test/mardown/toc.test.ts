@@ -3,8 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 
 import toc from '../../src/markdown/toc.js';
 
-const UPDATE_REGRESS_TEST =
-    process.env.UPDATE_REGRESS_TEST == '1' ? true : false;
+const UPDATE_REGRESS_TEST = process.env.UPDATE_REGRESS_TEST == '1' ? true : false;
 
 describe('Regress test for markdown.toc', function () {
     it('should produce expected markdown for sample-1.md', function () {

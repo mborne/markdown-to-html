@@ -14,17 +14,13 @@ describe('Test helpers/rewriteLinksToHtml', function () {
     });
 
     it('should also keep query string in relative links', function () {
-        const result = rewriteLinksToHtml(
-            '[Something](something.md?_t=15#title)'
-        );
+        const result = rewriteLinksToHtml('[Something](something.md?_t=15#title)');
         const expected = '[Something](something.html?_t=15#title)';
         expect(result).toEqual(expected);
     });
 
     it('should ignore absolute url', function () {
-        const result = rewriteLinksToHtml(
-            '[Something](https://example.com/something.md)'
-        );
+        const result = rewriteLinksToHtml('[Something](https://example.com/something.md)');
         const expected = '[Something](https://example.com/something.md)';
         expect(result).toEqual(expected);
     });

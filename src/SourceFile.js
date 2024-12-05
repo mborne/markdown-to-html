@@ -43,10 +43,7 @@ export class SourceFile {
             this.type = FileType.PHTML;
         }
 
-        this.relativePath = path.relative(
-            this.sourceDir.rootDir,
-            this.absolutePath
-        );
+        this.relativePath = path.relative(this.sourceDir.rootDir, this.absolutePath);
     }
 
     /**

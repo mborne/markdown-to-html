@@ -7,7 +7,7 @@ import url from 'url';
  *
  * @returns {function}
  */
-export default function link(href, title, text) {
+export default function link({ href, title, text }) {
     const parsed = url.parse(href);
 
     /* convert .md links to .html for non external links */

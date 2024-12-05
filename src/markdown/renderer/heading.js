@@ -1,3 +1,4 @@
+import { escapeTitle } from '../../helpers/html.js';
 import getHeadingParts from '../parser/getHeadingParts.js';
 import { slugger } from './slugger.js';
 
@@ -5,16 +6,9 @@ import { slugger } from './slugger.js';
  * marked - custom method to render titles.
  *
  * @private
- *
- * @param {string} text
- * @param {number} level
- * @param {string} raw
- * @param {any} slugger
- *
- * @returns {string}
  */
-export default function heading(text, level, raw) {
-    let parts = getHeadingParts(text, raw, slugger);
-
-    return `<h${level} id="${parts.id}">${parts.title}</h${level}>`;
+export default function heading({ text, raw, depth }) {
+    const parts = getHeadingParts(text, raw, slugger);
+    const title = escapeTitle(parts.title);
+    return `<h${depth} id="${parts.id}">${title}</h${depth}>`;
 }

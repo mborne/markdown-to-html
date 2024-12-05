@@ -12,9 +12,7 @@ describe('Test helper/checkUrlExists', function () {
     });
 
     it('should not find https://github.com/mborne/not-found', async function () {
-        const result = await checkUrlExists(
-            'https://github.com/mborne/not-found'
-        );
+        const result = await checkUrlExists('https://github.com/mborne/not-found');
         expect(result).toBe(false);
     });
 });

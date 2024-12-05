@@ -37,6 +37,9 @@ export class Renderer {
      */
     render(sourceFile) {
         debug(`render('${JSON.stringify(sourceFile)}')...`);
+        if (![FileType.MARKDOWN, FileType.PHTML].includes(sourceFile.type)) {
+            throw new Error(`Unsupported file type: ${sourceFile.type}`);
+        }
 
         /*
          * Prepare rendering context with default metadata
@@ -47,13 +50,10 @@ export class Renderer {
             path: sourceFile.absolutePath,
 
             // in order to allow to produce edit link in custom template
-            relativePath: sourceFile.relativePath.replaceAll('\\','/'),
+            relativePath: sourceFile.relativePath.replaceAll('\\', '/'),
 
             // common HTML metadata
-            title: path.relative(
-                this.sourceDir.rootDir,
-                sourceFile.absolutePath
-            ),
+            title: path.relative(this.sourceDir.rootDir, sourceFile.absolutePath),
             lang: this.language,
         };
 

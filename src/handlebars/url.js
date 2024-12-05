@@ -11,13 +11,8 @@ import handlebars from 'handlebars';
  */
 export function url(context, options) {
     const parentDir = path.resolve(options.data.root.path, '..');
-    const targetPath = path.resolve(
-        options.data.root.rootDir,
-        context.replace(/^\//, '')
-    );
+    const targetPath = path.resolve(options.data.root.rootDir, context.replace(/^\//, ''));
     const relativeTargetPath = path.relative(parentDir, targetPath);
-    const relativeUrl = relativeTargetPath.endsWith('..')
-        ? relativeTargetPath + '/'
-        : relativeTargetPath;
+    const relativeUrl = relativeTargetPath.endsWith('..') ? relativeTargetPath + '/' : relativeTargetPath;
     return new handlebars.SafeString(relativeUrl);
 }

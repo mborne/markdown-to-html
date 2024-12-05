@@ -23,18 +23,13 @@ import renamePathToHtml from '../helpers/renamePathToHtml.js';
  * @param {String} layoutPath path to layout directory
  * @param {ConvertOptions} options
  */
-export default function convert(
-    sourceDirPath,
-    outputDirPath,
-    layoutPath,
-    options
-) {
+export default function convert(sourceDirPath, outputDirPath, layoutPath, options) {
     /* output directory */
     debug("Ensure that outputDir doesn't exists...");
     if (fs.existsSync(outputDirPath)) {
-        if ( options.force ){
+        if (options.force) {
             shell.rm('-rf', `${outputDirPath}/*`);
-        }else{
+        } else {
             throw new Error(outputDirPath + ' already exists!');
         }
     }
@@ -84,9 +79,7 @@ export default function convert(
     debug(`Render markdown files and html views ...`);
     sourceFiles
         .filter(function (file) {
-            return (
-                file.type === FileType.MARKDOWN || file.type === FileType.PHTML
-            );
+            return file.type === FileType.MARKDOWN || file.type === FileType.PHTML;
         })
         .forEach(function (file) {
             let outputPath = outputDirPath + '/' + file.relativePath;

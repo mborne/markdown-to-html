@@ -11,7 +11,7 @@ describe('test command/convert', function () {
         const outputDirPath = getTempDirPath();
         convert(sourceDirPath, outputDirPath, layoutPath, {
             language: 'fr',
-            force: false
+            force: false,
         });
 
         const expectedFiles = [
@@ -29,9 +29,7 @@ describe('test command/convert', function () {
 
         for (const expectedFile of expectedFiles) {
             it(`should produce ${expectedFile}`, function () {
-                expect(existsSync(`${outputDirPath}/${expectedFile}`)).toBe(
-                    true
-                );
+                expect(existsSync(`${outputDirPath}/${expectedFile}`)).toBe(true);
             });
         }
     });

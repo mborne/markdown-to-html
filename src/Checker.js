@@ -42,9 +42,7 @@ export class Checker {
 
         let errors = [];
         const sourceFiles = sourceDir.findFiles();
-        debug(
-            `checkSourceDir(${sourceDir.absolutePath}) : found ${sourceFiles.length} file(s)...`
-        );
+        debug(`checkSourceDir(${sourceDir.absolutePath}) : found ${sourceFiles.length} file(s)...`);
         for (const sourceFile of sourceFiles) {
             const newErrors = await this.checkSourceFile(sourceFile);
             errors = [...errors, ...newErrors];
@@ -63,9 +61,7 @@ export class Checker {
         const errors = [];
 
         if ([FileType.DIRECTORY, FileType.STATIC].includes(sourceFile.type)) {
-            debug(
-                `checkSourceFile('${sourceFile.relativePath}') : SKIPPED (type=${sourceFile.type})`
-            );
+            debug(`checkSourceFile('${sourceFile.relativePath}') : SKIPPED (type=${sourceFile.type})`);
             return errors;
         }
 
@@ -78,15 +74,11 @@ export class Checker {
         // get links from html
         const { links } = getMetadata(htmlContent);
         if (links.length == 0) {
-            debug(
-                `checkSourceFile('${sourceFile.relativePath}') : SKIPPED (no links found)`
-            );
+            debug(`checkSourceFile('${sourceFile.relativePath}') : SKIPPED (no links found)`);
             return errors;
         }
 
-        debug(
-            `checkSourceFile('${sourceFile.relativePath}') : ${links.length} link(s) found...`
-        );
+        debug(`checkSourceFile('${sourceFile.relativePath}') : ${links.length} link(s) found...`);
         for (const link of links) {
             let error = await this.checkLink(sourceFile, link);
             if (error != null) {
@@ -112,9 +104,7 @@ export class Checker {
          * handle anchor link
          */
         if (targetUrl.startsWith('#')) {
-            debug(
-                `checkLink('${sourceFile.relativePath}','${targetUrl}') : SKIPPED (anchor link)`
-            );
+            debug(`checkLink('${sourceFile.relativePath}','${targetUrl}') : SKIPPED (anchor link)`);
             return null;
         }
 
@@ -140,9 +130,7 @@ export class Checker {
      * @return {object|null}
      */
     async checkExternalLink(sourceFile, targetUrl) {
-        debug(
-            `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`
-        );
+        debug(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`);
         if (!this.checkExternalLinks) {
             debug(
                 `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SKIPPED (check external links disabled)`
@@ -152,15 +140,11 @@ export class Checker {
 
         const found = await checkUrlExists(targetUrl);
         if (found) {
-            debug(
-                `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SUCCESS (found)`
-            );
+            debug(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SUCCESS (found)`);
             return null;
         }
 
-        debug(
-            `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : FAILURE (not found)`
-        );
+        debug(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : FAILURE (not found)`);
         return {
             level: ErrorLevel.ERROR,
             code: ErrorCode.DEAD_LINK,
@@ -175,20 +159,12 @@ export class Checker {
      * @return {object|null}
      */
     checkInternalLink(sourceFile, targetUrl) {
-        debug(
-            `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`
-        );
-        const absoluteTargetPath = path.resolve(
-            path.dirname(sourceFile.absolutePath),
-            targetUrl
-        );
+        debug(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`);
+        const absoluteTargetPath = path.resolve(path.dirname(sourceFile.absolutePath), targetUrl);
         const found = fs.existsSync(absoluteTargetPath);
-        const expectedPath =
-            sourceFile.sourceDir.getRelativePath(absoluteTargetPath);
+        const expectedPath = sourceFile.sourceDir.getRelativePath(absoluteTargetPath);
         if (found) {
-            debug(
-                `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SUCCESS ('${expectedPath}' found)`
-            );
+            debug(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SUCCESS ('${expectedPath}' found)`);
             return null;
         } else {
             debug(
