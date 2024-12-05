@@ -21,10 +21,10 @@
     "build-demo-02": "rm -rf demo/02-remarkjs && node bin/main.js convert -l remarkjs samples/02-remarkjs demo/02-remarkjs",
     "test": "npm run check-style && npm run unit-test",
     "unit-test": "mocha",
-    "coverage": "nyc --reporter=html --reporter=text --reporter=cobertura mocha",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.(m)?js\" \"bin/*.js\"",
-    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.(m)?js\" \"bin/*.js\""
+    "coverage": "c8 --reporter=html --reporter=text --reporter=cobertura mocha",
+    "coveralls": "c8 report --reporter=text-lcov | coveralls",
+    "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\"",
+    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.js\""
   },
   "author": "Mickael Borne <mborne@users.noreply.github.com>",
   "repository": {
@@ -45,24 +45,13 @@
     "shelljs": "^0.8.5"
   },
   "devDependencies": {
+    "c8": "^10.1.2",
     "chai": "^5.1.2",
     "coveralls": "^3.1.1",
     "mocha": "^10.8.2",
     "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^17.1.0",
     "prettier": "3.4.2",
     "supertest": "^7.0.0",
     "uuid": "^10.0.0"
-  },
-  "nyc": {
-    "include": [
-      "src/**/*.js"
-    ],
-    "exclude": [
-      "**/node_modules/**",
-      "**/test/**",
-      "**/coverage/**"
-    ],
-    "all": true
   }
 }

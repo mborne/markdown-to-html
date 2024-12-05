@@ -1,5 +1,5 @@
 import debug from 'debug';
-import expressApp from '../server/expressApp.cjs';
+import expressApp from '../server/expressApp.js';
 
 /**
  * Serve MD files from rootDir
@@ -8,7 +8,7 @@ import expressApp from '../server/expressApp.cjs';
  * @param {Object} options
  * @param {string} options.language language for HTML pages defaulted to "en"
  */
-function serve(sourceDirPath, layoutPath, options) {
+export default function serve(sourceDirPath, layoutPath, options) {
     const app = expressApp(sourceDirPath, layoutPath, options);
 
     const server = app.listen(3000, function () {
@@ -22,5 +22,3 @@ function serve(sourceDirPath, layoutPath, options) {
         });
     });
 }
-
-module.exports = serve;

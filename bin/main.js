@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 
-//const packageMetadata = require('../package.json');
+
+
 
 import { program, Option } from 'commander';
 
 import path from 'path';
+
+const VERSION = process.env.npm_package_version;
+const __dirname = import.meta.dirname;
+const PROJECT_DIR = path.resolve(__dirname, '..');
+const LAYOUTS_DIR = path.resolve(PROJECT_DIR, './layout');
 
 import convert from '../src/command/convert.js';
 import serve from '../src/command/serve.js';
@@ -13,16 +19,15 @@ import check from '../src/command/check.js';
 const optionLang = new Option(
     '--language <language>',
     'Default value for HTML lang metadata if not overwritten by YAML metadata (lang)'
-)
-    .env('LANGUAGE')
-    .default('en');
+).env('LANGUAGE').default('en');
 
 const optionLayout = new Option(
     '-l, --layout <layout>',
     'Name or path to the layout'
-)
-    .env('LAYOUT')
-    .default('default');
+).env('LAYOUT').default('default');
+
+// TODO : list folders from LAYOUTS_DIR
+import { layoutNames } from '../layout/index.js';
 
 /**
  * Get layout path by name.
@@ -31,13 +36,12 @@ const optionLayout = new Option(
  * @returns {string}
  */
 function getLayoutPath(layoutName) {
-    let layoutNames = require('../layout');
     return layoutNames.indexOf(layoutName) < 0
         ? path.resolve(layoutName)
-        : path.resolve(__dirname, `../layout/${layoutName}`);
+        : path.resolve(LAYOUTS_DIR, `./${layoutName}`);
 }
 
-program.version(packageMetadata.version);
+program.version(VERSION);
 
 program
     .command('convert <sourceDir> <outputDir>')

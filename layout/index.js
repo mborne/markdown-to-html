@@ -1,5 +1,5 @@
 /* embedded layout names */
-module.exports = [
+export const layoutNames = [
     'default',
     'github',
     'remarkjs'

@@ -1,6 +1,3 @@
-module.exports = {
-    Renderer: require('./src/Renderer'),
-    convert: require('./src/command/convert'),
-    serve: require('./src/command/serve')
-};
-
+export * from './src/Renderer.js';
+export * from './src/command/convert.js';
+export * from './src/command/serve.js';
