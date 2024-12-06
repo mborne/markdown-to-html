@@ -1,4 +1,4 @@
-import debug from 'debug';
+import { logger } from '../logger.js';
 
 import shell from 'shelljs';
 import fs, { mkdirSync } from 'fs';
@@ -25,9 +25,10 @@ import renamePathToHtml from '../helpers/renamePathToHtml.js';
  */
 export default function convert(sourceDirPath, outputDirPath, layoutPath, options) {
     /* output directory */
-    debug("Ensure that outputDir doesn't exists...");
+    logger.info("Check if outputDir exists...");
     if (fs.existsSync(outputDirPath)) {
         if (options.force) {
+            logger.info("Cleanup existing outputDir (--force)");
             shell.rm('-rf', `${outputDirPath}/*`);
         } else {
             throw new Error(outputDirPath + ' already exists!');
@@ -36,7 +37,6 @@ export default function convert(sourceDirPath, outputDirPath, layoutPath, option
     mkdirSync(outputDirPath, { recursive: true });
     shell.mkdir('-p', outputDirPath);
 
-    debug(`Create renderer ...`);
     const sourceDir = new SourceDir(sourceDirPath);
     const layout = new Layout(layoutPath);
 
@@ -45,38 +45,38 @@ export default function convert(sourceDirPath, outputDirPath, layoutPath, option
     options.renameLinksToHtml = true;
     const markdownRenderer = new Renderer(sourceDir, layout, options);
 
-    debug(`List files from source directory ...`);
+    logger.info(`List files from source directory ...`);
     const sourceFiles = sourceDir.findFiles();
 
-    debug(`Copy assets from layout ...`);
+    logger.info(`Copy assets from layout ...`);
     if (layout.hasAssets()) {
         const assertsDir = outputDirPath + '/assets';
         shell.cp('-r', layoutPath + '/assets', assertsDir);
     }
 
-    debug(`Create directories ...`);
+    logger.info(`Create directories ...`);
     sourceFiles
         .filter(function (file) {
             return file.type === FileType.DIRECTORY;
         })
         .forEach(function (file) {
             const outputPath = outputDirPath + '/' + file.relativePath;
-            debug(`Create directory ${outputPath} ...`);
+            logger.info(`Create directory ${outputPath} ...`);
             shell.mkdir('-p', outputPath);
         });
 
-    debug(`Copy static files ...`);
+    logger.info(`Copy static files ...`);
     sourceFiles
         .filter(function (file) {
             return file.type === FileType.STATIC;
         })
         .forEach(function (file) {
             const outputPath = outputDirPath + '/' + file.relativePath;
-            debug(`Copy ${file.absolutePath} to ${outputPath} ...`);
+            logger.info(`Copy ${file.absolutePath} to ${outputPath} ...`);
             shell.cp(file.absolutePath, outputPath);
         });
 
-    debug(`Render markdown files and html views ...`);
+    logger.info(`Render markdown files and html views ...`);
     sourceFiles
         .filter(function (file) {
             return file.type === FileType.MARKDOWN || file.type === FileType.PHTML;
@@ -84,10 +84,10 @@ export default function convert(sourceDirPath, outputDirPath, layoutPath, option
         .forEach(function (file) {
             let outputPath = outputDirPath + '/' + file.relativePath;
             outputPath = renamePathToHtml(outputPath);
-            debug(`Render ${file.absolutePath} to ${outputPath} ...`);
+            logger.info(`Render ${file.absolutePath} to ${outputPath} ...`);
             const html = markdownRenderer.render(file);
             fs.writeFileSync(outputPath, html);
         });
 
-    debug(`Render completed`);
+    logger.info(`Render completed`);
 }

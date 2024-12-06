@@ -1,4 +1,4 @@
-import debug from 'debug';
+import { logger } from '../logger.js';
 
 import { SourceDir } from '../SourceDir.js';
 import { Checker } from '../Checker.js';
@@ -15,11 +15,11 @@ import { Checker } from '../Checker.js';
  * @param {CheckOptions} options
  */
 export default async function check(sourceDirPath, options) {
-    debug(`check('${sourceDirPath}',${JSON.stringify(options)}...)`);
+    logger.info(`check('${sourceDirPath}',${JSON.stringify(options)}...)`);
     const sourceDir = new SourceDir(sourceDirPath);
     const checker = new Checker(options);
 
-    let errors = await checker.checkSourceDir(sourceDir);
+    const errors = await checker.checkSourceDir(sourceDir);
     if (errors.length != 0) {
         const details = errors
             .map((error, index) => {
@@ -28,6 +28,6 @@ export default async function check(sourceDirPath, options) {
             .join('\r\n');
         throw new Error(`Found ${errors.length} dead link(s) : \r\n${details}`);
     } else {
-        console.log('SUCCESS : No dead link found');
+        logger.info('SUCCESS : No dead link found');
     }
 }

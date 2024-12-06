@@ -1,4 +1,5 @@
-import debug from 'debug';
+import { logger } from '../logger.js';
+
 import axios from 'axios';
 
 import http from 'http';
@@ -11,7 +12,7 @@ import https from 'https';
  * @returns {boolean}
  */
 export default async function checkUrlExists(url) {
-    debug(`checkUrlExists('${url}')...`);
+    logger.info(`checkUrlExists('${url}')...`);
     try {
         let response = await axios.get(url, {
             responseType: 'stream',
@@ -19,10 +20,10 @@ export default async function checkUrlExists(url) {
             httpAgent: new http.Agent({ keepAlive: false }),
             httpsAgent: new https.Agent({ keepAlive: false }),
         });
-        debug(`checkUrlExists('${url}') : SUCCESS (${response.status})`);
+        logger.info(`checkUrlExists('${url}') : SUCCESS (${response.status})`);
         return true;
     } catch (error) {
-        debug(`checkUrlExists('${url}') : FAILURE (${error.message})`);
+        logger.info(`checkUrlExists('${url}') : FAILURE (${error.message})`);
         return false;
     }
 }

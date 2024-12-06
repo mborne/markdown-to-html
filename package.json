@@ -36,7 +36,6 @@
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "commander": "^12.1.0",
-    "debug": "^4.3.7",
     "express": "^4.21.2",
     "front-matter": "^4.0.2",
     "handlebars": "^4.7.8",

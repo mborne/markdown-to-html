@@ -1,4 +1,5 @@
-import debug from 'debug';
+import { logger } from '../logger.js';
+
 import expressApp from '../server/expressApp.js';
 
 /**
@@ -16,13 +17,13 @@ export default function serve(sourceDirPath, layoutPath, options) {
     const app = expressApp(sourceDirPath, layoutPath, options);
 
     const server = app.listen(3000, function () {
-        console.log('Application started on http://localhost:3000');
+        logger.info('Application started on http://localhost:3000');
     });
 
     process.on('SIGTERM', () => {
-        debug('SIGTERM signal received: closing HTTP server');
+        logger.info('SIGTERM signal received: closing HTTP server');
         server.close(() => {
-            debug('HTTP server closed');
+            logger.info('HTTP server closed');
         });
     });
 }
