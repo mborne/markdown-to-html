@@ -1,4 +1,5 @@
-import debug from 'debug';
+import { logger } from './logger.js';
+
 import path from 'path';
 
 import fm from 'front-matter';
@@ -36,7 +37,7 @@ export class Renderer {
      * @param {SourceFile} sourceFile
      */
     render(sourceFile) {
-        debug(`render('${JSON.stringify(sourceFile)}')...`);
+        logger.info(`[Renderer] render('${sourceFile.relativePath}')...`);
         if (![FileType.MARKDOWN, FileType.PHTML].includes(sourceFile.type)) {
             throw new Error(`Unsupported file type: ${sourceFile.type}`);
         }

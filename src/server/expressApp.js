@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { logger } from '../logger.js';
 import morgan from 'morgan';
 
 import url from 'url';
@@ -8,6 +9,17 @@ import { Renderer } from '../Renderer.js';
 import { SourceDir } from '../SourceDir.js';
 import { Layout } from '../Layout.js';
 import { FileType } from '../SourceFile.js';
+
+
+const morganMiddleware = morgan(
+    ':method :url :status :res[content-length] - :response-time ms',
+    {
+        stream: {
+            // Configure Morgan to use our custom logger with the http severity
+            write: (message) => logger.info(message.trim()),
+        },
+    }
+)
 
 /**
  * Create express app to serve a directory containing mardown files.
@@ -24,7 +36,7 @@ export default function expressApp(sourceDirPath, layoutPath, options) {
      * log requests
      * see https://github.com/expressjs/morgan#predefined-formats
      */
-    app.use(morgan('tiny'));
+    app.use(morganMiddleware);
 
     const sourceDir = new SourceDir(sourceDirPath);
     const layout = new Layout(layoutPath);
