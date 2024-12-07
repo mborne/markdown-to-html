@@ -19,8 +19,8 @@
     "build-demo": "npm run build-demo-01 && npm run build-demo-02",
     "build-demo-01": "node bin/main.js convert -l default samples/01-default-layout demo/01-default-layout --force",
     "build-demo-02": "node bin/main.js convert -l remarkjs samples/02-remarkjs demo/02-remarkjs --force",
-    "test": "jest",
-    "coverage": "jest --coverage",
+    "test": "node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "coverage": "node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\"",
     "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.ts\""
@@ -38,6 +38,7 @@
     "commander": "^12.1.0",
     "express": "^4.21.2",
     "front-matter": "^4.0.2",
+    "github-slugger": "^2.0.0",
     "handlebars": "^4.7.8",
     "marked": "^15.0.3",
     "morgan": "^1.10.0",

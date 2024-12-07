@@ -4,6 +4,7 @@ import fs from 'fs';
 import os from 'os';
 import { v4 as uuidV4 } from 'uuid';
 
+const __dirname = import.meta.dirname;
 export const PROJECT_DIR = path.resolve(__dirname + '/../');
 export const SAMPLES_DIR = path.resolve(PROJECT_DIR, './samples');
 
@@ -32,7 +33,7 @@ export function getTempDirPath(): string {
  * Get absolute path test/data/${relativePath}
  */
 export function getTestDataPath(relativePath): string {
-    return path.resolve(__dirname + '/data/', relativePath);
+    return path.resolve(PROJECT_DIR, `test/data/${relativePath}`);
 }
 
 /**

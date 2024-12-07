@@ -69,6 +69,7 @@ markdown-to-html check samples/01-default-layout --check-external-links
 * [shelljs](https://www.npmjs.com/package/shelljs) allows to list files, copy directory, etc.
 * [front-matter](https://www.npmjs.com/package/front-matter#front-matter) allows YAML metadata parsing
 * [marked-custom-heading-id](https://github.com/markedjs/marked-custom-heading-id) provided the solution to support custom heading id.
+* [github-slugger](https://www.npmjs.com/package/github-slugger) provides github like slugs for headings.
 * [express](https://www.npmjs.com/package/express) provides the server mode.
 
 It is inspired from :

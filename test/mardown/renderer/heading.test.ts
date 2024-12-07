@@ -1,5 +1,5 @@
 import heading from '../../../src/markdown/renderer/heading.js';
-import { slugger } from '../../../src/markdown/renderer/slugger.js';
+import { slugger } from '../../../src/helpers/slugger.js';
 
 // reset slugger counter before each test
 beforeEach(() => {

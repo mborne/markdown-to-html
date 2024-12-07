@@ -1,6 +1,6 @@
 import { escapeTitle } from '../../helpers/html.js';
 import getHeadingParts from '../parser/getHeadingParts.js';
-import { slugger } from './slugger.js';
+import { slugger } from '../../helpers/slugger.js';
 
 /**
  * marked - custom method to render titles.

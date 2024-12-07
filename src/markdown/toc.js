@@ -1,6 +1,6 @@
 import marked from './marked.js';
 
-import Slugger from '../helpers/Slugger.js';
+import {Slugger} from '../helpers/slugger.js';
 import getHeadingParts from './parser/getHeadingParts.js';
 
 /**

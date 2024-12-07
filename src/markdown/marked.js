@@ -2,7 +2,7 @@ import { marked } from 'marked';
 
 import toc from './toc.js';
 
-import { slugger } from './renderer/slugger.js';
+import { slugger } from '../helpers/slugger.js';
 
 /**
  * Customize preprocess.
