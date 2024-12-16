@@ -1,14 +1,11 @@
 import url from 'url';
 import path from 'path';
-import renamePathToHtml from './renamePathToHtml.js';
+import renamePathToHtml from './renamePathToHtml';
 
 /**
  * Rewrite relative .md links to .html in markdown text.
- *
- * @param {string} text
- * @returns {string}
  */
-export default function rewriteLinksToHtml(text) {
+export default function rewriteLinksToHtml(text: string): string {
     return text.replace(/\[([^\[\]]*)\]\((.*?)\)/gm, function (link) {
         let parts = link.match(/\[([^\[\]]*)\]\((.*?)\)/);
 

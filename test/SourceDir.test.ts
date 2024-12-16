@@ -1,7 +1,7 @@
 import { getSampleDir, getTestDataPath } from './helpers';
 
-import { FileType } from '../src/SourceFile.js';
-import { SourceDir } from '../src/SourceDir.js';
+import { FileType } from '../src/SourceFile';
+import { SourceDir } from '../src/SourceDir';
 
 describe('Test SourceDir', function () {
     describe('test constructor with invalid rootDir', function () {

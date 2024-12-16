@@ -7,7 +7,7 @@ import handlebars from 'handlebars';
  * @param {string} context
  * @param {Object} options
  */
-export function asset(context, options) {
+export function asset(context: string, options) {
     const parentDir = path.resolve(options.data.root.path, '..');
     const relativePath = path.relative(parentDir, options.data.root.rootDir + '/assets');
 

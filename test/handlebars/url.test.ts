@@ -1,6 +1,6 @@
 import { getSampleDir } from '../helpers';
 
-import { url } from '../../src/handlebars/url.js';
+import { url } from '../../src/handlebars/url';
 
 const sampleRootDir = getSampleDir('01-default-layout');
 const samplePath = `${sampleRootDir}/features/custom-heading-id.md`;

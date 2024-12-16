@@ -1,27 +1,31 @@
 import * as cheerio from 'cheerio';
 
-/**
- * @typedef HtmlLink
- * @property {string} type - The type of the link.
- * @property {string} targetUrl - The URL of the link.
- */
+export interface HtmlLink {
+    /**
+     * The type of the link (a, img,...)
+     */
+    type: string;
+    /**
+     * The URL of the link.
+     */
+    targetUrl: string;
+}
 
-/**
- * @typedef HtmlMetadata
- * @property {string} title - The title of the page.
- * @property {HtmlLink[]} links - An array of link objects with types and target URLs.
- */
+export interface HtmlMetadata {
+    /**
+     * The title of the page.
+     */
+    title: string;
+    /**
+     * An array of link objects with types and target URLs.
+     */
+    links: HtmlLink[];
+}
 
 /**
  * Get links from HTML content
- *
- * @private
- *
- * @param {string} htmlContent
- *
- * @returns {HtmlMetadata}
  */
-export default function getMetadata(htmlContent) {
+export default function getMetadata(htmlContent: string): HtmlMetadata {
     const $ = cheerio.load(htmlContent);
 
     const metadata = {

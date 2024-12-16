@@ -1,11 +1,13 @@
-import { logger } from '../logger.js';
+import { logger } from '../logger';
 
-import expressApp from '../server/expressApp.js';
+import expressApp from '../server/expressApp';
 
-/**
- * @typedef {Object} ServeOptions
- * @property {string} language language for HTML pages defaulted to "en"
- */
+interface ServeOptions {
+    /**
+     * language for HTML pages defaulted to "en"
+     */
+    language?: string;
+}
 
 /**
  * Serve MD files from rootDir
@@ -13,7 +15,7 @@ import expressApp from '../server/expressApp.js';
  * @param {String} layoutPath path to layout directory
  * @param {ServeOptions} options
  */
-export default function serve(sourceDirPath, layoutPath, options) {
+export function serve(sourceDirPath: string, layoutPath: string, options: ServeOptions) {
     const app = expressApp(sourceDirPath, layoutPath, options);
 
     const server = app.listen(3000, function () {

@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
+        "rootDir": ".",
         "outDir": "./dist/",
         "target": "esnext",
         "module": "esnext",
         "allowJs": true,
         "esModuleInterop": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
+        "moduleResolution": "node"
     },
     "include": [
         "./src/**/*",

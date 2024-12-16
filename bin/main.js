@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-
-
-
 import { program, Option } from 'commander';
 
 import path from 'path';
@@ -12,9 +9,7 @@ const __dirname = import.meta.dirname;
 const PROJECT_DIR = path.resolve(__dirname, '..');
 const LAYOUTS_DIR = path.resolve(PROJECT_DIR, './layout');
 
-import convert from '../src/command/convert.js';
-import serve from '../src/command/serve.js';
-import check from '../src/command/check.js';
+import {convert, serve, check} from '@mborne/markdown-to-html';
 
 const optionLang = new Option(
     '--language <language>',

@@ -1,4 +1,4 @@
-import {Slugger} from '../../src/helpers/slugger.js';
+import { Slugger } from '../../src/helpers/slugger';
 
 describe('Test helpers/Slugger', () => {
     it('should return a slugified version of the given text', () => {

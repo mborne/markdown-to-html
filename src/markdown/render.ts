@@ -1,4 +1,4 @@
-import marked from './marked.js';
+import marked from './marked';
 
 /**
  * Render markdown content to HTML.

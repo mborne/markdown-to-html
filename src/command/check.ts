@@ -1,20 +1,14 @@
-import { logger } from '../logger.js';
+import { logger } from '../logger';
 
-import { SourceDir } from '../SourceDir.js';
-import { Checker } from '../Checker.js';
-
-/**
- * @typedef {Object} CheckOptions
- * @property {boolean} checkExternalLinks perform request to check external links?
- */
+import { SourceDir } from '../SourceDir';
+import { Checker, CheckerOptions } from '../Checker';
 
 /**
  * An helper script to detect dead links in .md or .phtml files.
- *
- * @param {String} sourceDirPath path to source directory
- * @param {CheckOptions} options
+ * @param sourceDirPath path to the directory containing .md or .phtml files.
+ * @param options checker options.
  */
-export default async function check(sourceDirPath, options) {
+export async function check(sourceDirPath: string, options: CheckerOptions) {
     logger.info(`check('${sourceDirPath}',${JSON.stringify(options)}...)`);
     const sourceDir = new SourceDir(sourceDirPath);
     const checker = new Checker(options);

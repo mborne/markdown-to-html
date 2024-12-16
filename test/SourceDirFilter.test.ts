@@ -1,4 +1,4 @@
-import { SourceDirFilter } from '../src/SourceDirFilter.js';
+import { SourceDirFilter } from '../src/SourceDirFilter';
 
 const defaultFilter = new SourceDirFilter();
 

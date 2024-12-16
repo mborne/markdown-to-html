@@ -1,6 +1,6 @@
 import { getTestDataContent } from '../helpers';
 
-import title from '../../src/markdown/title.js';
+import title from '../../src/markdown/title';
 
 describe('Regress test for markdown.title', function () {
     it('should extract h1 title for sample-1.md', function () {

@@ -9,7 +9,7 @@ import handlebars from 'handlebars';
  * @param {string} context
  * @param {Object} options
  */
-export function url(context, options) {
+export function url(context: string, options) {
     const parentDir = path.resolve(options.data.root.path, '..');
     const targetPath = path.resolve(options.data.root.rootDir, context.replace(/^\//, ''));
     const relativeTargetPath = path.relative(parentDir, targetPath);

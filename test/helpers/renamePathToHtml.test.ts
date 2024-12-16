@@ -1,4 +1,4 @@
-import renamePathToHtml from '../../src/helpers/renamePathToHtml.js';
+import renamePathToHtml from '../../src/helpers/renamePathToHtml';
 
 describe('Test helpers/renamePathToHtml', function () {
     it('should rename .md extension', function () {

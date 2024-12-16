@@ -1,8 +1,8 @@
 import assert from 'assert';
 import fs, { readdirSync } from 'fs';
 import path from 'path';
-import { SourceFile } from './SourceFile.js';
-import { SourceDirFilter } from './SourceDirFilter.js';
+import { SourceFile } from './SourceFile';
+import { SourceDirFilter } from './SourceDirFilter';
 
 /**
  * Represents a root directory containing markdown
@@ -10,9 +10,16 @@ import { SourceDirFilter } from './SourceDirFilter.js';
  */
 export class SourceDir {
     /**
-     * @param {string} rootDir the rendered directory.
+     * The directory containing sources
      */
-    constructor(rootDir) {
+    readonly rootDir: string;
+
+    /**
+     * Filter files
+     */
+    private filter: SourceDirFilter;
+
+    constructor(rootDir: string) {
         if (!fs.existsSync(rootDir)) {
             throw new Error('Input file ' + rootDir + ' not found');
         }
@@ -25,26 +32,21 @@ export class SourceDir {
 
     /**
      * Get relative path for a given file.
-     *
-     * @param {string} absolutePath
-     * @returns {string}
      */
-    getRelativePath(absolutePath) {
+    getRelativePath(absolutePath: string): string {
         return path.relative(this.rootDir, absolutePath);
     }
 
     /**
      * Find files in root directory
-     *
-     * @returns {SourceFile[]}
      */
-    findFiles() {
+    findFiles(): SourceFile[] {
         const sourceFiles = [];
 
         // list all files and directories recursively
         const relativePaths = readdirSync(this.rootDir, {
             recursive: true,
-        });
+        }) as string[];
 
         // filter out directories and files that are ignored
         for (const relativePath of relativePaths) {
@@ -59,11 +61,8 @@ export class SourceDir {
 
     /**
      * Locate file in rootDir according to relativePath
-     *
-     * @param {string} relativePath
-     * @return {SourceFile?}
      */
-    locateFile(relativePath) {
+    locateFile(relativePath: string): SourceFile | null {
         const absolutePath = path.resolve(this.rootDir, relativePath);
         if (!fs.existsSync(absolutePath)) {
             if (relativePath.endsWith('.html')) {
@@ -86,11 +85,8 @@ export class SourceDir {
      * using .html in URLs.
      *
      * @private
-     *
-     * @param {string} relativePath
-     * @return {SourceFile?}
      */
-    locateRenderedFile(relativePath) {
+    locateRenderedFile(relativePath: string): SourceFile | null {
         assert(relativePath.endsWith('.html'), `${relativePath} is not a .html path!`);
         for (const ext of ['.md', '.phtml']) {
             let candidatePath = relativePath.slice(0, -5) + ext;
@@ -107,7 +103,7 @@ export class SourceDir {
      * @param {SourceFile} sourceFile a directory
      * @return {SourceFile}
      */
-    locateIndex(sourceFile) {
+    locateIndex(sourceFile: SourceFile): SourceFile | null {
         let candidates = ['index.md', 'index.phtml', 'index.html', 'README.md', 'readme.md'];
 
         for (let candidate of candidates) {

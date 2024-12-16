@@ -1,21 +1,38 @@
-import { logger } from './logger.js';
+import { logger } from './logger';
 
 import path from 'path';
 
 import fm from 'front-matter';
 
-import { SourceDir } from './SourceDir.js';
-import { SourceFile, FileType } from './SourceFile.js';
-import { Layout } from './Layout.js';
-import render from './markdown/render.js';
-import title from './markdown/title.js';
-import rewriteLinksToHtml from './helpers/rewriteLinksToHtml.js';
-import getMetadata from './html/getMetadata.js';
+import { SourceDir } from './SourceDir';
+import { SourceFile, FileType } from './SourceFile';
+import { Layout } from './Layout';
+import render from './markdown/render';
+import title from './markdown/title';
+import rewriteLinksToHtml from './helpers/rewriteLinksToHtml';
+import getMetadata from './html/getMetadata';
+
+export interface RendererOptions {
+    /**
+     * Convert .md or .phtml links to .html?
+     */
+    renameLinksToHtml?: boolean;
+    /**
+     * Language for HTML pages defaulted to "en"
+     */
+    language?: string;
+}
 
 /**
  * Helper class to render markdown files in a directory
  */
 export class Renderer {
+    private sourceDir: SourceDir;
+    private layout: Layout;
+    private renameLinksToHtml: boolean;
+    private language: string;
+    private template: HandlebarsTemplateDelegate;
+
     /**
      * @param {SourceDir} sourceDir
      * @param {Layout} layout
@@ -24,7 +41,7 @@ export class Renderer {
      * @param {boolean} [options.renameLinksToHtml=false] convert .md or .phtml links to .html
      * @param {string} [options.language='en'] language for HTML pages defaulted to "en"
      */
-    constructor(sourceDir, layout, options = {}) {
+    constructor(sourceDir: SourceDir, layout: Layout, options: RendererOptions = {}) {
         this.sourceDir = sourceDir;
         this.layout = layout;
         this.renameLinksToHtml = options.renameLinksToHtml ?? false;
@@ -33,10 +50,10 @@ export class Renderer {
     }
 
     /**
-     * Render a given file
-     * @param {SourceFile} sourceFile
+     * Render a source file into a string. Supported file types are Markdown and HTML views.
+     * @param {SourceFile} sourceFile - The source file to render.
      */
-    render(sourceFile) {
+    render(sourceFile: SourceFile): string {
         logger.info(`[Renderer] render('${sourceFile.relativePath}')...`);
         if (![FileType.MARKDOWN, FileType.PHTML].includes(sourceFile.type)) {
             throw new Error(`Unsupported file type: ${sourceFile.type}`);
@@ -56,6 +73,11 @@ export class Renderer {
             // common HTML metadata
             title: path.relative(this.sourceDir.rootDir, sourceFile.absolutePath),
             lang: this.language,
+
+            // rendered content will be written to this field
+            content: null,
+            // markdown content will be saved into this field (for RemarkJS)
+            markdownContent: null,
         };
 
         if (FileType.MARKDOWN == sourceFile.type) {
@@ -68,7 +90,7 @@ export class Renderer {
             // read metadata from YAML
             const { attributes, body } = fm(sourceFile.getContentRaw());
             let markdownContent = body;
-            for (const key in attributes) {
+            for (const key in attributes as Map<string, string>) {
                 context[key] = attributes[key];
             }
 
@@ -78,7 +100,7 @@ export class Renderer {
             }
 
             // render markdown
-            context.content = render(markdownContent);
+            context.content = render(markdownContent) as string;
             // output markdown source (for layout like remarkjs layout)
             context.markdownContent = markdownContent;
         } else {

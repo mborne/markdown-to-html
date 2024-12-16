@@ -1,17 +1,17 @@
 import { lstatSync, readFileSync } from 'fs';
 import path from 'path';
 
-import { SourceDir } from './SourceDir.js';
+import { SourceDir } from './SourceDir';
 
 /**
- * @enum {string} - types of files in a {@link SourceDir}
+ * Types of files in a {@link SourceDir}
  */
-export const FileType = Object.freeze({
-    DIRECTORY: 'directory',
-    MARKDOWN: 'md',
-    PHTML: 'phtml',
-    STATIC: 'static',
-});
+export enum FileType {
+    DIRECTORY = 'directory',
+    MARKDOWN = 'md',
+    PHTML = 'phtml',
+    STATIC = 'static',
+}
 
 /**
  * Represents a file in a {@link SourceDir}.
@@ -24,13 +24,22 @@ export const FileType = Object.freeze({
  */
 export class SourceFile {
     /**
-     * @param {SourceDir} sourceDir
-     * @param {string} absolutePath
+     * The type of the file
      */
-    constructor(sourceDir, absolutePath) {
-        this.sourceDir = sourceDir;
-        this.absolutePath = absolutePath;
+    readonly type: FileType;
+    /**
+     * The path of the file relative to the root directory
+     */
+    readonly relativePath: string;
 
+    /**
+     * @param {SourceDir} sourceDir the source directory
+     * @param {string} absolutePath the absolute path of the file
+     */
+    constructor(
+        readonly sourceDir: SourceDir,
+        readonly absolutePath: string
+    ) {
         /*
          * Detect the type of the file
          */
@@ -48,10 +57,8 @@ export class SourceFile {
 
     /**
      * Get content for the given file.
-     *
-     * @returns {string}
      */
-    getContentRaw() {
+    getContentRaw(): string {
         return readFileSync(this.absolutePath, 'utf-8');
     }
 }

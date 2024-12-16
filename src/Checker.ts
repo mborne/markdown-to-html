@@ -1,43 +1,56 @@
-import { logger } from './logger.js';
+import { logger } from './logger';
 
 import fs from 'fs';
 import url from 'url';
 import path from 'path';
 
-import { SourceDir } from './SourceDir.js';
-import render from './markdown/render.js';
-import { FileType } from './SourceFile.js';
-import getMetadata from './html/getMetadata.js';
-import checkUrlExists from './helpers/checkUrlExists.js';
+import { SourceDir } from './SourceDir';
+import render from './markdown/render';
+import { FileType, SourceFile } from './SourceFile';
+import getMetadata from './html/getMetadata';
+import checkUrlExists from './helpers/checkUrlExists';
 
-const ErrorLevel = Object.freeze({
-    INFO: 'INFO',
-    WARNING: 'WARNING',
-    ERROR: 'ERROR',
-});
+export enum ErrorLevel {
+    INFO = 'INFO',
+    WARNING = 'WARNING',
+    ERROR = 'ERROR',
+}
 
-const ErrorCode = Object.freeze({
-    DEAD_LINK: 'DEAD_LINK',
-});
+export enum ErrorCode {
+    DEAD_LINK = 'DEAD_LINK',
+}
+
+export interface CheckerOptions {
+    /**
+     * Perform external link checks using HTTP requests? Default is false.
+     */
+    checkExternalLinks: boolean;
+}
+
+interface CheckerError {
+    level: ErrorLevel;
+    code: ErrorCode;
+    message: string;
+}
 
 /**
  * Helper class to check files in a source directory
  */
 export class Checker {
+    readonly checkExternalLinks: boolean;
+
     /**
      * @param {object} options
      * @param {boolean} options.checkExternalLinks
      */
-    constructor(options) {
+    constructor(options: CheckerOptions) {
         this.checkExternalLinks = options.checkExternalLinks || false;
     }
 
     /**
-     * Check source directory
-     * @param {SourceDir} sourceDir
-     * @returns {Promise<array>}
+     * Check all files in a source directory
      */
-    async checkSourceDir(sourceDir) {
+    async checkSourceDir(sourceDir: SourceDir): Promise<CheckerError[]> {
         logger.info(`checkSourceDir('${sourceDir.rootDir}') ...`);
 
         let errors = [];
@@ -52,11 +65,9 @@ export class Checker {
     }
 
     /**
-     * Check source file
-     * @param {SourceDir} sourceFile
-     * @returns {Promise<array>}
+     * Check a source file
      */
-    async checkSourceFile(sourceFile) {
+    async checkSourceFile(sourceFile: SourceFile): Promise<CheckerError[]> {
         logger.info(`checkSourceFile('${sourceFile.relativePath}') ...`);
         const errors = [];
 
@@ -68,7 +79,7 @@ export class Checker {
         // render content to html
         let htmlContent = sourceFile.getContentRaw();
         if (FileType.MARKDOWN === sourceFile.type) {
-            htmlContent = render(htmlContent);
+            htmlContent = render(htmlContent) as string;
         }
 
         // get links from html
@@ -91,13 +102,12 @@ export class Checker {
 
     /**
      * Check links from sourceFile
-     * @private
      *
      * @param {SourceFile} sourceFile
      * @param {object} link
      * @return {Promise<object|null>}
      */
-    async checkLink(sourceFile, link) {
+    async checkLink(sourceFile: SourceFile, link) {
         const targetUrl = link.targetUrl;
         logger.info(`checkLink('${sourceFile.relativePath}','${targetUrl}') ...`);
         /*
@@ -123,13 +133,9 @@ export class Checker {
     }
 
     /**
-     * Check targetUrl as an external link performing a GET request.
-     *
-     * @param {SourceFile} sourceFile
-     * @param {string} targetUrl
-     * @return {object|null}
+     * Check targetUrl performing a GET request.
      */
-    async checkExternalLink(sourceFile, targetUrl) {
+    async checkExternalLink(sourceFile: SourceFile, targetUrl: string): Promise<CheckerError | null> {
         logger.info(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`);
         if (!this.checkExternalLinks) {
             logger.info(
@@ -153,18 +159,17 @@ export class Checker {
     }
 
     /**
-     *
-     * @param {SourceFile} sourceFile
-     * @param {string} targetUrl
-     * @return {object|null}
+     * Check internal link ensuring the target file exists.
      */
-    checkInternalLink(sourceFile, targetUrl) {
+    checkInternalLink(sourceFile: SourceFile, targetUrl: string): CheckerError | null {
         logger.info(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`);
         const absoluteTargetPath = path.resolve(path.dirname(sourceFile.absolutePath), targetUrl);
         const found = fs.existsSync(absoluteTargetPath);
         const expectedPath = sourceFile.sourceDir.getRelativePath(absoluteTargetPath);
         if (found) {
-            logger.info(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SUCCESS ('${expectedPath}' found)`);
+            logger.info(
+                `checkExternalLink('${sourceFile.relativePath}','${targetUrl}') : SUCCESS ('${expectedPath}' found)`
+            );
             return null;
         } else {
             logger.info(

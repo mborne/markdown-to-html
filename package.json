@@ -2,8 +2,23 @@
   "name": "@mborne/markdown-to-html",
   "version": "0.11.0",
   "description": "Experimental static site renderer/server supporting markdown and HTML/JS views",
-  "main": "index.js",
   "type": "module",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    }
+  },
   "bin": {
     "markdown-to-html": "bin/main.js"
   },
@@ -15,6 +30,7 @@
     "server"
   ],
   "scripts": {
+    "build": "tsup --config ./tsup.config.ts",
     "start": "node bin/main.js serve -l default samples/01-default-layout",
     "build-demo": "npm run build-demo-01 && npm run build-demo-02",
     "build-demo-01": "node bin/main.js convert -l default samples/01-default-layout demo/01-default-layout --force",
@@ -22,8 +38,8 @@
     "test": "node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "coverage": "node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.js\"",
-    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.ts\""
+    "check-style": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "fix-style": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "author": "Mickael Borne <mborne@users.noreply.github.com>",
   "repository": {
@@ -43,16 +59,20 @@
     "marked": "^15.0.3",
     "morgan": "^1.10.0",
     "shelljs": "^0.8.5",
+    "tslib": "^2.8.1",
     "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "coveralls": "^3.1.1",
+    "esbuild": "^0.24.0",
+    "esbuild-plugin-tsc": "^0.4.0",
     "jest": "^29.7.0",
     "prettier": "3.4.2",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "uuid": "^11.0.3"
   }

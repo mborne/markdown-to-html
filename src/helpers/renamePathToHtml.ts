@@ -1,10 +1,7 @@
 /**
  * Rename rendered extensions (.md, .phtml) to html.
- *
- * @param {string} path
- * @return {string}
  */
-export default function renamePathToHtml(path) {
+export default function renamePathToHtml(path: string): string {
     if (path.endsWith('.md')) {
         return path.slice(0, -3) + '.html';
     } else if (path.endsWith('.phtml')) {

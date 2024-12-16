@@ -1,4 +1,4 @@
-import { logger } from '../logger.js';
+import { logger } from '../logger';
 
 import axios from 'axios';
 
@@ -6,12 +6,10 @@ import http from 'http';
 import https from 'https';
 
 /**
- * Test if URL exists.
- *
- * @param {string} url
- * @returns {boolean}
+ * Test if an URL exists.
+ * @param url - URL to test.
  */
-export default async function checkUrlExists(url) {
+export default async function checkUrlExists(url: string): Promise<boolean> {
     logger.info(`checkUrlExists('${url}')...`);
     try {
         let response = await axios.get(url, {

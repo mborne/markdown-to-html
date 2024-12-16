@@ -1,7 +1,7 @@
 import { Layout } from '../src/Layout';
 import { Renderer } from '../src/Renderer';
-
 import { SourceDir } from '../src/SourceDir';
+
 import { getLayoutPath, getSampleDir } from './helpers';
 
 const sampleSourceDir = new SourceDir(getSampleDir('01-default-layout'));

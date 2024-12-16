@@ -1,4 +1,4 @@
-import render from '../../src/markdown/render.js';
+import render from '../../src/markdown/render';
 
 describe('Test markdown/render', function () {
     it('should support custom id', function () {

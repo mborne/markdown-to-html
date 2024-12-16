@@ -1,4 +1,4 @@
-import convert from '../../src/command/convert.js';
+import { convert } from '../../src/command/convert';
 
 import { getLayoutPath, getSampleDir, getTempDirPath } from '../helpers';
 import { existsSync } from 'fs';

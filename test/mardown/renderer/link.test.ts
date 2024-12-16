@@ -1,4 +1,5 @@
-import link from '../../../src/markdown/renderer/link.js';
+import { Tokens } from 'marked';
+import link from '../../../src/markdown/renderer/link';
 
 describe('Test markdown/renderer/link', function () {
     it('should works for basic case without', function () {
@@ -6,7 +7,7 @@ describe('Test markdown/renderer/link', function () {
             href: 'something.html',
             title: null,
             text: 'Something text',
-        });
+        } as Tokens.Link);
         const expected = '<a href="something.html">Something text</a>';
         expect(result).toEqual(expected);
     });
@@ -16,7 +17,7 @@ describe('Test markdown/renderer/link', function () {
             href: 'https://example.com',
             title: null,
             text: 'Something text',
-        });
+        } as Tokens.Link);
         const expected = '<a href="https://example.com" target="_blank">Something text</a>';
         expect(result).toEqual(expected);
     });
@@ -26,7 +27,7 @@ describe('Test markdown/renderer/link', function () {
             href: 'something.html',
             title: 'Something title',
             text: 'Something text',
-        });
+        } as Tokens.Link);
         const expected = '<a href="something.html" title="Something title">Something text</a>';
         expect(result).toEqual(expected);
     });
@@ -36,7 +37,7 @@ describe('Test markdown/renderer/link', function () {
             href: 'something.md',
             title: 'Something title',
             text: 'Something text',
-        });
+        } as Tokens.Link);
         const expected = '<a href="something.md" title="Something title">Something text</a>';
         expect(result).toEqual(expected);
     });
@@ -46,7 +47,7 @@ describe('Test markdown/renderer/link', function () {
             href: 'https://github.com/mborne/markdown-to-html/blob/master/README.md',
             title: 'markdown-to-html',
             text: 'markdown-to-html - readme',
-        });
+        } as Tokens.Link);
         const expected =
             '<a href="https://github.com/mborne/markdown-to-html/blob/master/README.md" title="markdown-to-html" target="_blank">markdown-to-html - readme</a>';
         expect(result).toEqual(expected);

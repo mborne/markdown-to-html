@@ -1,8 +1,8 @@
 import { marked } from 'marked';
 
-import toc from './toc.js';
+import toc from './toc';
 
-import { slugger } from '../helpers/slugger.js';
+import { slugger } from '../helpers/slugger';
 
 /**
  * Customize preprocess.
@@ -30,8 +30,8 @@ marked.use({ hooks: { preprocess } });
  *
  * @see https://marked.js.org/using_pro#renderer
  */
-import heading from './renderer/heading.js';
-import link from './renderer/link.js';
+import heading from './renderer/heading';
+import link from './renderer/link';
 
 const renderer = {
     heading: heading,

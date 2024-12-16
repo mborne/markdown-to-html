@@ -4,7 +4,7 @@ import supertest from 'supertest';
 
 import { getLayoutPath, getSampleDir } from '../helpers';
 
-import expressApp from '../../src/server/expressApp.js';
+import expressApp from '../../src/server/expressApp';
 
 const sourceDirPath = getSampleDir('01-default-layout');
 const layoutPath = getLayoutPath('default');

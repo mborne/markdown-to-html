@@ -1,7 +1,8 @@
-import marked from './marked.js';
+import marked from './marked';
 
-import {Slugger} from '../helpers/slugger.js';
-import getHeadingParts from './parser/getHeadingParts.js';
+import { Slugger } from '../helpers/slugger';
+import getHeadingParts from './parser/getHeadingParts';
+import { Tokens } from 'marked';
 
 /**
  * Generate markdown table of content from markdown.
@@ -12,7 +13,9 @@ import getHeadingParts from './parser/getHeadingParts.js';
 export default function toc(markdownContent) {
     const lexer = new marked.Lexer();
     let tokens = lexer.lex(markdownContent);
-    let headingTokens = tokens.filter((token) => token.depth != 1 && token.type == 'heading');
+    let headingTokens: Tokens.Heading[] = tokens.filter(
+        (token) => token.type == 'heading' && token.depth != 1
+    ) as Tokens.Heading[];
 
     /*
      * Note that it is important to create a dedicated instance
@@ -23,8 +26,8 @@ export default function toc(markdownContent) {
     return headingTokens
         .map((headingToken) => {
             // text token for the content
-            let token = headingToken.tokens[0];
-            let parts = getHeadingParts(token.text, token.raw, slugger);
+            //let token = headingToken.tokens[0];
+            let parts = getHeadingParts(headingToken.text, headingToken.raw, slugger);
 
             // indent according to depth
             let spaces = '';

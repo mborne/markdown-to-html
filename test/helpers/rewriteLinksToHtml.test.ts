@@ -1,4 +1,4 @@
-import rewriteLinksToHtml from '../../src/helpers/rewriteLinksToHtml.js';
+import rewriteLinksToHtml from '../../src/helpers/rewriteLinksToHtml';
 
 describe('Test helpers/rewriteLinksToHtml', function () {
     it('should work with relative links', function () {

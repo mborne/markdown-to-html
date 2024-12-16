@@ -1,34 +1,42 @@
-import { logger } from '../logger.js';
+import { logger } from '../logger';
 
 import shell from 'shelljs';
 import fs, { mkdirSync } from 'fs';
 
-import { Renderer } from '../Renderer.js';
-import { SourceDir } from '../SourceDir.js';
-import { Layout } from '../Layout.js';
-import { FileType } from '../SourceFile.js';
-import renamePathToHtml from '../helpers/renamePathToHtml.js';
+import { Renderer, RendererOptions } from '../Renderer';
+import { SourceDir } from '../SourceDir';
+import { Layout } from '../Layout';
+import { FileType } from '../SourceFile';
+import renamePathToHtml from '../helpers/renamePathToHtml';
 
 /**
- * @typedef {Object} ConvertOptions
- * @property {string} language language for HTML pages defaulted to "en"
- * @property {boolean} force force overwrite existing output dir if it exists
+ * Options for the convert process.
  */
+interface ConvertOptions {
+    /**
+     * Language for HTML pages defaulted to "en"
+     */
+    language: string;
+    /**
+     * Force overwrite existing output dir if it exists?
+     */
+    force?: boolean;
+}
 
 /**
  * Convert MD files in rootDir to outputDir
  *
- * @param {String} sourceDirPath path to source directory
- * @param {String} outputDirPath path to output directory
- * @param {String} layoutPath path to layout directory
- * @param {ConvertOptions} options
+ * @param sourceDirPath path to source directory
+ * @param outputDirPath path to output directory
+ * @param layoutPath path to layout directory
+ * @param options
  */
-export default function convert(sourceDirPath, outputDirPath, layoutPath, options) {
+export function convert(sourceDirPath: string, outputDirPath: string, layoutPath: string, options: ConvertOptions) {
     /* output directory */
-    logger.info("Check if outputDir exists...");
+    logger.info('Check if outputDir exists...');
     if (fs.existsSync(outputDirPath)) {
         if (options.force) {
-            logger.info("Cleanup existing outputDir (--force)");
+            logger.info('Cleanup existing outputDir (--force)');
             shell.rm('-rf', `${outputDirPath}/*`);
         } else {
             throw new Error(outputDirPath + ' already exists!');
@@ -40,10 +48,11 @@ export default function convert(sourceDirPath, outputDirPath, layoutPath, option
     const sourceDir = new SourceDir(sourceDirPath);
     const layout = new Layout(layoutPath);
 
-    options = options || {};
+    const rendererOptions: RendererOptions = options;
+
     // force renaming of links from .md to .html
-    options.renameLinksToHtml = true;
-    const markdownRenderer = new Renderer(sourceDir, layout, options);
+    rendererOptions.renameLinksToHtml = true;
+    const markdownRenderer = new Renderer(sourceDir, layout, rendererOptions);
 
     logger.info(`List files from source directory ...`);
     const sourceFiles = sourceDir.findFiles();

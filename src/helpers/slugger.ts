@@ -1,6 +1,6 @@
 import Slugger from 'github-slugger';
 
-export {Slugger};
+export { Slugger };
 
 /**
  * Default slugger instance.

@@ -1,4 +1,4 @@
-import checkUrlExists from '../../src/helpers/checkUrlExists.js';
+import checkUrlExists from '../../src/helpers/checkUrlExists';
 
 describe('Test helper/checkUrlExists', function () {
     it('should find https://github.com/mborne', async function () {

@@ -1,7 +1,7 @@
 import { getTestDataContent, getTestDataPath } from '../helpers';
 import { readFileSync, writeFileSync } from 'fs';
 
-import toc from '../../src/markdown/toc.js';
+import toc from '../../src/markdown/toc';
 
 const UPDATE_REGRESS_TEST = process.env.UPDATE_REGRESS_TEST == '1' ? true : false;
 
