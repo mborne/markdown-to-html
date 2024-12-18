@@ -20,6 +20,9 @@ var _fs = require('fs'); var _fs2 = _interopRequireDefault(_fs);
 var _url = require('url'); var _url2 = _interopRequireDefault(_url);
 var _path = require('path'); var _path2 = _interopRequireDefault(_path);
 
+// src/markdown/render.ts
+var _frontmatter = require('front-matter'); var _frontmatter2 = _interopRequireDefault(_frontmatter);
+
 // src/markdown/marked.ts
 var _marked = require('marked');
 
@@ -106,9 +109,75 @@ var renderer = {
 _marked.marked.use({ renderer });
 var marked_default = _marked.marked;
 
+// src/markdown/title.ts
+function title(markdownContent) {
+  const lexer = new marked_default.Lexer();
+  let tokens = lexer.lex(markdownContent);
+  for (const token of tokens) {
+    if (token.type !== "heading") {
+      continue;
+    }
+    if (token.depth == 1) {
+      return token.text;
+    }
+  }
+  return null;
+}
+
+// src/helpers/rewriteLinksToHtml.ts
+
+
+
+// src/helpers/renamePathToHtml.ts
+function renamePathToHtml(path8) {
+  if (path8.endsWith(".md")) {
+    return path8.slice(0, -3) + ".html";
+  } else if (path8.endsWith(".phtml")) {
+    return path8.slice(0, -6) + ".html";
+  } else {
+    return path8;
+  }
+}
+
+// src/helpers/rewriteLinksToHtml.ts
+function rewriteLinksToHtml(text) {
+  return text.replace(/\[([^\[\]]*)\]\((.*?)\)/gm, function(link2) {
+    let parts = link2.match(/\[([^\[\]]*)\]\((.*?)\)/);
+    let title2 = parts[1];
+    let href = parts[2];
+    const parsed = _url2.default.parse(href);
+    if (!parsed.protocol) {
+      const ext = _path2.default.extname(parsed.pathname || "");
+      if (ext === ".md" || ext === ".phtml") {
+        parsed.pathname = renamePathToHtml(parsed.pathname);
+        href = _url2.default.format(parsed);
+      }
+    }
+    return `[${title2}](${href})`;
+  });
+}
+
 // src/markdown/render.ts
-function render(markdownContent) {
-  return marked_default.parse(markdownContent);
+function render(markdownContent, options) {
+  const renameLinksToHtml = (options == null ? void 0 : options.renameLinksToHtml) || false;
+  const metadata = /* @__PURE__ */ new Map();
+  const markdownTitle = title(markdownContent);
+  if (markdownTitle) {
+    metadata["title"] = markdownTitle;
+  }
+  const { attributes, body } = _frontmatter2.default.call(void 0, markdownContent);
+  markdownContent = body;
+  for (const key in attributes) {
+    metadata[key] = attributes[key];
+  }
+  if (renameLinksToHtml) {
+    markdownContent = rewriteLinksToHtml(markdownContent);
+  }
+  return {
+    markdownContent,
+    htmlContent: marked_default.parse(markdownContent),
+    metadata
+  };
 }
 
 // src/SourceFile.ts
@@ -251,7 +320,8 @@ var Checker = class {
     }
     let htmlContent = sourceFile.getContentRaw();
     if ("md" /* MARKDOWN */ === sourceFile.type) {
-      htmlContent = render(htmlContent);
+      const result = render(htmlContent);
+      htmlContent = result.htmlContent;
     }
     const { links } = getMetadata(htmlContent);
     if (links.length == 0) {
@@ -356,7 +426,7 @@ function asset(context, options) {
 // src/handlebars/url.ts
 
 
-function url3(context, options) {
+function url4(context, options) {
   const parentDir = _path2.default.resolve(options.data.root.path, "..");
   const targetPath = _path2.default.resolve(options.data.root.rootDir, context.replace(/^\//, ""));
   const relativeTargetPath = _path2.default.relative(parentDir, targetPath);
@@ -366,7 +436,7 @@ function url3(context, options) {
 
 // src/Layout.ts
 _handlebars2.default.registerHelper("asset", asset);
-_handlebars2.default.registerHelper("url", url3);
+_handlebars2.default.registerHelper("url", url4);
 var Layout = class {
   /**
    * @param {string} layoutPath path to the directory containing page.html
@@ -417,57 +487,6 @@ var Layout = class {
 
 // src/Renderer.ts
 
-var _frontmatter = require('front-matter'); var _frontmatter2 = _interopRequireDefault(_frontmatter);
-
-// src/markdown/title.ts
-function title(markdownContent) {
-  const lexer = new marked_default.Lexer();
-  let tokens = lexer.lex(markdownContent);
-  for (const token of tokens) {
-    if (token.type !== "heading") {
-      continue;
-    }
-    if (token.depth == 1) {
-      return token.text;
-    }
-  }
-  return null;
-}
-
-// src/helpers/rewriteLinksToHtml.ts
-
-
-
-// src/helpers/renamePathToHtml.ts
-function renamePathToHtml(path8) {
-  if (path8.endsWith(".md")) {
-    return path8.slice(0, -3) + ".html";
-  } else if (path8.endsWith(".phtml")) {
-    return path8.slice(0, -6) + ".html";
-  } else {
-    return path8;
-  }
-}
-
-// src/helpers/rewriteLinksToHtml.ts
-function rewriteLinksToHtml(text) {
-  return text.replace(/\[([^\[\]]*)\]\((.*?)\)/gm, function(link2) {
-    let parts = link2.match(/\[([^\[\]]*)\]\((.*?)\)/);
-    let title2 = parts[1];
-    let href = parts[2];
-    const parsed = _url2.default.parse(href);
-    if (!parsed.protocol) {
-      const ext = _path2.default.extname(parsed.pathname || "");
-      if (ext === ".md" || ext === ".phtml") {
-        parsed.pathname = renamePathToHtml(parsed.pathname);
-        href = _url2.default.format(parsed);
-      }
-    }
-    return `[${title2}](${href})`;
-  });
-}
-
-// src/Renderer.ts
 var Renderer = class {
   /**
    * @param {SourceDir} sourceDir
@@ -514,20 +533,14 @@ var Renderer = class {
       markdownContent: null
     };
     if ("md" /* MARKDOWN */ == sourceFile.type) {
-      const markdownTitle = title(sourceFile.getContentRaw());
-      if (markdownTitle) {
-        context.title = markdownTitle;
+      const result = render(sourceFile.getContentRaw(), {
+        renameLinksToHtml: this.renameLinksToHtml
+      });
+      context.content = result.htmlContent;
+      context.markdownContent = result.markdownContent;
+      for (const key in result.metadata) {
+        context[key] = result.metadata[key];
       }
-      const { attributes, body } = _frontmatter2.default.call(void 0, sourceFile.getContentRaw());
-      let markdownContent = body;
-      for (const key in attributes) {
-        context[key] = attributes[key];
-      }
-      if (this.renameLinksToHtml) {
-        markdownContent = rewriteLinksToHtml(markdownContent);
-      }
-      context.content = render(markdownContent);
-      context.markdownContent = markdownContent;
     } else {
       if (sourceFile.type == "phtml" /* PHTML */) {
         const { title: title2 } = getMetadata(sourceFile.getContentRaw());
@@ -821,4 +834,5 @@ function serve(sourceDirPath, layoutPath, options) {
 
 
 
-exports.Checker = Checker; exports.ErrorCode = ErrorCode; exports.ErrorLevel = ErrorLevel; exports.FileType = FileType; exports.Layout = Layout; exports.Renderer = Renderer; exports.SourceDir = SourceDir; exports.SourceDirFilter = SourceDirFilter; exports.SourceFile = SourceFile; exports.check = check; exports.convert = convert; exports.serve = serve;
+
+exports.Checker = Checker; exports.ErrorCode = ErrorCode; exports.ErrorLevel = ErrorLevel; exports.FileType = FileType; exports.Layout = Layout; exports.Renderer = Renderer; exports.SourceDir = SourceDir; exports.SourceDirFilter = SourceDirFilter; exports.SourceFile = SourceFile; exports.check = check; exports.convert = convert; exports.render = render; exports.serve = serve;

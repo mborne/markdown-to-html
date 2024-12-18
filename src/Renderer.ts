@@ -2,14 +2,10 @@ import { logger } from './logger';
 
 import path from 'path';
 
-import fm from 'front-matter';
-
 import { SourceDir } from './SourceDir';
 import { SourceFile, FileType } from './SourceFile';
 import { Layout } from './Layout';
-import render from './markdown/render';
-import title from './markdown/title';
-import rewriteLinksToHtml from './helpers/rewriteLinksToHtml';
+import { render } from './markdown/render';
 import getMetadata from './html/getMetadata';
 
 export interface RendererOptions {
@@ -24,7 +20,7 @@ export interface RendererOptions {
 }
 
 /**
- * Helper class to render markdown files in a directory
+ * Helper class to render markdown files from a directory with an HTML layout.
  */
 export class Renderer {
     private sourceDir: SourceDir;
@@ -61,6 +57,7 @@ export class Renderer {
 
         /*
          * Prepare rendering context with default metadata
+         * TODO : Add interface for HandlebarContext for better type checking.
          */
         const context = {
             // handlebars helpers requirements
@@ -81,28 +78,17 @@ export class Renderer {
         };
 
         if (FileType.MARKDOWN == sourceFile.type) {
-            // read title from markdown
-            const markdownTitle = title(sourceFile.getContentRaw());
-            if (markdownTitle) {
-                context.title = markdownTitle;
-            }
-
-            // read metadata from YAML
-            const { attributes, body } = fm(sourceFile.getContentRaw());
-            let markdownContent = body;
-            for (const key in attributes as Map<string, string>) {
-                context[key] = attributes[key];
-            }
-
-            // replace .md links by .html links
-            if (this.renameLinksToHtml) {
-                markdownContent = rewriteLinksToHtml(markdownContent);
-            }
-
             // render markdown
-            context.content = render(markdownContent) as string;
+            const result = render(sourceFile.getContentRaw(), {
+                renameLinksToHtml: this.renameLinksToHtml,
+            });
+            context.content = result.htmlContent;
             // output markdown source (for layout like remarkjs layout)
-            context.markdownContent = markdownContent;
+            context.markdownContent = result.markdownContent;
+            // output markdown attributes
+            for (const key in result.metadata) {
+                context[key] = result.metadata[key];
+            }
         } else {
             if (sourceFile.type == FileType.PHTML) {
                 const { title } = getMetadata(sourceFile.getContentRaw());
@@ -110,7 +96,6 @@ export class Renderer {
                     context.title = title;
                 }
             }
-
             // output raw content
             context.content = sourceFile.getContentRaw();
         }

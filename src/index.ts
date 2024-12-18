@@ -9,9 +9,5 @@ export * from './command/check';
 export * from './command/convert';
 export * from './command/serve';
 
-//handlebars
-//helpers
-//html
-//logger.ts
-//markdown
-//server
+export * from './markdown/render';
+export * from './markdown/toc';

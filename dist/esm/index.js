@@ -17,8 +17,11 @@ var logger = winston.createLogger({
 
 // src/Checker.ts
 import fs from "fs";
-import url2 from "url";
-import path2 from "path";
+import url3 from "url";
+import path3 from "path";
+
+// src/markdown/render.ts
+import fm from "front-matter";
 
 // src/markdown/marked.ts
 import { marked } from "marked";
@@ -106,14 +109,80 @@ var renderer = {
 marked.use({ renderer });
 var marked_default = marked;
 
+// src/markdown/title.ts
+function title(markdownContent) {
+  const lexer = new marked_default.Lexer();
+  let tokens = lexer.lex(markdownContent);
+  for (const token of tokens) {
+    if (token.type !== "heading") {
+      continue;
+    }
+    if (token.depth == 1) {
+      return token.text;
+    }
+  }
+  return null;
+}
+
+// src/helpers/rewriteLinksToHtml.ts
+import url2 from "url";
+import path from "path";
+
+// src/helpers/renamePathToHtml.ts
+function renamePathToHtml(path8) {
+  if (path8.endsWith(".md")) {
+    return path8.slice(0, -3) + ".html";
+  } else if (path8.endsWith(".phtml")) {
+    return path8.slice(0, -6) + ".html";
+  } else {
+    return path8;
+  }
+}
+
+// src/helpers/rewriteLinksToHtml.ts
+function rewriteLinksToHtml(text) {
+  return text.replace(/\[([^\[\]]*)\]\((.*?)\)/gm, function(link2) {
+    let parts = link2.match(/\[([^\[\]]*)\]\((.*?)\)/);
+    let title2 = parts[1];
+    let href = parts[2];
+    const parsed = url2.parse(href);
+    if (!parsed.protocol) {
+      const ext = path.extname(parsed.pathname || "");
+      if (ext === ".md" || ext === ".phtml") {
+        parsed.pathname = renamePathToHtml(parsed.pathname);
+        href = url2.format(parsed);
+      }
+    }
+    return `[${title2}](${href})`;
+  });
+}
+
 // src/markdown/render.ts
-function render(markdownContent) {
-  return marked_default.parse(markdownContent);
+function render(markdownContent, options) {
+  const renameLinksToHtml = (options == null ? void 0 : options.renameLinksToHtml) || false;
+  const metadata = /* @__PURE__ */ new Map();
+  const markdownTitle = title(markdownContent);
+  if (markdownTitle) {
+    metadata["title"] = markdownTitle;
+  }
+  const { attributes, body } = fm(markdownContent);
+  markdownContent = body;
+  for (const key in attributes) {
+    metadata[key] = attributes[key];
+  }
+  if (renameLinksToHtml) {
+    markdownContent = rewriteLinksToHtml(markdownContent);
+  }
+  return {
+    markdownContent,
+    htmlContent: marked_default.parse(markdownContent),
+    metadata
+  };
 }
 
 // src/SourceFile.ts
 import { lstatSync, readFileSync } from "fs";
-import path from "path";
+import path2 from "path";
 var FileType = /* @__PURE__ */ ((FileType2) => {
   FileType2["DIRECTORY"] = "directory";
   FileType2["MARKDOWN"] = "md";
@@ -145,7 +214,7 @@ var SourceFile = class {
     } else if (this.absolutePath.match(/\.phtml$/)) {
       this.type = "phtml" /* PHTML */;
     }
-    this.relativePath = path.relative(this.sourceDir.rootDir, this.absolutePath);
+    this.relativePath = path2.relative(this.sourceDir.rootDir, this.absolutePath);
   }
   /**
    * Get content for the given file.
@@ -251,7 +320,8 @@ var Checker = class {
     }
     let htmlContent = sourceFile.getContentRaw();
     if ("md" /* MARKDOWN */ === sourceFile.type) {
-      htmlContent = render(htmlContent);
+      const result = render(htmlContent);
+      htmlContent = result.htmlContent;
     }
     const { links } = getMetadata(htmlContent);
     if (links.length == 0) {
@@ -281,7 +351,7 @@ var Checker = class {
       logger.info(`checkLink('${sourceFile.relativePath}','${targetUrl}') : SKIPPED (anchor link)`);
       return null;
     }
-    const parsed = url2.parse(targetUrl);
+    const parsed = url3.parse(targetUrl);
     if (parsed.protocol !== null) {
       return this.checkExternalLink(sourceFile, targetUrl);
     }
@@ -315,7 +385,7 @@ var Checker = class {
    */
   checkInternalLink(sourceFile, targetUrl) {
     logger.info(`checkExternalLink('${sourceFile.relativePath}','${targetUrl}') ...`);
-    const absoluteTargetPath = path2.resolve(path2.dirname(sourceFile.absolutePath), targetUrl);
+    const absoluteTargetPath = path3.resolve(path3.dirname(sourceFile.absolutePath), targetUrl);
     const found = fs.existsSync(absoluteTargetPath);
     const expectedPath = sourceFile.sourceDir.getRelativePath(absoluteTargetPath);
     if (found) {
@@ -341,11 +411,11 @@ import fs2 from "fs";
 import handlebars3 from "handlebars";
 
 // src/handlebars/asset.ts
-import path3 from "path";
+import path4 from "path";
 import handlebars from "handlebars";
 function asset(context, options) {
-  const parentDir = path3.resolve(options.data.root.path, "..");
-  const relativePath = path3.relative(parentDir, options.data.root.rootDir + "/assets");
+  const parentDir = path4.resolve(options.data.root.path, "..");
+  const relativePath = path4.relative(parentDir, options.data.root.rootDir + "/assets");
   let output = "";
   output += relativePath + "/";
   context = context.replace(/^\//, "");
@@ -354,19 +424,19 @@ function asset(context, options) {
 }
 
 // src/handlebars/url.ts
-import path4 from "path";
+import path5 from "path";
 import handlebars2 from "handlebars";
-function url3(context, options) {
-  const parentDir = path4.resolve(options.data.root.path, "..");
-  const targetPath = path4.resolve(options.data.root.rootDir, context.replace(/^\//, ""));
-  const relativeTargetPath = path4.relative(parentDir, targetPath);
+function url4(context, options) {
+  const parentDir = path5.resolve(options.data.root.path, "..");
+  const targetPath = path5.resolve(options.data.root.rootDir, context.replace(/^\//, ""));
+  const relativeTargetPath = path5.relative(parentDir, targetPath);
   const relativeUrl = relativeTargetPath.endsWith("..") ? relativeTargetPath + "/" : relativeTargetPath;
   return new handlebars2.SafeString(relativeUrl);
 }
 
 // src/Layout.ts
 handlebars3.registerHelper("asset", asset);
-handlebars3.registerHelper("url", url3);
+handlebars3.registerHelper("url", url4);
 var Layout = class {
   /**
    * @param {string} layoutPath path to the directory containing page.html
@@ -417,57 +487,6 @@ var Layout = class {
 
 // src/Renderer.ts
 import path6 from "path";
-import fm from "front-matter";
-
-// src/markdown/title.ts
-function title(markdownContent) {
-  const lexer = new marked_default.Lexer();
-  let tokens = lexer.lex(markdownContent);
-  for (const token of tokens) {
-    if (token.type !== "heading") {
-      continue;
-    }
-    if (token.depth == 1) {
-      return token.text;
-    }
-  }
-  return null;
-}
-
-// src/helpers/rewriteLinksToHtml.ts
-import url4 from "url";
-import path5 from "path";
-
-// src/helpers/renamePathToHtml.ts
-function renamePathToHtml(path8) {
-  if (path8.endsWith(".md")) {
-    return path8.slice(0, -3) + ".html";
-  } else if (path8.endsWith(".phtml")) {
-    return path8.slice(0, -6) + ".html";
-  } else {
-    return path8;
-  }
-}
-
-// src/helpers/rewriteLinksToHtml.ts
-function rewriteLinksToHtml(text) {
-  return text.replace(/\[([^\[\]]*)\]\((.*?)\)/gm, function(link2) {
-    let parts = link2.match(/\[([^\[\]]*)\]\((.*?)\)/);
-    let title2 = parts[1];
-    let href = parts[2];
-    const parsed = url4.parse(href);
-    if (!parsed.protocol) {
-      const ext = path5.extname(parsed.pathname || "");
-      if (ext === ".md" || ext === ".phtml") {
-        parsed.pathname = renamePathToHtml(parsed.pathname);
-        href = url4.format(parsed);
-      }
-    }
-    return `[${title2}](${href})`;
-  });
-}
-
-// src/Renderer.ts
 var Renderer = class {
   /**
    * @param {SourceDir} sourceDir
@@ -514,20 +533,14 @@ var Renderer = class {
       markdownContent: null
     };
     if ("md" /* MARKDOWN */ == sourceFile.type) {
-      const markdownTitle = title(sourceFile.getContentRaw());
-      if (markdownTitle) {
-        context.title = markdownTitle;
+      const result = render(sourceFile.getContentRaw(), {
+        renameLinksToHtml: this.renameLinksToHtml
+      });
+      context.content = result.htmlContent;
+      context.markdownContent = result.markdownContent;
+      for (const key in result.metadata) {
+        context[key] = result.metadata[key];
       }
-      const { attributes, body } = fm(sourceFile.getContentRaw());
-      let markdownContent = body;
-      for (const key in attributes) {
-        context[key] = attributes[key];
-      }
-      if (this.renameLinksToHtml) {
-        markdownContent = rewriteLinksToHtml(markdownContent);
-      }
-      context.content = render(markdownContent);
-      context.markdownContent = markdownContent;
     } else {
       if (sourceFile.type == "phtml" /* PHTML */) {
         const { title: title2 } = getMetadata(sourceFile.getContentRaw());
@@ -820,5 +833,6 @@ export {
   SourceFile,
   check,
   convert,
+  render,
   serve
 };

@@ -179,7 +179,7 @@ interface RendererOptions {
     language?: string;
 }
 /**
- * Helper class to render markdown files in a directory
+ * Helper class to render markdown files from a directory with an HTML layout.
  */
 declare class Renderer {
     private sourceDir;
@@ -266,4 +266,38 @@ interface ServeOptions {
  */
 declare function serve(sourceDirPath: string, layoutPath: string, options: ServeOptions): void;
 
-export { Checker, type CheckerOptions, ErrorCode, ErrorLevel, FileType, Layout, Renderer, type RendererOptions, SourceDir, SourceDirFilter, SourceFile, check, convert, serve };
+/**
+ * Render result of the `render` function.
+ */
+interface MarkdownRenderResult {
+    /**
+     * Filtered markdown content as a string (without YAML metadata).
+     */
+    markdownContent: string;
+    /**
+     * HTML result as a string (ready to be injected in a layout)
+     */
+    htmlContent: string;
+    /**
+     * Title from first h1 title merge with YAML metadata read by front-matter.
+     */
+    metadata: Map<string, any>;
+}
+/**
+ * Render options for the `render` function.
+ */
+interface MarkdownRenderOptions {
+    /**
+     * Rename relative .md links to .html? Defaults to `false`.
+     */
+    renameLinksToHtml: boolean;
+}
+/**
+ * Render markdown content to HTML.
+ *
+ * @param {string} markdownContent
+ * @returns {string}
+ */
+declare function render(markdownContent: string, options?: MarkdownRenderOptions): MarkdownRenderResult;
+
+export { Checker, type CheckerOptions, ErrorCode, ErrorLevel, FileType, Layout, type MarkdownRenderOptions, type MarkdownRenderResult, Renderer, type RendererOptions, SourceDir, SourceDirFilter, SourceFile, check, convert, render, serve };

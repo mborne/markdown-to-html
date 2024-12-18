@@ -5,7 +5,7 @@ import url from 'url';
 import path from 'path';
 
 import { SourceDir } from './SourceDir';
-import render from './markdown/render';
+import { render } from './markdown/render';
 import { FileType, SourceFile } from './SourceFile';
 import getMetadata from './html/getMetadata';
 import checkUrlExists from './helpers/checkUrlExists';
@@ -79,7 +79,8 @@ export class Checker {
         // render content to html
         let htmlContent = sourceFile.getContentRaw();
         if (FileType.MARKDOWN === sourceFile.type) {
-            htmlContent = render(htmlContent) as string;
+            const result = render(htmlContent);
+            htmlContent = result.htmlContent;
         }
 
         // get links from html
