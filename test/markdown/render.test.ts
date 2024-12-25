@@ -1,4 +1,4 @@
-import {render} from '../../src/markdown/render';
+import { render } from '../../src/markdown/render';
 
 describe('Test markdown/render', function () {
     it('should support custom id', function () {
@@ -15,7 +15,7 @@ describe('Test markdown/render', function () {
 
     it('should not face problem with apostrophe', function () {
         const result = render("# Let's rock!");
-        const expected = '<h1 id="lets-rock">Let&#39;s rock!</h1>';
+        const expected = `<h1 id="lets-rock">Let's rock!</h1>`;
         expect(result.htmlContent).toEqual(expected);
     });
 });

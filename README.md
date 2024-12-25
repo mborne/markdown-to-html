@@ -12,7 +12,7 @@ Markdown renderer aiming at providing :
 * Markdown files are rendered using the powerfull **[Marked](https://github.com/markedjs/marked#marked)** library.
 * [Marked](https://github.com/markedjs/marked#marked) is extended with :
   * **Table of content generation** in markdown files (`[[toc]]` from [pandoc](https://pandoc.org/))
-  * The support of custom heading links (`# This is the title {#custom-id}`)
+  * The support of custom heading links (`# This is the title {#custom-id}` or `# [This is the title](#custom-id)`)
   * The hability to rename `.md` to `.html` for relative links for static site generation.
 * A **basic layout system** based on [handlebars](https://www.npmjs.com/package/handlebars) with some built-in layouts :
   * **default** to generate classic pages.

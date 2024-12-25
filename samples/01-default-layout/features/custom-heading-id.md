@@ -6,9 +6,9 @@
 
 `#first-id` is generated on this title using the following syntax `## Long title with first id {#first-id}`
 
-## Syntax may differ
+## [Syntax may differ](#second-id)
 
-Note that some other may support another syntax like `## [Long title with first id](#first-id)`.
+An alternative syntax is possible `## [Syntax may differ](#second-id)`.
 
 ## Let's go!
 

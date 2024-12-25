@@ -30,20 +30,37 @@ var _marked = require('marked');
 var _githubslugger = require('github-slugger'); var _githubslugger2 = _interopRequireDefault(_githubslugger);
 var slugger = new (0, _githubslugger2.default)();
 
-// src/markdown/parser/getHeadingParts.ts
+// src/markdown/renderer/heading.ts
+
 var headingIdRegex = /(?: +|^)\{#([a-z][\w-]*)\}(?: +|$)/i;
-function getHeadingParts(text, raw, slugger2) {
+var headingParser = new (0, _marked.Parser)();
+function getHeadingPartsFromLink({ text, href }) {
+  return {
+    id: href.startsWith("#") ? href.slice(1) : slugger.slug(text),
+    title: text
+  };
+}
+function getHeadingParts({ text, tokens, depth }) {
+  if (tokens[0].type == "link") {
+    return getHeadingPartsFromLink(tokens[0]);
+  }
   const hasId = text.match(headingIdRegex);
   if (!hasId) {
     return {
-      id: slugger2.slug(text),
+      id: slugger.slug(text),
       title: text
     };
   }
+  const textWithoutId = text.replace(headingIdRegex, "");
   return {
     id: hasId[1],
-    title: text.replace(headingIdRegex, "")
+    title: textWithoutId
   };
+}
+function heading(token) {
+  const depth = token.depth;
+  const parts = getHeadingParts(token);
+  return `<h${depth} id="${parts.id}">${parts.title}</h${depth}>`;
 }
 
 // src/markdown/toc.ts
@@ -53,27 +70,15 @@ function toc(markdownContent) {
   let headingTokens = tokens.filter(
     (token) => token.type == "heading" && token.depth != 1
   );
-  const slugger2 = new (0, _githubslugger2.default)();
+  slugger.reset();
   return headingTokens.map((headingToken) => {
-    let parts = getHeadingParts(headingToken.text, headingToken.raw, slugger2);
+    let parts = getHeadingParts(headingToken);
     let spaces = "";
     if (headingToken.depth > 2) {
       spaces = Array(2 * (headingToken.depth - 2)).fill("  ").join("");
     }
     return `${spaces}* [${parts.title}](#${parts.id})`;
   }).join("\n");
-}
-
-// src/helpers/html.ts
-function escapeTitle(text) {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-}
-
-// src/markdown/renderer/heading.ts
-function heading({ text, raw, depth }) {
-  const parts = getHeadingParts(text, raw, slugger);
-  const title2 = escapeTitle(parts.title);
-  return `<h${depth} id="${parts.id}">${title2}</h${depth}>`;
 }
 
 // src/markdown/renderer/link.ts

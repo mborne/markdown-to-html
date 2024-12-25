@@ -12,11 +12,11 @@ Blabla...
 
 Blabla...
 
-### Title 3.1
+### [Title 3.1](#custom-31)
 
 Blabla...
 
-### Title 3.2
+### [Title 3.2](https://github.com/mborne)
 
 Blabla...
 

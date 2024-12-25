@@ -1,7 +1,7 @@
 import marked from './marked';
 
-import { Slugger } from '../helpers/slugger';
-import getHeadingParts from './parser/getHeadingParts';
+import { slugger } from '../helpers/slugger';
+import { getHeadingParts } from './renderer/heading';
 import { Tokens } from 'marked';
 
 /**
@@ -17,17 +17,13 @@ export default function toc(markdownContent) {
         (token) => token.type == 'heading' && token.depth != 1
     ) as Tokens.Heading[];
 
-    /*
-     * Note that it is important to create a dedicated instance
-     * as Slugger counts occurrence of each title.
-     */
-    const slugger = new Slugger();
+    slugger.reset();
 
     return headingTokens
         .map((headingToken) => {
             // text token for the content
             //let token = headingToken.tokens[0];
-            let parts = getHeadingParts(headingToken.text, headingToken.raw, slugger);
+            let parts = getHeadingParts(headingToken);
 
             // indent according to depth
             let spaces = '';
