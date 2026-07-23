@@ -22,7 +22,6 @@ Markdown renderer aiming at providing :
   * Overwrite page lang (default is `"en"`)
 * Partial HTML/JS views can be injected in the **layout** to bypass markdown limitation for some pages.
 
-
 ## Usage
 
 ### Install
