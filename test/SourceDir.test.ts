@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import FileType from '../src/FileType.js';
 import SourceDir from '../src/SourceDir.js';
 import type SourceFile from '../src/SourceFile.js';
-import { PROJECT_DIR, getSampleDir } from './helpers.js';
+import { PROJECT_DIR, getSampleDir, getTempDirPath } from './helpers.js';
 
 /**
  * Assert that a lookup succeeded and narrow the result to a SourceFile.
@@ -153,6 +155,24 @@ describe('test SourceDir using samples/01-default-layout', function () {
 
             it('should protect against path traversal with relative path', function () {
                 expect(sampleSourceDir.locateFile('../README.md')).toBeNull();
+            });
+
+            it('should protect against path traversal to a sibling directory sharing the rootDir name', function () {
+                /*
+                 * '{rootDir}-secrets' is not in '{rootDir}' but starts with it,
+                 * so comparing the resolved paths as strings is not enough.
+                 */
+                const rootDir = getTempDirPath();
+                fs.mkdirSync(rootDir, { recursive: true });
+                fs.mkdirSync(rootDir + '-secrets', { recursive: true });
+                fs.writeFileSync(rootDir + '-secrets/secret.md', '# secret');
+
+                const sourceDir = new SourceDir(rootDir);
+                expect(
+                    sourceDir.locateFile(
+                        '../' + path.basename(rootDir) + '-secrets/secret.md'
+                    )
+                ).toBeNull();
             });
         });
     });
