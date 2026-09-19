@@ -63,6 +63,19 @@ class SourceDir {
      */
     locateFile(relativePath) {
         const absolutePath = path.resolve(this.rootDir, relativePath);
+
+        /*
+         * File must be in rootDir (path traversal).
+         *
+         * Note that the check is performed before any access to the file
+         * system, and that comparing the resolved paths as strings is not
+         * enough : '<rootDir>-something' starts with '<rootDir>' while being
+         * outside of it.
+         */
+        if (!this.contains(absolutePath)) {
+            return null;
+        }
+
         if (!fs.existsSync(absolutePath)) {
             if (relativePath.endsWith('.html')) {
                 return this.locateRenderedFile(relativePath);
@@ -71,12 +84,23 @@ class SourceDir {
             }
         }
 
-        /* file must be in rootDir (path traversal) */
-        if (!absolutePath.startsWith(this.rootDir)) {
-            return null;
-        }
-
         return new SourceFile(this, absolutePath);
+    }
+
+    /**
+     * Test if an absolute path is rootDir or is located in rootDir.
+     *
+     * @private
+     *
+     * @param {string} absolutePath
+     * @returns {boolean}
+     */
+    contains(absolutePath) {
+        const relativePath = path.relative(this.rootDir, absolutePath);
+        return (
+            relativePath === '' ||
+            (!relativePath.startsWith('..') && !path.isAbsolute(relativePath))
+        );
     }
 
     /**

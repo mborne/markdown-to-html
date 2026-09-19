@@ -2,6 +2,9 @@ import { expect } from 'chai';
 
 import helpers from './helpers.js';
 
+import fs from 'fs';
+import path from 'path';
+
 import FileType from '../src/FileType.js';
 import SourceDir from '../src/SourceDir.js';
 
@@ -173,6 +176,23 @@ describe('test SourceDir using samples/01-default-layout', function () {
 
             it('should protect against path traversal with relative path', function () {
                 let sourceFile = sampleSourceDir.locateFile('../README.md');
+                expect(sourceFile).to.be.null;
+            });
+
+            it('should protect against path traversal to a sibling directory sharing the rootDir name', function () {
+                /*
+                 * '{rootDir}-secrets' is not in '{rootDir}' but starts with it,
+                 * so comparing the resolved paths as strings is not enough.
+                 */
+                const rootDir = helpers.getTempDirPath();
+                fs.mkdirSync(rootDir, { recursive: true });
+                fs.mkdirSync(rootDir + '-secrets', { recursive: true });
+                fs.writeFileSync(rootDir + '-secrets/secret.md', '# secret');
+
+                const sourceDir = new SourceDir(rootDir);
+                const sourceFile = sourceDir.locateFile(
+                    '../' + path.basename(rootDir) + '-secrets/secret.md'
+                );
                 expect(sourceFile).to.be.null;
             });
         });
