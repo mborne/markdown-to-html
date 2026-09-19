@@ -1,67 +1,86 @@
 {
-  "name": "@mborne/markdown-to-html",
-  "version": "0.10.4",
-  "description": "Experimental static site renderer/server supporting markdown and HTML/JS views",
-  "main": "index.js",
-  "bin": {
-    "markdown-to-html": "bin/main.js"
-  },
-  "keywords": [
-    "markdown",
-    "marked",
-    "site-generator",
-    "express",
-    "server"
-  ],
-  "scripts": {
-    "start": "node bin/main.js serve -l default samples/01-default-layout",
-    "build-demo": "npm run build-demo-01 && npm run build-demo-02",
-    "build-demo-01": "rm -rf demo/01-default-layout && node bin/main.js convert -l default samples/01-default-layout demo/01-default-layout",
-    "build-demo-02": "rm -rf demo/02-remarkjs && node bin/main.js convert -l remarkjs samples/02-remarkjs demo/02-remarkjs",
-    "test": "npm run check-style && npm run unit-test",
-    "unit-test": "mocha",
-    "coverage": "nyc --reporter=html --reporter=text --reporter=cobertura mocha",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "check-style": "prettier --check \"src/**/*.js\" \"test/**/*.(m)?js\" \"bin/*.js\"",
-    "fix-style": "prettier --write \"src/**/*.js\" \"test/**/*.(m)?js\" \"bin/*.js\""
-  },
-  "author": "Mickael Borne <mborne@users.noreply.github.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mborne/markdown-to-html.git"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^1.7.7",
-    "cheerio": "^1.0.0",
-    "commander": "^12.1.0",
-    "debug": "^4.3.7",
-    "express": "^4.20.0",
-    "front-matter": "^4.0.2",
-    "handlebars": "^4.7.8",
-    "marked": "^9.1.6",
-    "morgan": "^1.10.0",
-    "shelljs": "^0.8.5"
-  },
-  "devDependencies": {
-    "chai": "^5.1.1",
-    "coveralls": "^3.1.1",
-    "mocha": "^10.7.3",
-    "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^17.0.0",
-    "prettier": "3.3.3",
-    "supertest": "^7.0.0",
-    "uuid": "^10.0.0"
-  },
-  "nyc": {
-    "include": [
-      "src/**/*.js"
+    "name": "@mborne/markdown-to-html",
+    "version": "0.11.0",
+    "description": "Experimental static site renderer/server supporting markdown and HTML/JS views",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "bin": {
+        "markdown-to-html": "dist/bin/main.js"
+    },
+    "files": [
+        "dist",
+        "layout",
+        "README.md",
+        "LICENSE"
     ],
-    "exclude": [
-      "**/node_modules/**",
-      "**/test/**",
-      "**/coverage/**"
+    "engines": {
+        "node": ">=22"
+    },
+    "keywords": [
+        "markdown",
+        "marked",
+        "site-generator",
+        "express",
+        "server"
     ],
-    "all": true
-  }
+    "scripts": {
+        "start": "tsx src/bin/main.ts serve -l default samples/01-default-layout",
+        "build": "tsc",
+        "clean": "rm -rf dist",
+        "prepack": "npm run clean && npm run build",
+        "build-demo": "npm run build-demo-01 && npm run build-demo-02",
+        "build-demo-01": "rm -rf demo/01-default-layout && node dist/bin/main.js convert -l default samples/01-default-layout demo/01-default-layout",
+        "build-demo-02": "rm -rf demo/02-remarkjs && node dist/bin/main.js convert -l remarkjs samples/02-remarkjs demo/02-remarkjs",
+        "test": "npm run check-style && npm run lint && npm run check-types && npm run unit-test",
+        "unit-test": "vitest run",
+        "coverage": "vitest run --coverage",
+        "lint": "eslint .",
+        "check-types": "tsc --noEmit -p tsconfig.check.json",
+        "check-style": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.{json,ts,js}\"",
+        "fix-style": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.{json,ts,js}\""
+    },
+    "author": "Mickael Borne <mborne@users.noreply.github.com>",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mborne/markdown-to-html.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^1.20.0",
+        "cheerio": "^1.2.0",
+        "commander": "^15.0.0",
+        "debug": "^4.4.3",
+        "express": "^5.2.1",
+        "front-matter": "^4.0.2",
+        "handlebars": "^4.7.9",
+        "marked": "^18.0.13",
+        "morgan": "^1.12.1",
+        "shelljs": "^0.10.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/debug": "^4.1.13",
+        "@types/express": "^5.0.6",
+        "@types/morgan": "^1.9.10",
+        "@types/node": "^26.6.2",
+        "@types/shelljs": "^0.10.0",
+        "@types/supertest": "^7.2.1",
+        "@vitest/coverage-v8": "^5.0.1",
+        "eslint": "^10.11.0",
+        "eslint-config-prettier": "^10.1.8",
+        "prettier": "^3.9.8",
+        "supertest": "^7.2.2",
+        "tsx": "^4.23.13",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.70.0",
+        "vitest": "^5.0.1"
+    },
+    "allowScripts": {
+        "esbuild@0.28.2": true
+    }
 }
