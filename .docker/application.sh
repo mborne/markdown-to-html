@@ -2,5 +2,5 @@
 
 cd /opt/markdown-to-html
 
-exec node bin/main.js serve --layout=${LAYOUT} /data
+exec node dist/bin/main.js serve --layout=${LAYOUT} /data
 

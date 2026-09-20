@@ -26,6 +26,8 @@ Markdown renderer aiming at providing :
 
 ### Install
 
+Node.js >= 22 is required.
+
 ```bash
 npm install -g @mborne/markdown-to-html
 # check version
@@ -58,6 +60,42 @@ To check links between markdown files :
 markdown-to-html check samples/01-default-layout
 # to include HTTP test for remote URLs
 markdown-to-html check samples/01-default-layout --check-external-links
+```
+
+## Programmatic API
+
+The package is written in TypeScript and ships its own type declarations.
+
+**Note that it is an ESM only package since v0.11.0** (`require()` is no longer supported).
+
+```ts
+import { convert, serve, Renderer, SourceDir, Layout } from '@mborne/markdown-to-html';
+
+// generate a static site
+convert('/path/to/source', '/path/to/output', '/path/to/layout', { language: 'fr' });
+
+// or serve it on http://localhost:3000
+serve('/path/to/source', '/path/to/layout', { language: 'fr' });
+
+// or render a single file
+const sourceDir = new SourceDir('/path/to/source');
+const renderer = new Renderer(sourceDir, new Layout('/path/to/layout'), {
+    renameLinksToHtml: true,
+});
+const sourceFile = sourceDir.locateFile('index.md');
+if (sourceFile !== null) {
+    console.log(renderer.render(sourceFile));
+}
+```
+
+The built-in layouts are shipped with the package and can be located with `LAYOUT_NAMES` and `LAYOUTS_DIR` :
+
+```ts
+import path from 'node:path';
+import { LAYOUT_NAMES, LAYOUTS_DIR } from '@mborne/markdown-to-html';
+
+console.log(LAYOUT_NAMES); // ['default', 'github', 'remarkjs']
+const layoutPath = path.join(LAYOUTS_DIR, 'default');
 ```
 
 ## Credits
