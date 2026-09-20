@@ -1,0 +1,41 @@
+import { describe, it, expect } from 'vitest';
+
+import SourceDirFilter from '../src/SourceDirFilter.js';
+
+const defaultFilter = new SourceDirFilter();
+
+describe('test SourceDirFilter', function () {
+    describe('test isIgnored with default SourceDirFilter', function () {
+        it('should ignore .git directory', function () {
+            expect(
+                defaultFilter.isIgnored('something/.git/something-else.md')
+            ).toBe(true);
+        });
+
+        it('should ignore node_modules directory', function () {
+            expect(
+                defaultFilter.isIgnored('node_modules/something-else.md')
+            ).toBe(true);
+        });
+
+        it('should ignore node_modules sub directory', function () {
+            expect(
+                defaultFilter.isIgnored(
+                    'something/node_modules/something-else.md'
+                )
+            ).toBe(true);
+        });
+
+        it('should not ignore node_modules_example directory', function () {
+            expect(
+                defaultFilter.isIgnored(
+                    'node_modules_example/something-else.md'
+                )
+            ).toBe(false);
+        });
+
+        it('should not ignore other files', function () {
+            expect(defaultFilter.isIgnored('something/index.md')).toBe(false);
+        });
+    });
+});

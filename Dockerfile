@@ -1,11 +1,11 @@
-FROM node:20-alpine
+FROM node:24-alpine
 
 # name or path to the layout
-ENV LAYOUT default
+ENV LAYOUT=default
 
 COPY --chown=node:node . /opt/markdown-to-html
 WORKDIR /opt/markdown-to-html
-RUN npm install
+RUN npm install && npm run build
 
 VOLUME /data
 
