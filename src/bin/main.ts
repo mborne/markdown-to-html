@@ -10,7 +10,7 @@ import check from '../command/check.js';
 import { LAYOUT_NAMES } from '../layouts.js';
 import { LAYOUTS_DIR, PACKAGE_ROOT } from '../paths.js';
 
-import type { RenderOptions } from '../types.js';
+import type { RenderOptions, ServeOptions } from '../types.js';
 import type { CheckerOptions } from '../Checker.js';
 
 const packageMetadata = JSON.parse(
@@ -77,9 +77,14 @@ program
     .description('serve source directory')
     .addOption(optionLayout)
     .addOption(optionLang)
+    .option(
+        '--host <host>',
+        'network interface to listen on (use 0.0.0.0 to expose the server)',
+        '127.0.0.1'
+    )
     .action(function (
         sourceDir: string,
-        options: RenderOptions & { layout: string }
+        options: ServeOptions & { layout: string }
     ) {
         try {
             serve(

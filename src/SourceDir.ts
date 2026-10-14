@@ -13,6 +13,8 @@ import SourceDirFilter from './SourceDirFilter.js';
 export default class SourceDir {
     /** the rendered directory */
     readonly rootDir: string;
+    /** the rendered directory with symbolic links resolved */
+    private readonly realRootDir: string;
     readonly filter = new SourceDirFilter();
 
     constructor(rootDir: string) {
@@ -23,6 +25,7 @@ export default class SourceDir {
             throw new Error('Input file ' + rootDir + ' is not a directory');
         }
         this.rootDir = path.resolve(rootDir);
+        this.realRootDir = fs.realpathSync(this.rootDir);
     }
 
     /**
@@ -63,7 +66,14 @@ export default class SourceDir {
          * enough : '<rootDir>-something' starts with '<rootDir>' while being
          * outside of it.
          */
-        if (!this.contains(absolutePath)) {
+        if (!this.contains(this.rootDir, absolutePath)) {
+            return null;
+        }
+
+        /*
+         * Ignored files (.git, node_modules,...) are not exposed.
+         */
+        if (this.filter.isIgnored(this.getRelativePath(absolutePath))) {
             return null;
         }
 
@@ -75,14 +85,22 @@ export default class SourceDir {
             }
         }
 
+        /*
+         * File must remain in rootDir once symbolic links are resolved
+         * (a symbolic link to /etc/passwd would otherwise be served).
+         */
+        if (!this.contains(this.realRootDir, fs.realpathSync(absolutePath))) {
+            return null;
+        }
+
         return new SourceFile(this, absolutePath);
     }
 
     /**
-     * Test if an absolute path is rootDir or is located in rootDir.
+     * Test if an absolute path is parentDir or is located in parentDir.
      */
-    private contains(absolutePath: string): boolean {
-        const relativePath = path.relative(this.rootDir, absolutePath);
+    private contains(parentDir: string, absolutePath: string): boolean {
+        const relativePath = path.relative(parentDir, absolutePath);
         return (
             relativePath === '' ||
             (!relativePath.startsWith('..') && !path.isAbsolute(relativePath))
@@ -121,11 +139,12 @@ export default class SourceDir {
         ];
 
         for (const candidate of candidates) {
-            const candidatePath = `${sourceFile.absolutePath}/${candidate}`;
-            if (!fs.existsSync(candidatePath)) {
-                continue;
+            const indexFile = this.locateFile(
+                path.join(sourceFile.relativePath, candidate)
+            );
+            if (indexFile !== null) {
+                return indexFile;
             }
-            return new SourceFile(this, candidatePath);
         }
         return null;
     }

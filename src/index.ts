@@ -24,4 +24,5 @@ export {
     type HtmlMetadata,
     type RenderContext,
     type RenderOptions,
+    type ServeOptions,
 } from './types.js';

@@ -174,6 +174,61 @@ describe('test SourceDir using samples/01-default-layout', function () {
                     )
                 ).toBeNull();
             });
+
+            it('should protect against symbolic links pointing outside rootDir', function () {
+                const rootDir = getTempDirPath();
+                fs.mkdirSync(rootDir, { recursive: true });
+                fs.mkdirSync(rootDir + '-secrets', { recursive: true });
+                fs.writeFileSync(rootDir + '-secrets/secret.md', '# secret');
+                fs.symlinkSync(rootDir + '-secrets', rootDir + '/secrets-dir');
+                fs.symlinkSync(
+                    rootDir + '-secrets/secret.md',
+                    rootDir + '/secret.md'
+                );
+
+                const sourceDir = new SourceDir(rootDir);
+                expect(sourceDir.locateFile('secrets-dir')).toBeNull();
+                expect(
+                    sourceDir.locateFile('secrets-dir/secret.md')
+                ).toBeNull();
+                expect(sourceDir.locateFile('secret.md')).toBeNull();
+                expect(sourceDir.locateFile('secret.html')).toBeNull();
+            });
+
+            it('should allow symbolic links pointing inside rootDir', function () {
+                const rootDir = getTempDirPath();
+                fs.mkdirSync(rootDir, { recursive: true });
+                fs.writeFileSync(rootDir + '/page.md', '# page');
+                fs.symlinkSync(rootDir + '/page.md', rootDir + '/alias.md');
+
+                const sourceDir = new SourceDir(rootDir);
+                const sourceFile = expectFound(
+                    sourceDir.locateFile('alias.md')
+                );
+                expect(sourceFile.type).toBe(FileType.MARKDOWN);
+            });
+
+            it('should not expose ignored files', function () {
+                const rootDir = getTempDirPath();
+                fs.mkdirSync(rootDir + '/.git', { recursive: true });
+                fs.mkdirSync(rootDir + '/node_modules/pkg', {
+                    recursive: true,
+                });
+                fs.writeFileSync(rootDir + '/.git/config', '[core]');
+                fs.writeFileSync(
+                    rootDir + '/node_modules/pkg/README.md',
+                    '# pkg'
+                );
+
+                const sourceDir = new SourceDir(rootDir);
+                expect(sourceDir.locateFile('.git/config')).toBeNull();
+                expect(
+                    sourceDir.locateFile('node_modules/pkg/README.md')
+                ).toBeNull();
+                expect(
+                    sourceDir.locateFile('node_modules/pkg/README.html')
+                ).toBeNull();
+            });
         });
     });
 
