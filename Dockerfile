@@ -5,7 +5,8 @@ ENV LAYOUT=default
 
 COPY --chown=node:node . /opt/markdown-to-html
 WORKDIR /opt/markdown-to-html
-RUN npm install && npm run build
+USER node
+RUN npm ci && npm run build && npm prune --omit=dev
 
 VOLUME /data
 

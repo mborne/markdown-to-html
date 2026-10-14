@@ -2,7 +2,7 @@ import createDebug from 'debug';
 
 import expressApp from '../server/expressApp.js';
 
-import type { RenderOptions } from '../types.js';
+import type { ServeOptions } from '../types.js';
 
 const debug = createDebug('markdown-to-html');
 
@@ -12,12 +12,17 @@ const debug = createDebug('markdown-to-html');
 export default function serve(
     sourceDirPath: string,
     layoutPath: string,
-    options: RenderOptions = {}
+    options: ServeOptions = {}
 ): void {
-    const app = expressApp(sourceDirPath, layoutPath, options);
+    const { host = '127.0.0.1', ...renderOptions } = options;
+    const app = expressApp(sourceDirPath, layoutPath, renderOptions);
 
-    const server = app.listen(3000, function () {
-        console.log('Application started on http://localhost:3000');
+    /*
+     * listen on the loopback interface by default so that the served
+     * directory is not exposed to the network unless explicitly requested.
+     */
+    const server = app.listen(3000, host, function () {
+        console.log(`Application started on http://${host}:3000`);
     });
 
     process.on('SIGTERM', () => {

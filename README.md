@@ -22,6 +22,20 @@ Markdown renderer aiming at providing :
   * Overwrite page lang (default is `"en"`)
 * Partial HTML/JS views can be injected in the **layout** to bypass markdown limitation for some pages.
 
+## Security
+
+**markdown-to-html is designed to render trusted sources only** (your own documentation, course materials,...). Do not use it to render markdown files written by untrusted users :
+
+* Raw HTML in markdown files is rendered as is (no sanitization), `.phtml` views are injected as is in the layout and YAML metadata is exposed to the layout. Rendering untrusted content leads to XSS.
+* Custom layouts are [handlebars](https://www.npmjs.com/package/handlebars) templates executed as code : only use trusted layouts.
+* `check --check-external-links` performs HTTP requests to every URL found in the source files.
+
+The server mode is intended for local preview :
+
+* It listens on `127.0.0.1` by default (use `--host 0.0.0.0` to expose it, as done in the Docker image).
+* It serves every file in the source directory except ignored ones (`.git`, `node_modules`) and dotfiles. Symbolic links pointing outside the source directory are not served.
+* It provides no authentication and no HTTPS : put a reverse proxy in front of it if it has to be exposed.
+
 ## Usage
 
 ### Install
@@ -50,6 +64,8 @@ markdown-to-html convert samples/01-default-layout /tmp/output
 markdown-to-html serve samples/01-default-layout
 # with a custom layout
 markdown-to-html serve samples/02-remarkjs --layout remarkjs
+# exposed on every network interface (default is 127.0.0.1)
+markdown-to-html serve samples/01-default-layout --host 0.0.0.0
 ```
 
 ### Check markdown files
@@ -74,8 +90,8 @@ import { convert, serve, Renderer, SourceDir, Layout } from '@mborne/markdown-to
 // generate a static site
 convert('/path/to/source', '/path/to/output', '/path/to/layout', { language: 'fr' });
 
-// or serve it on http://localhost:3000
-serve('/path/to/source', '/path/to/layout', { language: 'fr' });
+// or serve it on http://127.0.0.1:3000
+serve('/path/to/source', '/path/to/layout', { language: 'fr', host: '127.0.0.1' });
 
 // or render a single file
 const sourceDir = new SourceDir('/path/to/source');

@@ -62,6 +62,14 @@ export interface RenderOptions {
 }
 
 /**
+ * Options for the serve command.
+ */
+export interface ServeOptions extends RenderOptions {
+    /** network interface to listen on, defaulted to "127.0.0.1" */
+    host?: string;
+}
+
+/**
  * The context given to the handlebars template of a Layout.
  *
  * Note that the index signature is required as YAML front-matter

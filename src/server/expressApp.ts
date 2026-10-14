@@ -17,6 +17,7 @@ export default function expressApp(
     options: RenderOptions = {}
 ): express.Express {
     const app = express();
+    app.disable('x-powered-by');
 
     /*
      * log requests
