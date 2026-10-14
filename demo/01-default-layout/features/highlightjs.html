@@ -7,11 +7,11 @@
   <title>Code formatting with highlight JS</title>
 
   <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css"
-    integrity="sha512-Oy18vBnbSJkXTndr2n6lDMO5NN31UljR8e/ICzVPrGpSud4Gkckb8yUpqhKuUNoE+o9gAb4O/rAxxw1ojyUVzg=="
+    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.9.0/github-markdown-light.min.css"
+    integrity="sha512-P1HblB9m0U4VIhm9yWNrCuFLbHfDdR31lkAU+m4dvr8tffc5xtZdaFGT9yugmgjEU3gYSb6i3w/fjUU8XsLHww=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/github.min.css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.2/styles/github.min.css"
     integrity="sha512-0aPQyyeZrWj9sCA46UlmWgKOP0mUipLQ6OZXu8l4IcAmD2u31EPEy9VcIMvl7SoAaKe8bLXZhYoMaE/in+gcgA=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
@@ -53,16 +53,20 @@ int main(int argc, char* argv[]){
 
   <!-- hightlight.pack.js -->
   <script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"
-    integrity="sha512-MinqHeqca99q5bWxFNQEQpplMBFiUNrEwuuDj2rCSh1DgeeTXUgvgYIHZ1puBS9IKBkdfLMSk/ZWVDasa3Y/2A=="
+    src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.2/highlight.min.js"
+    integrity="sha512-VSPLUv/n1Bmn+4zoxBNwpuFAO3//79I0Aax/qHDx24R47vylPcc9PrHDCqlePwHnh3joiM7/YTQhcXyQAAxvPQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+  <script>
+    // mermaid diagrams are not source code to highlight
+    hljs.configure({ cssSelector: 'pre code:not(.language-mermaid)' });
+    hljs.highlightAll();
+  </script>
 
   <!-- https://www.mathjax.org -->
   <script>
     MathJax = {
       loader: {
-        load: ['input/tex', 'output/svg', 'ui/menu', '[tex]/require']
+        load: ['input/tex', 'output/svg', 'ui/menu']
       },
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -72,19 +76,22 @@ int main(int argc, char* argv[]){
       }
     };
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/startup.js"
-    integrity="sha512-LZZ88buOWCaSouKg9UNiW3N/vhBCprp0tpG9uNp+r6maXLDeBddAaqTmDduadI+WghoGaNlZG4NgCX0Xsxlfxg=="
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/startup.js"
+    integrity="sha512-TVq6RFk599KMqPh7Ri0yEAxHbJ0dcxSSPgvMuzQUg0wu4z+X7z2PsibMbbzAq/AHloHdxMW0FdvKv9k4s8niuA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.11.5/mermaid.min.js"
-    integrity="sha512-LEGEAp7eSh0xL8TV4ARXWfBz3TpnIDrGT61hbqAN/xjn+CnaoNfsJzdyMSO0IYhaAom+bCs9ELiGzljsi11qjw=="
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.15.0/mermaid.min.js"
+    integrity="sha512-HH52omhHpZF6RfVnGiQwYgYm4H/ya2xsZYLl5xJ4+tLfX+rN4+8zF7V/H/KLeicPrKZYi1g6iBmVkk2AhXTGlg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script>mermaid.init({
-      startOnLoad: true,
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
       flowchart: {
         useMaxWidth: true
       }
-    }, ".language-mermaid");</script>
+    });
+    mermaid.run({ querySelector: '.language-mermaid' });
+  </script>
 </body>
 
 </html>
